@@ -1,5 +1,13 @@
 [
   {
+    "listing": "/people/index.html",
+    "items": [
+      "/people/barbosa-renan/index.html",
+      "/people/basnet-shree/index.html",
+      "/people/kusem-kristina/index.html"
+    ]
+  },
+  {
     "listing": "/blog.html",
     "items": [
       "/posts/kristina-blog-post-week2/index.html",
@@ -13,15 +21,6 @@
       "/posts/kristina-blog-post-week4/index.html",
       "/posts/shree-blog-post-week5/index.html",
       "/posts/kristina-blog-post-week5/index.html"
-    ]
-  },
-  {
-    "listing": "/people/index.html",
-    "items": [
-      "/people/barbosa-renan/index.html",
-      "/people/basnet-shree/index.html",
-      "/people/kusem-kristina/index.html",
-      "/people/cohen-achraf/index.html"
     ]
   }
 ]
