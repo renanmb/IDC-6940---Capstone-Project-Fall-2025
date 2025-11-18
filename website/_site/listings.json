@@ -10,7 +10,7 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/renan-blog-post-week11/index.html",
+      "/posts/renan-blog-post-week12/index.html",
       "/posts/renan-blog-post-week6/index.html",
       "/posts/kristina-blog-post-week2/index.html",
       "/posts/renan-blog-post-week2/index.html",
@@ -25,7 +25,8 @@
       "/posts/shree-blog-post-week5/index.html",
       "/posts/renan-blog-post-week5/index.html",
       "/posts/renan-blog-post-week7/index.html",
-      "/posts/renan-blog-post-week8/index.html"
+      "/posts/renan-blog-post-week8/index.html",
+      "/posts/renan-blog-post-week11/index.html"
     ]
   }
 ]
