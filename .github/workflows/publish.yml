@@ -48,6 +48,11 @@ jobs:
           Rscript -e ".libPaths(c(Sys.getenv('R_LIBS_USER'), .libPaths())); remotes::install_github('mdneuzerling/getsysreqs')"
           Rscript -e ".libPaths(c(Sys.getenv('R_LIBS_USER'), .libPaths())); library(getsysreqs); packageVersion('getsysreqs')"
 
+      - name: Install knitr and rmarkdown
+        run: |
+          Rscript -e ".libPaths(c(Sys.getenv('R_LIBS_USER'), .libPaths()))"
+          Rscript -e "install.packages(c('knitr', 'rmarkdown'), repos='https://cloud.r-project.org')"
+
       - name: Install getsysreqs and dependencies
         run: |
           install.packages("remotes")
