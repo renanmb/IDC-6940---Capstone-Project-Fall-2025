@@ -31,8 +31,6 @@ jobs:
             libharfbuzz-dev \
             libfribidi-dev \
             libmagick++-dev \ 
-            libmagickwand-dev \
-            libmagickcore-dev \
             imagemagick
 
       # Fixing Image Magick dependencies -- ghostscript suggested vs imagemagick
