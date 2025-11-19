@@ -107,6 +107,10 @@ quarto render
 quarto preview
 ```
 
+```bash
+quarto publish gh-pages
+```
+
 Check if renv is working:
 
 ```bash
