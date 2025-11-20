@@ -1,0 +1,257 @@
+---
+title: "Reproducing Shree code - v01"
+description: "putting together shree messy code"
+author:
+  - name: Renan Monteiro Barbosa
+    url: https://github.com/renanmb
+    affiliation: Master of Data Science Program @ The University of West Florida (UWF)
+    # affiliation-url: https://ucsb-meds.github.io/
+# date: 10-24-2022
+categories: [code, draft, renan, shree]
+# citation:
+#   url: https://samanthacsik.github.io/posts/2022-10-24-my-blog-post/
+image: images/spongebob-imagination.jpg
+draft: false
+bibliography: references.bib
+link-citations: true
+---
+
+```{r}
+#| code-fold: true
+#| message: false
+#| warning: false
+#| output: false
+
+# options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+packages <- c("dplyr", "car", "ResourceSelection", "caret", "pROC",  "logistf", "Hmisc", "rcompanion", "ggplot2", "summarytools", "tidyverse", "knitr", "ggpubr")
+# install.packages(packages)
+
+# Load Libraries
+lapply(packages, library, character.only = TRUE)
+
+# Set seed for reproducibility
+set.seed(123)
+```
+
+Loading Dataset:
+
+```{r}
+#| code-fold: true
+#| output: false
+find_git_root <- function(start = getwd()) {
+  path <- normalizePath(start, winslash = "/", mustWork = TRUE)
+  while (path != dirname(path)) {
+    if (dir.exists(file.path(path, ".git"))) return(path)
+    path <- dirname(path)
+  }
+  stop("No .git directory found — are you inside a Git repository?")
+}
+
+repo_root <- find_git_root()
+datasets_path <- file.path(repo_root, "datasets")
+
+# Reading the datafile healthcare-dataset-stroke-data
+steve_dataset_path <- file.path(datasets_path, "kaggle-healthcare-dataset-stroke-data/healthcare-dataset-stroke-data.csv")
+stroke1 = read_csv(steve_dataset_path, show_col_types = FALSE)
+```
+
+Handling Dataset Features
+
+```{r}
+#| code-fold: true
+#| output: false
+stroke1[stroke1 == "N/A" | stroke1 == "Unknown" | stroke1 == "children" | stroke1 == "other"] <- NA
+stroke1$bmi <- round(as.numeric(stroke1$bmi), 2)
+stroke1$gender[stroke1$gender == "Male"] <- 1
+stroke1$gender[stroke1$gender == "Female"] <- 2
+stroke1$gender <- as.numeric(stroke1$gender)
+stroke1$ever_married[stroke1$ever_married == "Yes"] <- 1
+stroke1$ever_married[stroke1$ever_married == "No"] <- 2
+stroke1$ever_married <- as.numeric(stroke1$ever_married)
+stroke1$work_type[stroke1$work_type == "Govt_job"] <- 1
+stroke1$work_type[stroke1$work_type == "Private"] <- 2
+stroke1$work_type[stroke1$work_type == "Self-employed"] <- 3
+stroke1$work_type[stroke1$work_type == "Never_worked"] <- 4
+stroke1$work_type <- as.numeric(stroke1$work_type)
+stroke1$Residence_type[stroke1$Residence_type == "Urban"] <- 1
+stroke1$Residence_type[stroke1$Residence_type == "Rural"] <- 2
+stroke1$Residence_type <- as.numeric(stroke1$Residence_type)
+stroke1$avg_glucose_level <- as.numeric(stroke1$avg_glucose_level)
+stroke1$heart_disease <- as.numeric(stroke1$heart_disease)
+stroke1$hypertension <- as.numeric(stroke1$hypertension)
+stroke1$age <- round(as.numeric(stroke1$age), 2)
+stroke1$stroke <- as.numeric(stroke1$stroke)
+stroke1$smoking_status[stroke1$smoking_status == "never smoked"] <- 1
+stroke1$smoking_status[stroke1$smoking_status == "formerly smoked"] <- 2
+stroke1$smoking_status[stroke1$smoking_status == "smokes"] <- 3
+stroke1$smoking_status <- as.numeric(stroke1$smoking_status)
+stroke1 <- stroke1[, !(names(stroke1) %in% "id")]
+```
+
+Removing NAs and cleaning Dataset
+
+```{r}
+#| code-fold: true
+#| output: false
+stroke1$stroke <- as.factor(stroke1$stroke)
+stroke1_clean <- na.omit(stroke1)
+strokeclean <- stroke1_clean
+fourassume <- stroke1_clean
+```
+
+Code that Shree used
+
+# Load data
+
+```{r}
+# stroke <- read.csv("stroke.csv") 
+# strokeclean
+```
+
+# Elimination of non-predictive identifiers, such as patient ID
+
+Code --
+
+```{{r}}
+stroke = strokeclean %>% select(-id)
+stroke = stroke %>% select(-id) Command
+```
+
+# Making components out of categorical variables (converting into factor)
+
+Code --
+
+```{r}
+stroke = strokeclean %>%
+mutate(
+gender          = factor(gender),
+ever_married    = factor(ever_married),
+work_type       = factor(work_type),
+Residence_type  = factor(Residence_type),
+smoking_status  = factor(smoking_status),
+hypertension    = factor(hypertension),
+heart_disease   = factor(heart_disease),
+stroke          = factor(stroke, levels = c(0, 1),
+labels = c("No", "Yes"))
+)
+```
+
+## Managing uncommon categories (like the gender group "Other")
+
+Code --
+```{r}
+stroke$gender[stroke$gender == "Other"] = "Male"
+stroke$gender = droplevels(stroke$gender)
+```
+
+ 
+## Using median imputation to impute missing BMI values
+
+Code- 
+
+```{r}
+stroke$bmi[is.na(stroke$bmi)] = median(stroke$bmi, na.rm = TRUE)
+```
+
+## Convert Bmi into numberic
+
+```{r}
+stroke$bmi[stroke$bmi == "N/A"] = NA
+stroke$bmi = as.numeric(stroke$bmi)
+median_bmi = median(stroke$bmi, na.rm = TRUE)
+stroke$bmi[is.na(stroke$bmi)] <- median_bmi
+summary(stroke$bmi)
+```
+
+## Train/Test division: 
+
+```{r}
+set.seed(123)
+index = createDataPartition(stroke$stroke, p = 0.7, list = FALSE)
+train_data  = stroke[index, ]
+test_data   = stroke[-index, ]
+prop.table(table(train_data$stroke))
+prop.table(table(test_data$stroke))
+```
+
+# 1 Logestic Regression: 
+
+```{{r}}
+set.seed(123)
+fit_glm = train(
+model_formula,
+data = train_data,
+method = "glm",
+family = "binomial",
+trControl = ctrl,
+metric = "ROC")
+fit_glm
+```
+
+```{{r}}
+varImp(fit_glm)
+```
+
+
+# Evaluate model code:
+
+```{{r}}
+evaluate_model = function(model, test_data, positive_class = "Yes") {
+```
+
+# Class predictions
+
+
+```{{r}}
+pred_class =  predict(model, newdata = test_data)
+```
+
+# Probabilities for positive class "Yes"
+
+
+```{{r}}
+pred_prob =  predict(model, newdata = test_data, type = "prob")[, positive_class]
+```
+
+# Confusion matrix
+
+```{{r}}
+cm =  confusionMatrix(pred_class, test_data$stroke, positive = positive_class)
+```
+
+# ROC & AUC
+
+```{{r}}
+  roc_obj =  roc(
+    response  = test_data$stroke,
+    predictor = pred_prob,
+    levels    = c("No", "Yes")  # "No" = control, "Yes" = case
+  )
+   list(
+    cm      = cm,
+    auc     = auc(roc_obj),
+    roc_obj = roc_obj
+  )
+}
+```
+
+```{{r}}
+res_glm = evaluate_model(fit_glm, test_data)
+res_glm$cm      
+res_glm$auc  
+```
+
+# 2 Decision tree- 
+
+```{{r}}
+set.seed(123)
+fit_rpart = train(
+model_formula,
+... (191 lines left)
+```
+
+### References
+
+::: {#refs}
+:::
