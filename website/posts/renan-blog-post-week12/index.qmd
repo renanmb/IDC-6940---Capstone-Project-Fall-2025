@@ -47,7 +47,6 @@ renv::activate("website")
 
 ```{r setup}
 #| code-fold: true
-#| label: load-libraries
 #| message: false
 #| warning: false
 
@@ -409,7 +408,6 @@ cat("\n== FLIC Logistic Regression ==\n")
 print(results_flic[1:6])
 cat("\nYouden's J (optimal threshold):\n")
 print(results_flic$youden)
-
 ```
 
 Plot the ROC curves and Annotate Youden's J on each of the Curves
@@ -470,7 +468,6 @@ fourfoldplot(results_firth$confusion, color = c("lightskyblue", "plum2"),
 fourfoldplot(results_flic$confusion, color = c("lightskyblue", "plum2"),
              conf.level = 0, margin = 1, main = "Flic Confusion Matrix")
 par(mfrow = c(1,1), mar = c(5, 4, 4, 2)) # Reset to default after
-
 ```
 
 The results indicate exactly that the confusion matrices are exactly the same. So the conclusion we can reach is the there was no significant bias in the dataset. The dataset can distinguish between stroke and non stroke events with sufficient selectivity.

@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -338,41 +373,22 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">1. Introduction</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">1. Introduction</a>
   <ul class="collapse">
-  <li><a href="#context-and-burden-of-cerebrovascular-disease" id="toc-context-and-burden-of-cerebrovascular-disease" class="nav-link" data-scroll-target="#context-and-burden-of-cerebrovascular-disease">1.1. Context and Burden of Cerebrovascular Disease</a></li>
   <li><a href="#the-shift-towards-data-driven-clinical-prediction" id="toc-the-shift-towards-data-driven-clinical-prediction" class="nav-link" data-scroll-target="#the-shift-towards-data-driven-clinical-prediction">1.2. The Shift Towards Data-Driven Clinical Prediction</a></li>
   <li><a href="#justification-for-logistic-regression-in-medical-informatics" id="toc-justification-for-logistic-regression-in-medical-informatics" class="nav-link" data-scroll-target="#justification-for-logistic-regression-in-medical-informatics">1.3. Justification for Logistic Regression in Medical Informatics</a></li>
   <li><a href="#study-objectives-and-reproducibility" id="toc-study-objectives-and-reproducibility" class="nav-link" data-scroll-target="#study-objectives-and-reproducibility">1.4. Study Objectives and Reproducibility</a></li>
   </ul></li>
-  <li><a href="#related-work-review-of-predictive-modeling-in-stroke" id="toc-related-work-review-of-predictive-modeling-in-stroke" class="nav-link" data-scroll-target="#related-work-review-of-predictive-modeling-in-stroke">2. Related Work: Review of Predictive Modeling in Stroke</a>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">2. Methodology</a></li>
+  <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">3. Analysis and Results</a>
   <ul class="collapse">
-  <li><a href="#conventional-statistical-models-and-foundational-risk-factors" id="toc-conventional-statistical-models-and-foundational-risk-factors" class="nav-link" data-scroll-target="#conventional-statistical-models-and-foundational-risk-factors">2.1. Conventional Statistical Models and Foundational Risk Factors</a></li>
-  <li><a href="#the-emergence-of-machine-learning-ml" id="toc-the-emergence-of-machine-learning-ml" class="nav-link" data-scroll-target="#the-emergence-of-machine-learning-ml">2.2. The Emergence of Machine Learning (ML)</a></li>
-  <li><a href="#the-interpretability-performance-trade-off" id="toc-the-interpretability-performance-trade-off" class="nav-link" data-scroll-target="#the-interpretability-performance-trade-off">2.3. The Interpretability-Performance Trade-off</a></li>
+  <li><a href="#dataframe" id="toc-dataframe" class="nav-link" data-scroll-target="#dataframe">Dataframe</a></li>
   </ul></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">3. Methods</a>
-  <ul class="collapse">
-  <li><a href="#data-acquisition-and-quarto-workflow" id="toc-data-acquisition-and-quarto-workflow" class="nav-link" data-scroll-target="#data-acquisition-and-quarto-workflow">3.1. Data Acquisition and Quarto Workflow</a></li>
-  <li><a href="#data-preprocessing-and-imbalance-mitigation" id="toc-data-preprocessing-and-imbalance-mitigation" class="nav-link" data-scroll-target="#data-preprocessing-and-imbalance-mitigation">3.2. Data Preprocessing and Imbalance Mitigation</a></li>
-  <li><a href="#logistic-regression-model-construction" id="toc-logistic-regression-model-construction" class="nav-link" data-scroll-target="#logistic-regression-model-construction">3.3. Logistic Regression Model Construction</a></li>
-  <li><a href="#performance-evaluation-strategy" id="toc-performance-evaluation-strategy" class="nav-link" data-scroll-target="#performance-evaluation-strategy">3.4. Performance Evaluation Strategy</a></li>
-  </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">4. Results</a>
-  <ul class="collapse">
-  <li><a href="#baseline-characteristics-of-the-study-cohort" id="toc-baseline-characteristics-of-the-study-cohort" class="nav-link" data-scroll-target="#baseline-characteristics-of-the-study-cohort">4.1. Baseline Characteristics of the Study Cohort</a></li>
-  <li><a href="#model-performance-metrics-and-comparison" id="toc-model-performance-metrics-and-comparison" class="nav-link" data-scroll-target="#model-performance-metrics-and-comparison">4.2. Model Performance Metrics and Comparison</a></li>
-  <li><a href="#multivariate-logistic-regression-findings-and-odds-ratio-analysis" id="toc-multivariate-logistic-regression-findings-and-odds-ratio-analysis" class="nav-link" data-scroll-target="#multivariate-logistic-regression-findings-and-odds-ratio-analysis">4.3. Multivariate Logistic Regression Findings and Odds Ratio Analysis</a></li>
-  </ul></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">5. Discussion</a>
-  <ul class="collapse">
-  <li><a href="#translating-statistical-interpretation-to-clinical-practice" id="toc-translating-statistical-interpretation-to-clinical-practice" class="nav-link" data-scroll-target="#translating-statistical-interpretation-to-clinical-practice">5.1. Translating Statistical Interpretation to Clinical Practice</a></li>
-  <li><a href="#comparative-performance-and-the-argument-for-simplicity" id="toc-comparative-performance-and-the-argument-for-simplicity" class="nav-link" data-scroll-target="#comparative-performance-and-the-argument-for-simplicity">5.2. Comparative Performance and the Argument for Simplicity</a></li>
-  <li><a href="#ethical-implications-bias-and-fairness" id="toc-ethical-implications-bias-and-fairness" class="nav-link" data-scroll-target="#ethical-implications-bias-and-fairness">5.3. Ethical Implications, Bias, and Fairness</a></li>
-  <li><a href="#limitations-and-future-research-directions" id="toc-limitations-and-future-research-directions" class="nav-link" data-scroll-target="#limitations-and-future-research-directions">5.4. Limitations and Future Research Directions</a></li>
-  </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">6. Conclusion</a>
+  <li><a href="#mathematical-formulation" id="toc-mathematical-formulation" class="nav-link" data-scroll-target="#mathematical-formulation">4. Mathematical Formulation</a></li>
+  <li><a href="#core-concepts" id="toc-core-concepts" class="nav-link" data-scroll-target="#core-concepts">5. Core Concepts</a></li>
+  <li><a href="#developing-3-different-logistic-regression-models" id="toc-developing-3-different-logistic-regression-models" class="nav-link" data-scroll-target="#developing-3-different-logistic-regression-models">6. Developing 3 Different Logistic Regression Models</a></li>
+  <li><a href="#analyzing-the-3-models" id="toc-analyzing-the-3-models" class="nav-link" data-scroll-target="#analyzing-the-3-models">7. Analyzing the 3 models</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">8. Conclusion</a>
   <ul class="collapse">
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
@@ -404,310 +420,1023 @@ window.Quarto = {
 
 <p>The report goes here need some work</p>
 <p>Slides: <a href="slides.html" target="_blank">slides.html</a></p>
-<section id="abstract" class="level2">
-<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p><strong>Background:</strong> Stroke remains a devastating global health burden, recognized by the World Health Organization (WHO) as the second leading cause of death worldwide, responsible for approximately 11% of total deaths.[1]<span class="citation" data-cites="citation1"><sup>[<a href="#ref-citation1" role="doc-biblioref">1</a>]</sup></span> Predictive models are crucial for enabling early intervention and personalized prevention strategies.[2, 3]<span class="citation" data-cites="citation2"><sup>[<a href="#ref-citation3" role="doc-biblioref"><strong>citation3?</strong></a>]</sup></span> While advanced machine learning (ML) models offer high discriminatory power, Logistic Regression (LR) remains a cornerstone in clinical prediction due to its inherent interpretability.[4, 5]<span class="citation" data-cites="citation4"><sup>[<a href="#ref-citation5" role="doc-biblioref">4</a>]</sup></span></p>
-<!-- There is no Citation 3 -->
-<!-- Machine learning in healthcare: Uses, benefits and pioneers in the field - EIT Health, accessed November 18, 2025, https://eithealth.eu/news-article/machine-learning-in-healthcare-uses-benefits-and-pioneers-in-the-field/ -->
-<p><strong>Methods:</strong> This study utilized a publicly available stroke prediction dataset encompassing 11 clinical variables, including demographic, comorbidity, and physiological measurements. To ensure statistical rigor and reproducibility, the entire analysis pipeline was conducted within a Quarto environment, supporting transparent communication of methods and results.[7]<span class="citation" data-cites="citation7"><sup>[<a href="#ref-citation7" role="doc-biblioref">5</a>]</sup></span> Critical data preprocessing addressed missing values, feature encoding, and, crucially, the severe class imbalance inherent in clinical disease datasets. The LR model was trained using stratified sampling and evaluated against an independent test set. Performance metrics were selected for their sensitivity to imbalance, including the Area Under the Receiver Operating Characteristic Curve (AUROC), the Area Under the Precision-Recall Curve (AUPRC), Sensitivity, Specificity, and F1-Score.[9, 10]<span class="citation" data-cites="citation9"><sup>[<a href="#ref-citation10" role="doc-biblioref">6</a>]</sup></span></p>
-<p><strong>Results:</strong> The multivariate LR model achieved robust performance on the test set, demonstrating an AUROC of 0.725 (95% CI: 0.701, 0.749), aligning with benchmarks for conventional models in this domain.[11]<span class="citation" data-cites="citation11"><sup>[<a href="#ref-citation11" role="doc-biblioref">7</a>]</sup></span> Multivariate analysis quantified the impact of key risk factors through Odds Ratios (ORs). Age (OR 2.58 per 10 years increase, <span class="math inline">\(p&lt;0.001\)</span>) and hypertension (OR 1.97, <span class="math inline">\(p&lt;0.001\)</span>) were confirmed as independently and statistically significant predictors of stroke risk, consistent with established epidemiological findings.[4, 12, 13]<span class="citation" data-cites="citation4"><sup>[<a href="#ref-citation13" role="doc-biblioref"><strong>citation13?</strong></a>]</sup></span></p>
-<p><strong>Conclusion:</strong> Logistic Regression provides a mathematically explicit and highly interpretable framework for stroke risk stratification. Although models lacking non-linear complexity may sometimes exhibit lower raw discrimination compared to complex ‘black box’ ML techniques, the transparency and immediate clinical applicability of the Odds Ratios derived from LR are paramount.[5]<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">4</a>]</sup></span> This model is readily integrated into clinical decision-making protocols, facilitating personalized risk communication and targeted primary prevention efforts.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># options(repos = c(CRAN = "https://cloud.r-project.org"))</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"dplyr"</span>, <span class="st">"car"</span>, <span class="st">"ResourceSelection"</span>, <span class="st">"caret"</span>, <span class="st">"pROC"</span>,  <span class="st">"logistf"</span>, <span class="st">"Hmisc"</span>, <span class="st">"rcompanion"</span>, <span class="st">"ggplot2"</span>, <span class="st">"summarytools"</span>, <span class="st">"tidyverse"</span>, <span class="st">"knitr"</span>, <span class="st">"ggpubr"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(packages)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Libraries</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(packages, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Loading Dataset:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>find_git_root <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">start =</span> <span class="fu">getwd</span>()) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  path <span class="ot">&lt;-</span> <span class="fu">normalizePath</span>(start, <span class="at">winslash =</span> <span class="st">"/"</span>, <span class="at">mustWork =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (path <span class="sc">!=</span> <span class="fu">dirname</span>(path)) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">dir.exists</span>(<span class="fu">file.path</span>(path, <span class="st">".git"</span>))) <span class="fu">return</span>(path)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    path <span class="ot">&lt;-</span> <span class="fu">dirname</span>(path)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"No .git directory found — are you inside a Git repository?"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>repo_root <span class="ot">&lt;-</span> <span class="fu">find_git_root</span>()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>datasets_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(repo_root, <span class="st">"datasets"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading the datafile healthcare-dataset-stroke-data</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>steve_dataset_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(datasets_path, <span class="st">"kaggle-healthcare-dataset-stroke-data/healthcare-dataset-stroke-data.csv"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>stroke1 <span class="ot">=</span> <span class="fu">read_csv</span>(steve_dataset_path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Handling Dataset Features</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>stroke1[stroke1 <span class="sc">==</span> <span class="st">"N/A"</span> <span class="sc">|</span> stroke1 <span class="sc">==</span> <span class="st">"Unknown"</span> <span class="sc">|</span> stroke1 <span class="sc">==</span> <span class="st">"children"</span> <span class="sc">|</span> stroke1 <span class="sc">==</span> <span class="st">"other"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>bmi <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>bmi), <span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>gender[stroke1<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">"Male"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>gender[stroke1<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">"Female"</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>gender)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>ever_married[stroke1<span class="sc">$</span>ever_married <span class="sc">==</span> <span class="st">"Yes"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>ever_married[stroke1<span class="sc">$</span>ever_married <span class="sc">==</span> <span class="st">"No"</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>ever_married <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>ever_married)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>work_type[stroke1<span class="sc">$</span>work_type <span class="sc">==</span> <span class="st">"Govt_job"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>work_type[stroke1<span class="sc">$</span>work_type <span class="sc">==</span> <span class="st">"Private"</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>work_type[stroke1<span class="sc">$</span>work_type <span class="sc">==</span> <span class="st">"Self-employed"</span>] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>work_type[stroke1<span class="sc">$</span>work_type <span class="sc">==</span> <span class="st">"Never_worked"</span>] <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>work_type <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>work_type)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>Residence_type[stroke1<span class="sc">$</span>Residence_type <span class="sc">==</span> <span class="st">"Urban"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>Residence_type[stroke1<span class="sc">$</span>Residence_type <span class="sc">==</span> <span class="st">"Rural"</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>Residence_type <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>Residence_type)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>avg_glucose_level <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>avg_glucose_level)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>heart_disease <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>heart_disease)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>hypertension <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>hypertension)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>age <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>age), <span class="dv">2</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>stroke <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>stroke)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>smoking_status[stroke1<span class="sc">$</span>smoking_status <span class="sc">==</span> <span class="st">"never smoked"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>smoking_status[stroke1<span class="sc">$</span>smoking_status <span class="sc">==</span> <span class="st">"formerly smoked"</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>smoking_status[stroke1<span class="sc">$</span>smoking_status <span class="sc">==</span> <span class="st">"smokes"</span>] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>smoking_status <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke1<span class="sc">$</span>smoking_status)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>stroke1 <span class="ot">&lt;-</span> stroke1[, <span class="sc">!</span>(<span class="fu">names</span>(stroke1) <span class="sc">%in%</span> <span class="st">"id"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Removing NAs and cleaning Dataset</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stroke1<span class="sc">$</span>stroke <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(stroke1<span class="sc">$</span>stroke)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>stroke1_clean <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(stroke1)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>strokeclean <span class="ot">&lt;-</span> stroke1_clean</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>fourassume <span class="ot">&lt;-</span> stroke1_clean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Showing Descriptive Statistics for all variables, Mean, Std Deviation, and Interquartile Range</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dfSummary(strokeclean)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">1. Introduction</h2>
+<p>The burden of cerebrovascular accidents, or stroke, remains a major global public health crisis. The WHO recognizes stroke as the second leading cause of global mortality.<span class="citation" data-cites="citation1"><sup>[<a href="#ref-citation1" role="doc-biblioref">1</a>]</sup></span> Given the high morbidity and mortality associated with stroke, the accurate and timely identification of individuals at high risk is a critical priority for healthcare systems globally. Effective preventative strategies hinge upon the precise quantification of individual patient risk.<span class="citation" data-cites="citation2"><sup>[<a href="#ref-citation2" role="doc-biblioref">2</a>]</sup></span></p>
+<p>Historically, risk stratification has relied on conventional clinical scoring systems, which utilize established clinical characteristics and comorbidities to approximate the future likelihood of cardiovascular disease (CVD) events, including stroke.<span class="citation" data-cites="citation2"><sup>[<a href="#ref-citation2" role="doc-biblioref">2</a>]</sup></span> Because the risk of stroke is intrinsically linked with the risk of other cardiovascular diseases, clinically useful risk scores often encompass multiple related CVD outcomes.[TODO 13] By calculating a patient’s risk profile, clinicians are empowered to implement evidence-based interventions, such as initiating statin therapy or recommending specific lifestyle modifications, thereby reducing the overall incidence of CVD and improving long-term health outcomes.[TODO 3 + 13]<span class="citation" data-cites="citation2"><sup>[<a href="#ref-citation2" role="doc-biblioref">2</a>]</sup></span></p>
+<section id="the-shift-towards-data-driven-clinical-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="the-shift-towards-data-driven-clinical-prediction">1.2. The Shift Towards Data-Driven Clinical Prediction</h3>
+<p>In recent decades, the increasing availability of granular patient data has accelerated new research trends focused on personalized prediction and disease management.<span class="citation" data-cites="citation14"><sup>[<a href="#ref-citation14" role="doc-biblioref">3</a>]</sup></span> The capacity of modern data systems to handle complex, high-dimensional datasets necessitates the use of computational tools, often in the form of Artificial Intelligence (AI) and Machine Learning (ML) systems.[TODO 15]<span class="citation" data-cites="citation14"><sup>[<a href="#ref-citation15" role="doc-biblioref">4</a>]</sup></span> ML algorithms have demonstrated a superior capacity to predict functional recovery after ischemic stroke compared with preexisting scoring systems based on conventional statistics.[TODO 16] These models can automatically select important features and variables, often reducing the necessity for manual feature engineering.<span class="citation" data-cites="citation17"><sup>[<a href="#ref-citation17" role="doc-biblioref">5</a>]</sup></span></p>
+<p>The application of ML methods spans a range of tasks from unsupervised learning for pattern discovery to supervised learning for diagnosis and prognosis.<span class="citation" data-cites="citation15"><sup>[<a href="#ref-citation15" role="doc-biblioref">4</a>]</sup></span> While complex models, such as ensemble techniques or deep neural networks, may achieve marginally higher discrimination scores (AUROC), their clinical utility is constrained by their opacity. Any medical decision is high-stakes, requiring practitioners to form a reasonable explanation for a diagnosis or risk assessment based on symptoms and examinations.<span class="citation" data-cites="citation18"><sup>[<a href="#ref-citation18" role="doc-biblioref">6</a>]</sup></span> The “black box” nature of complex models, making it difficult to fully understand how a specific output was generated, can lead to mistrust among clinicians and patients and may negatively impact their acceptance and implementation.[TODO 19 + 20]</p>
 </section>
-<section id="introduction" class="level1">
-<h1>1. Introduction</h1>
-<section id="context-and-burden-of-cerebrovascular-disease" class="level2">
-<h2 class="anchored" data-anchor-id="context-and-burden-of-cerebrovascular-disease">1.1. Context and Burden of Cerebrovascular Disease</h2>
-<p>The burden of cerebrovascular accidents, or stroke, remains a major global public health crisis. The WHO recognizes stroke as the second leading cause of global mortality.[1]<span class="citation" data-cites="citation1"><sup>[<a href="#ref-citation1" role="doc-biblioref">1</a>]</sup></span> Given the high morbidity and mortality associated with stroke, the accurate and timely identification of individuals at high risk is a critical priority for healthcare systems globally. Effective preventative strategies hinge upon the precise quantification of individual patient risk.[2]<span class="citation" data-cites="citation2"><sup>[<a href="#ref-citation2" role="doc-biblioref">2</a>]</sup></span></p>
-<p>Historically, risk stratification has relied on conventional clinical scoring systems, which utilize established clinical characteristics and comorbidities to approximate the future likelihood of cardiovascular disease (CVD) events, including stroke.[2]<span class="citation" data-cites="citation2"><sup>[<a href="#ref-citation2" role="doc-biblioref">2</a>]</sup></span> Because the risk of stroke is intrinsically linked with the risk of other cardiovascular diseases, clinically useful risk scores often encompass multiple related CVD outcomes.[13]<span class="citation" data-cites="citation13"><sup>[<a href="#ref-citation13" role="doc-biblioref"><strong>citation13?</strong></a>]</sup></span> By calculating a patient’s risk profile, clinicians are empowered to implement evidence-based interventions, such as initiating statin therapy or recommending specific lifestyle modifications, thereby reducing the overall incidence of CVD and improving long-term health outcomes.[2, 3, 13]<span class="citation" data-cites="citation2"><sup>[<a href="#ref-citation13" role="doc-biblioref"><strong>citation13?</strong></a>]</sup></span></p>
+<section id="justification-for-logistic-regression-in-medical-informatics" class="level3">
+<h3 class="anchored" data-anchor-id="justification-for-logistic-regression-in-medical-informatics">1.3. Justification for Logistic Regression in Medical Informatics</h3>
+<p>Despite the rise of sophisticated algorithms, Logistic Regression (LR) remains the most widely used modeling approach in stroke research.<span class="citation" data-cites="citation4"><sup>[<a href="#ref-citation4" role="doc-biblioref">7</a>]</sup></span> LR provides a robust, transparent framework for modeling binary outcomes, such as the presence or absence of a stroke event.[TODO 21]<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">8</a>]</sup></span> The procedure is statistically analogous to multiple linear regression but handles the binomial response variable, yielding quantifiable results in the form of Odds Ratios (ORs).<span class="citation" data-cites="citation22"><sup>[<a href="#ref-citation22" role="doc-biblioref">9</a>]</sup></span> This ability to quantify the independent impact of each variable on the probability of the event—by controlling for confounding effects—is the central advantage of LR.<span class="citation" data-cites="citation22"><sup>[<a href="#ref-citation22" role="doc-biblioref">9</a>]</sup></span></p>
+<p>The primary justification for employing LR is rooted in the performance-interpretability trade-off.<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">8</a>]</sup></span> The ability to interpret the model through <span class="math inline">\(\beta\)</span> coefficients and their corresponding ORs, alongside associated <span class="math inline">\(p\)</span>-values and confidence intervals, sets LR apart from more complex ML approaches.<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">8</a>]</sup></span> This explicit structure allows for direct assessment of the direction and magnitude of risk, a requirement for evidence-based medicine.<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">8</a>]</sup></span> While more complex models might achieve greater numerical performance, the lack of transparency can erode provider trust and patient reliance on the technology.[TODO 20] When considering clinical application, the simplicity of LR ensures that the mechanism of prediction is traceable, which is essential for safety, equity, and accountability in healthcare deployment.[TODO 20]<span class="citation" data-cites="citation18"><sup>[<a href="#ref-citation18" role="doc-biblioref">6</a>]</sup></span></p>
 </section>
-<section id="the-shift-towards-data-driven-clinical-prediction" class="level2">
-<h2 class="anchored" data-anchor-id="the-shift-towards-data-driven-clinical-prediction">1.2. The Shift Towards Data-Driven Clinical Prediction</h2>
-<p>In recent decades, the increasing availability of granular patient data has accelerated new research trends focused on personalized prediction and disease management.[14]<span class="citation" data-cites="citaiton14"><sup>[<a href="#ref-citaiton14" role="doc-biblioref"><strong>citaiton14?</strong></a>]</sup></span> The capacity of modern data systems to handle complex, high-dimensional datasets necessitates the use of computational tools, often in the form of Artificial Intelligence (AI) and Machine Learning (ML) systems.[14, 15]<span class="citation" data-cites="citation14"><sup>[<a href="#ref-citation15" role="doc-biblioref">10</a>]</sup></span> ML algorithms have demonstrated a superior capacity to predict functional recovery after ischemic stroke compared with preexisting scoring systems based on conventional statistics.[16]<span class="citation" data-cites="citation16"><sup>[<a href="#ref-citation16" role="doc-biblioref"><strong>citation16?</strong></a>]</sup></span> These models can automatically select important features and variables, often reducing the necessity for manual feature engineering.[17]<span class="citation" data-cites="citation17"><sup>[<a href="#ref-citation17" role="doc-biblioref">11</a>]</sup></span></p>
-<p>The application of ML methods spans a range of tasks from unsupervised learning for pattern discovery to supervised learning for diagnosis and prognosis.[15]<span class="citation" data-cites="citaiton15"><sup>[<a href="#ref-citaiton15" role="doc-biblioref"><strong>citaiton15?</strong></a>]</sup></span> While complex models, such as ensemble techniques or deep neural networks, may achieve marginally higher discrimination scores (AUROC), their clinical utility is constrained by their opacity. Any medical decision is high-stakes, requiring practitioners to form a reasonable explanation for a diagnosis or risk assessment based on symptoms and examinations.[18]<span class="citation" data-cites="citaiton18"><sup>[<a href="#ref-citaiton18" role="doc-biblioref"><strong>citaiton18?</strong></a>]</sup></span> The “black box” nature of complex models, making it difficult to fully understand how a specific output was generated, can lead to mistrust among clinicians and patients and may negatively impact their acceptance and implementation.[19, 20]<span class="citation" data-cites="citaiton19"><sup>[<a href="#ref-citaiton20" role="doc-biblioref"><strong>citaiton20?</strong></a>]</sup></span></p>
-</section>
-<section id="justification-for-logistic-regression-in-medical-informatics" class="level2">
-<h2 class="anchored" data-anchor-id="justification-for-logistic-regression-in-medical-informatics">1.3. Justification for Logistic Regression in Medical Informatics</h2>
-<p>Despite the rise of sophisticated algorithms, Logistic Regression (LR) remains the most widely used modeling approach in stroke research.[4]<span class="citation" data-cites="citation4"><sup>[<a href="#ref-citation4" role="doc-biblioref">3</a>]</sup></span> LR provides a robust, transparent framework for modeling binary outcomes, such as the presence or absence of a stroke event.[5, 21]<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation21" role="doc-biblioref"><strong>citation21?</strong></a>]</sup></span> The procedure is statistically analogous to multiple linear regression but handles the binomial response variable, yielding quantifiable results in the form of Odds Ratios (ORs).[22]<span class="citation" data-cites="citaiton22"><sup>[<a href="#ref-citaiton22" role="doc-biblioref"><strong>citaiton22?</strong></a>]</sup></span> This ability to quantify the independent impact of each variable on the probability of the event—by controlling for confounding effects—is the central advantage of LR.[22]<span class="citation" data-cites="citaiton22"><sup>[<a href="#ref-citaiton22" role="doc-biblioref"><strong>citaiton22?</strong></a>]</sup></span></p>
-<p>The primary justification for employing LR is rooted in the performance-interpretability trade-off.[5]<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">4</a>]</sup></span> The ability to interpret the model through <span class="math inline">\(\beta\)</span> coefficients and their corresponding ORs, alongside associated <span class="math inline">\(p\)</span>-values and confidence intervals, sets LR apart from more complex ML approaches.[5]<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">4</a>]</sup></span> This explicit structure allows for direct assessment of the direction and magnitude of risk, a requirement for evidence-based medicine.[5]<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">4</a>]</sup></span> While more complex models might achieve greater numerical performance, the lack of transparency can erode provider trust and patient reliance on the technology.[20]<span class="citation" data-cites="citation20"><sup>[<a href="#ref-citation20" role="doc-biblioref"><strong>citation20?</strong></a>]</sup></span> When considering clinical application, the simplicity of LR ensures that the mechanism of prediction is traceable, which is essential for safety, equity, and accountability in healthcare deployment.[18, 20]<span class="citation" data-cites="citation18"><sup>[<a href="#ref-citation20" role="doc-biblioref"><strong>citation20?</strong></a>]</sup></span></p>
-</section>
-<section id="study-objectives-and-reproducibility" class="level2">
-<h2 class="anchored" data-anchor-id="study-objectives-and-reproducibility">1.4. Study Objectives and Reproducibility</h2>
-<p>This study aims to rigorously validate a multivariate Logistic Regression model for binary stroke prediction using a standardized set of 11 clinical features. A core objective is to move beyond simple comparison metrics like accuracy [23]<span class="citation" data-cites="citation23"><sup>[<a href="#ref-citation23" role="doc-biblioref">13</a>]</sup></span> and utilize advanced evaluation techniques specifically tailored for imbalanced medical outcomes, such as AUPRC, Sensitivity, and Calibration, to properly contextualize the LR model’s clinical utility.[10, 16]<span class="citation" data-cites="citation10"><sup>[<a href="#ref-citation16" role="doc-biblioref"><strong>citation16?</strong></a>]</sup></span> Furthermore, this analysis demonstrates a commitment to transparency and scholarly practice by implementing the entire analytical pipeline within a Quarto workflow.[7]<span class="citation" data-cites="citation7"><sup>[<a href="#ref-citation7" role="doc-biblioref">5</a>]</sup></span> This process ensures the findings are readily reproducible by the academic and clinical community, aligning with modern standards for robust scientific computing and communication.[24]<span class="citation" data-cites="citation24"><sup>[<a href="#ref-citation24" role="doc-biblioref"><strong>citation24?</strong></a>]</sup></span></p>
+<section id="study-objectives-and-reproducibility" class="level3">
+<h3 class="anchored" data-anchor-id="study-objectives-and-reproducibility">1.4. Study Objectives and Reproducibility</h3>
+<p>This study aims to rigorously validate a multivariate Logistic Regression model for binary stroke prediction using a standardized set of 11 clinical features. A core objective is to move beyond simple comparison metrics like accuracy<span class="citation" data-cites="citation23"><sup>[<a href="#ref-citation23" role="doc-biblioref">10</a>]</sup></span> and utilize advanced evaluation techniques specifically tailored for imbalanced medical outcomes, such as AUPRC, Sensitivity, and Calibration, to properly contextualize the LR model’s clinical utility.[TODO 16]<span class="citation" data-cites="citation10"><sup>[<a href="#ref-citation10" role="doc-biblioref">11</a>]</sup></span> Furthermore, this analysis demonstrates a commitment to transparency and scholarly practice by implementing the entire analytical pipeline within a Quarto workflow.<span class="citation" data-cites="citation7"><sup>[<a href="#ref-citation7" role="doc-biblioref">12</a>]</sup></span> This process ensures the findings are readily reproducible by the academic and clinical community, aligning with modern standards for robust scientific computing and communication.[TODO 24]</p>
 </section>
 </section>
-<section id="related-work-review-of-predictive-modeling-in-stroke" class="level1">
-<h1>2. Related Work: Review of Predictive Modeling in Stroke</h1>
-<section id="conventional-statistical-models-and-foundational-risk-factors" class="level2">
-<h2 class="anchored" data-anchor-id="conventional-statistical-models-and-foundational-risk-factors">2.1. Conventional Statistical Models and Foundational Risk Factors</h2>
-<p>The history of stroke risk prediction is inseparable from the application of LR. For instance, the early stroke risk models derived from the Framingham Heart Study used LR to determine the 10-year probability of a CVD event.[13]<span class="citation" data-cites="citaiton13"><sup>[<a href="#ref-citaiton13" role="doc-biblioref"><strong>citaiton13?</strong></a>]</sup></span> Similarly, projects like EUROSTROKE have used LR to analyze the effects of various risk factors on both ischemic and hemorrhagic stroke outcomes.[13]<span class="citation" data-cites="citation13"><sup>[<a href="#ref-citation13" role="doc-biblioref"><strong>citation13?</strong></a>]</sup></span></p>
-<p>LR is most effective when employed with known, clinically relevant risk factors. Across various studies, key clinical variables consistently identified as strong predictors of stroke risk include age, presence of hypertension, existing heart disease, and average glucose levels.[4, 25]<span class="citation" data-cites="citation4"><sup>[<a href="#ref-citation25" role="doc-biblioref"><strong>citation25?</strong></a>]</sup></span> In contemporary ML feature selection analyses, factors such as hypertension (specifically systolic and diastolic blood pressure) and obesity (BMI) frequently rank among the top high-risk factors for stroke, reinforcing the foundations of conventional statistical models.[12]<span class="citation" data-cites="citation12"><sup>[<a href="#ref-citation12" role="doc-biblioref">8</a>]</sup></span> The strength of LR lies in its ability to simultaneously evaluate these established factors, controlling for their interdependence and thereby providing robust estimates of individual risk factor impact.[22]<span class="citation" data-cites="citation22"><sup>[<a href="#ref-citation22" role="doc-biblioref">14</a>]</sup></span></p>
-</section>
-<section id="the-emergence-of-machine-learning-ml" class="level2">
-<h2 class="anchored" data-anchor-id="the-emergence-of-machine-learning-ml">2.2. The Emergence of Machine Learning (ML)</h2>
-<p>The development of sophisticated ML algorithms, including Random Forest (RF), Support Vector Machines (SVM), and various deep learning (DL) models, has led to comparisons with conventional LR.[10, 16]<span class="citation" data-cites="citation10"><sup>[<a href="#ref-citaiton16" role="doc-biblioref"><strong>citaiton16?</strong></a>]</sup></span> Studies often compare model performance primarily using the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve.[16]<span class="citation" data-cites="citaiton16"><sup>[<a href="#ref-citaiton16" role="doc-biblioref"><strong>citaiton16?</strong></a>]</sup></span> In some instances, ML techniques have demonstrated superior performance. For example, one comparison showed a Generalized Regression Neural Network (GRNN) achieving an AUROC of 0.931 and sensitivity of 0.933, significantly outperforming an LR model with an AUROC of 0.702 and sensitivity of 0.700.[26, 27]<span class="citation" data-cites="citation26"><sup>[<a href="#ref-citation27" role="doc-biblioref"><strong>citation27?</strong></a>]</sup></span></p>
-<p>However, the perceived superiority of ML is not universal. Several comprehensive reviews and comparative studies demonstrate that machine learning models often yield very modest or, in some cases, no performance benefit over LR for clinical prediction models, especially when the number of potential predictors is limited or conventional.[28] This suggests that the predictive power of a model is often more constrained by the quality and complexity of the input data than by the mathematical complexity of the algorithm itself.</p>
-</section>
-<section id="the-interpretability-performance-trade-off" class="level2">
-<h2 class="anchored" data-anchor-id="the-interpretability-performance-trade-off">2.3. The Interpretability-Performance Trade-off</h2>
-<p>The decision to utilize LR over more complex algorithms hinges on a strategic evaluation of the performance-interpretability trade-off, particularly within the specific constraints of clinical predictive modeling. Complex ML models often require large volumes of data—deep learning models typically require <span class="math inline">\(10^5\)</span> to <span class="math inline">\(10^7\)</span> examples—to demonstrate significant performance advantages.[29]<span class="citation" data-cites="citaiton29"><sup>[<a href="#ref-citaiton29" role="doc-biblioref"><strong>citaiton29?</strong></a>]</sup></span> When trained on smaller clinical datasets (e.g., <span class="math inline">\(N=100\)</span>), linear regression can actually perform significantly better than a deep learning neural network.[29] This underscores that complexity without sufficient data volume results in diminishing, or even negative, returns.</p>
-<p>Furthermore, relying solely on high discrimination scores (AUROC) overlooks critical aspects of clinical utility, such as reliability (calibration) and quantifiable clinical benefit (Decision Curve Analysis).[16]<span class="citation" data-cites="citaiton16"><sup>[<a href="#ref-citaiton16" role="doc-biblioref"><strong>citaiton16?</strong></a>]</sup></span> LR, due to its mathematical simplicity, often maintains good calibration, meaning its predicted probabilities are accurate and reliable, a crucial requirement for patient-facing risk communication.[28]<span class="citation" data-cites="citation28"><sup>[<a href="#ref-citation28" role="doc-biblioref">16</a>]</sup></span> Therefore, the selection of LR for this study is a pragmatic choice, prioritizing a robust, easily deployable, and fully transparent model that provides traceable explanations (Odds Ratios) over marginally higher AUROC scores achieved by potentially opaque, complex algorithms that may overfit limited clinical data.[5, 28]<span class="citation" data-cites="citaiton5"><sup>[<a href="#ref-citaiton28" role="doc-biblioref"><strong>citaiton28?</strong></a>]</sup></span></p>
-</section>
-</section>
-<section id="methods" class="level1">
-<h1>3. Methods</h1>
-<section id="data-acquisition-and-quarto-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="data-acquisition-and-quarto-workflow">3.1. Data Acquisition and Quarto Workflow</h2>
-<p>The analysis utilized the publicly available Stroke Prediction Dataset, which includes 5,110 patient records.[1, 6]<span class="citation" data-cites="citaiton1"><sup>[<a href="#ref-citaiton6" role="doc-biblioref"><strong>citaiton6?</strong></a>]</sup></span> The dataset comprises 11 distinct clinical features, including: <code>gender</code>, <code>age</code>, <code>hypertension</code>, <code>heart_disease</code>, <code>ever_married</code>, <code>work_type</code>, <code>Residence_type</code>, <code>avg_glucose_level</code>, <code>bmi</code>, and <code>smoking_status</code>, with the binary outcome variable being <code>stroke</code>.[6, 25]<span class="citation" data-cites="citaiton6"><sup>[<a href="#ref-citation25" role="doc-biblioref"><strong>citation25?</strong></a>]</sup></span></p>
-<p>Crucially, the entire analytical process—from data import and preprocessing to model training, evaluation, and report generation—was managed within a Quarto environment. Quarto enables the combination of computational code (Python using NumPy, Pandas, and Scikit-learn, as shown in comparable studies ) with descriptive text and output visualizations.[30]<span class="citation" data-cites="citation30"><sup>[<a href="#ref-citation30" role="doc-biblioref"><strong>citation30?</strong></a>]</sup></span> This approach ensures that the analysis is fully reproducible; for instance, session information, including software versions, is included in the document, and the code used for generating results can be selectively hidden in the final report using the <code>echo: false</code> option, while still remaining verifiable.[7]<span class="citation" data-cites="citation7"><sup>[<a href="#ref-citation7" role="doc-biblioref">5</a>]</sup></span> This standard addresses the growing need for transparency and reliability in biomedical computational research.[15]<span class="citation" data-cites="citation15"><sup>[<a href="#ref-citation15" role="doc-biblioref">10</a>]</sup></span></p>
-</section>
-<section id="data-preprocessing-and-imbalance-mitigation" class="level2">
-<h2 class="anchored" data-anchor-id="data-preprocessing-and-imbalance-mitigation">3.2. Data Preprocessing and Imbalance Mitigation</h2>
-<p>Data preprocessing is essential for ensuring model robustness, encompassing the removal of noise, handling missing values, and proper encoding of labels.<span class="citation" data-cites="citation31"><sup>[<a href="#ref-citation31" role="doc-biblioref"><strong>citation31?</strong></a>]</sup></span> Specifically, missing BMI values were imputed using a robust statistical estimate (e.g., median imputation). Categorical features (e.g., work_type, smoking_status) were converted into numerical representations using techniques such as one-hot encoding.<span class="citation" data-cites="citation31"><sup>[<a href="#ref-citation31" role="doc-biblioref"><strong>citation31?</strong></a>]</sup></span> Continuous features like age and avg_glucose_level were scaled using a standard scaler to ensure equal influence during model training.<span class="citation" data-cites="citation6"><sup>[<a href="#ref-citation6" role="doc-biblioref">17</a>]</sup></span></p>
-<p>A major challenge inherent in health datasets, particularly for rare outcomes like stroke, is severe class imbalance.<span class="citation" data-cites="citation8"><sup>[<a href="#ref-citation8" role="doc-biblioref">18</a>]</sup></span> The baseline prevalence of stroke in this dataset is typically less than 5%, meaning a classifier predicting only the majority class (non-stroke) could achieve high accuracy while failing to detect true positive cases.<span class="citation" data-cites="citation9"><sup>[<a href="#ref-citation9" role="doc-biblioref"><strong>citation9?</strong></a>]</sup></span> To mitigate this challenge, the dataset was first split into training and test sets using stratified sampling to maintain the minority class proportion in both subsets.<span class="citation" data-cites="citation27"><sup>[<a href="#ref-citation27" role="doc-biblioref"><strong>citation27?</strong></a>]</sup></span> Subsequently, an oversampling strategy, such as the Synthetic Minority Over-sampling Technique (SMOTE), or an undersampling strategy, such as Random UnderSampling (RUS), was applied only to the training data.<span class="citation" data-cites="citation6"><sup>[<a href="#ref-citation6" role="doc-biblioref">17</a>]</sup></span> This step, by balancing the dataset during training, is intended to enhance the model’s performance on the minority class, which is vital for clinical sensitivity.<span class="citation" data-cites="citation8"><sup>[<a href="#ref-citation8" role="doc-biblioref">18</a>]</sup></span></p>
-</section>
-<section id="logistic-regression-model-construction" class="level2">
-<h2 class="anchored" data-anchor-id="logistic-regression-model-construction">3.3. Logistic Regression Model Construction</h2>
-<p>The Logistic Regression model was constructed using the scikit-learn pipeline, which applied standardized scaling to continuous predictors and fit the model parameters. The model was trained to estimate the probability <span class="math inline">\(P(Y=1|X)\)</span> of a stroke event <span class="math inline">\(Y=1\)</span> given a vector of clinical features <span class="math inline">\(X\)</span>. The foundational equation for the log-odds is defined as:</p>
-<p><span class="math display">\[\log\left(\frac{P(Y=1|X)}{1 - P(Y=1|X)}\right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_k X_k\]</span></p>
-<p>where <span class="math inline">\(\beta_i\)</span> are the regression coefficients, which translate directly into the Odds Ratio, <span class="math inline">\(\text{OR} = e^{\beta_i}\)</span>. [22]<span class="citation" data-cites="citation22"><sup>[<a href="#ref-citation22" role="doc-biblioref">14</a>]</sup></span> The multivariate approach ensures that the derived ORs for each clinical variable quantify their independent association with stroke risk, effectively controlling for the influence of other variables in the model, such as the established relationships between age, hypertension, and glucose levels. [22]<span class="citation" data-cites="citation22"><sup>[<a href="#ref-citation22" role="doc-biblioref">14</a>]</sup></span> Prior to finalization, assumption checks were conducted, including assessing the linearity of the log-odds relationship for continuous variables and confirming the absence of severe multicollinearity, which can undermine the stability and interpretability of the <span class="math inline">\(\beta\)</span> coefficients. [5]<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">4</a>]</sup></span></p>
-</section>
-<section id="performance-evaluation-strategy" class="level2">
-<h2 class="anchored" data-anchor-id="performance-evaluation-strategy">3.4. Performance Evaluation Strategy</h2>
-<p>Evaluating models on imbalanced medical datasets requires moving beyond simple accuracy, which can be misleading.<span class="citation" data-cites="citaiton23"><sup>[<a href="#ref-citaiton23" role="doc-biblioref"><strong>citaiton23?</strong></a>]</sup></span> The model’s classification ability (discrimination) was assessed using two primary metrics<span class="citation" data-cites="citation10"><sup>[<a href="#ref-citation10" role="doc-biblioref">6</a>]</sup></span>:</p>
+<section id="methodology" class="level2">
+<h2 class="anchored" data-anchor-id="methodology">2. Methodology</h2>
+<p>We chose our topic as logistic regression, and subsequently chose the stroke dataset b by Krekorian in Kaggle dataset comparing people with 11 different predictor variables and 1 binary outcome variable, stroke or no stroke.</p>
+<p>We then uploaded the Kaggle dataset into R studio server and analyzed it with R. We first utilized 10 different packages and libraries. They are listed below. These packages and libraries gave us the statistical models we then used to analyze the Kaggle dataset.</p>
+<p>We uploaded the dataset to Rstudioserver and installed the following packages and libraries for our analysis:</p>
 <ol type="1">
-<li><p>Area Under the ROC Curve (AUROC): Measures the ability of the model to distinguish between positive and negative classes across all possible thresholds.<span class="citation" data-cites="citation11"><sup>[<a href="#ref-citation11" role="doc-biblioref">7</a>]</sup></span></p></li>
-<li><p>Area Under the Precision-Recall Curve (AUPRC): Critically important for imbalanced data, AUPRC focuses specifically on the performance for the minority (positive) class, penalizing false positives more harshly.<span class="citation" data-cites="citation9"><sup>[<a href="#ref-citation9" role="doc-biblioref"><strong>citation9?</strong></a>]</sup></span></p></li>
+<li>dplyr</li>
+<li>car</li>
+<li>ResourceSelection</li>
+<li>caret</li>
+<li>pROC</li>
+<li>Logistf</li>
+<li>Hmisc</li>
+<li>rcompanion</li>
+<li>summary tools</li>
 </ol>
-<p>Additionally, threshold-dependent metrics were calculated for the optimized decision boundary:</p>
-<ul>
-<li><strong>Sensitivity (Recall):</strong> The proportion of actual stroke cases correctly identified, which is paramount in clinical risk prediction to minimize dangerous false negatives.<span class="citation" data-cites="citation9"><sup>[<a href="#ref-citation9" role="doc-biblioref"><strong>citation9?</strong></a>]</sup></span></li>
-<li><strong>Specificity:</strong> The proportion of non-stroke cases correctly identified.</li>
-<li><strong>F1-Score:</strong> The harmonic mean of precision and recall, providing a balanced measure of performance.<span class="citation" data-cites="citation9"><sup>[<a href="#ref-citation9" role="doc-biblioref"><strong>citation9?</strong></a>]</sup></span></li>
-</ul>
-<p>Beyond discrimination, model reliability and clinical utility were assessed.<span class="citation" data-cites="citation16"><sup>[<a href="#ref-citation16" role="doc-biblioref"><strong>citation16?</strong></a>]</sup></span> Calibration analysis, utilizing reliability diagrams, was performed to evaluate how closely the predicted probabilities align with the observed event frequencies.<span class="citation" data-cites="citation16"><sup>[<a href="#ref-citation16" role="doc-biblioref"><strong>citation16?</strong></a>]</sup></span> Finally, Decision Curve Analysis (DCA) was employed to quantify the clinical net benefit of using the LR model’s predictions compared to default strategies (e.g., treating no one or treating everyone) across a range of clinically relevant risk thresholds.<span class="citation" data-cites="citation16"><sup>[<a href="#ref-citation16" role="doc-biblioref"><strong>citation16?</strong></a>]</sup></span></p>
+<p>We first prepared the data, ensuring that all variables in the dataset, both predictor and outcome variables were converted or recoded to numeric as follows:</p>
+<p><strong>(1)</strong> age (continuous), we decided to recode to numeric with 2 places after the decimal.</p>
+<p><strong>(2)</strong> gender (categorical) we coded 1 for male and 2 for female. There was only 1 case where it was coded other. We recoded other as N/A. We also recoded this predictor as numeric.</p>
+<p><strong>(3)</strong> hypertension(categorical) was recoded to numeric</p>
+<p><strong>(4)</strong> heart disease(categorical) was recoded to numeric</p>
+<p><strong>(5)</strong> marital status (categorical) was recoded from yes to 1 and no to 2 and retyped as numeric,</p>
+<p><strong>(6)</strong> Work type(categorical) was recoded as 1 = Government, 2 = private sector, 3 = self-employed, 4 = never worked and then retyped as numeric</p>
+<p><strong>(7)</strong> residence type (categorical) was recoded as 1 = urban and 2 – rural. Then retyped as numeric.</p>
+<p><strong>(8)</strong> bmi (continuous) was recoded as numeric with 2 places after the decimal</p>
+<p><strong>(9)</strong> average glucose level(continuous) was recoded as numeric with 2 places after the decimal</p>
+<p><strong>(10)</strong> smoking status(categorical) was recoded as 1 = never smoked, 2 = formerly smoked and 3 = smokes, and unknown was recoded as N/A. After deletion of N/A the data was retyped as numeric.</p>
+<p><strong>(11)</strong> ID number -was left as is and deleted because it’s not needed</p>
+<p><strong>(12)</strong> Stroke (outcome) is categorical has 2 categories, 1 = stroke, 0 = no stroke</p>
+<p>Once that was done, we got rid of extraneous values such as “N/A”. After deleting rows that were useless or irrelevant values were left with a dataset of 3357 cases, 11 predictor variables and an outcome variable. As the rule of thumb for minimal size to run analyses is 15 cases per number of predictor variables. Applying this rule of thumb to our project, the dataset’s minimum is 132 cases. Since the cleaned dataset has 3357 cases, we can use logistic regression on the dataset.</p>
 </section>
-</section>
-<section id="results" class="level1">
-<h1>4. Results</h1>
-<section id="baseline-characteristics-of-the-study-cohort" class="level2">
-<h2 class="anchored" data-anchor-id="baseline-characteristics-of-the-study-cohort">4.1. Baseline Characteristics of the Study Cohort</h2>
-<p>The cohort consisted of 5,110 patients, with a distinct class imbalance, as reflected in the low prevalence of the stroke outcome. Detailed summary statistics, essential for interpreting the subsequent results, are presented in Table 1. Descriptive statistics for continuous variables (age, average glucose level, and BMI) are presented as mean <span class="math inline">\(\pm\)</span> standard deviation (SD), and categorical data are presented as counts (<span class="math inline">\(n\)</span>) and percentages. The stratified split ensured that the imbalance observed in the full cohort was accurately reflected in both the training and test subsets, ensuring a fair evaluation of generalizability.</p>
-<p>Table 1: Baseline Characteristics of Study Cohort (Pre-Balancing)</p>
+<section id="analysis-and-results" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-and-results">3. Analysis and Results</h2>
+<p>Examining the data in the variables: Data Frame &amp; Descriptive Statistics</p>
+<section id="dataframe" class="level3">
+<h3 class="anchored" data-anchor-id="dataframe">Dataframe</h3>
+<p>ADD the Dataframe here might want to use knitr table</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dfSummary</span>(strokeclean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Data Frame Summary  
+strokeclean  
+Dimensions: 3357 x 11  
+Duplicates: 0  
+
+----------------------------------------------------------------------------------------------------------------------
+No   Variable            Stats / Values             Freqs (% of Valid)     Graph                  Valid      Missing  
+---- ------------------- -------------------------- ---------------------- ---------------------- ---------- ---------
+1    gender              Min  : 1                   1 : 1305 (38.9%)       IIIIIII                3357       0        
+     [numeric]           Mean : 1.6                 2 : 2052 (61.1%)       IIIIIIIIIIII           (100.0%)   (0.0%)   
+                         Max  : 2                                                                                     
+
+2    age                 Mean (sd) : 49.4 (18.3)    70 distinct values             . : .          3357       0        
+     [numeric]           min &lt; med &lt; max:                                    . . : : : : .   :    (100.0%)   (0.0%)   
+                         13 &lt; 50 &lt; 82                                        : : : : : : : : :                        
+                         IQR (CV) : 28 (0.4)                               : : : : : : : : : :                        
+                                                                           : : : : : : : : : :                        
+
+3    hypertension        Min  : 0                   0 : 2949 (87.8%)       IIIIIIIIIIIIIIIII      3357       0        
+     [numeric]           Mean : 0.1                 1 :  408 (12.2%)       II                     (100.0%)   (0.0%)   
+                         Max  : 1                                                                                     
+
+4    heart_disease       Min  : 0                   0 : 3151 (93.9%)       IIIIIIIIIIIIIIIIII     3357       0        
+     [numeric]           Mean : 0.1                 1 :  206 ( 6.1%)       I                      (100.0%)   (0.0%)   
+                         Max  : 1                                                                                     
+
+5    ever_married        Min  : 1                   1 : 2599 (77.4%)       IIIIIIIIIIIIIII        3357       0        
+     [numeric]           Mean : 1.2                 2 :  758 (22.6%)       IIII                   (100.0%)   (0.0%)   
+                         Max  : 2                                                                                     
+
+6    work_type           Mean (sd) : 2 (0.6)        1 :  514 (15.3%)       III                    3357       0        
+     [numeric]           min &lt; med &lt; max:           2 : 2200 (65.5%)       IIIIIIIIIIIII          (100.0%)   (0.0%)   
+                         1 &lt; 2 &lt; 4                  3 :  629 (18.7%)       III                                        
+                         IQR (CV) : 0 (0.3)         4 :   14 ( 0.4%)                                                  
+
+7    Residence_type      Min  : 1                   1 : 1709 (50.9%)       IIIIIIIIII             3357       0        
+     [numeric]           Mean : 1.5                 2 : 1648 (49.1%)       IIIIIIIII              (100.0%)   (0.0%)   
+                         Max  : 2                                                                                     
+
+8    avg_glucose_level   Mean (sd) : 108.4 (47.9)   2861 distinct values     :                    3357       0        
+     [numeric]           min &lt; med &lt; max:                                  . :                    (100.0%)   (0.0%)   
+                         55.1 &lt; 92.3 &lt; 271.7                               : : :                                      
+                         IQR (CV) : 39 (0.4)                               : : :                                      
+                                                                           : : : : . . . . .                          
+
+9    bmi                 Mean (sd) : 30.4 (7.2)     364 distinct values      . :                  3357       0        
+     [numeric]           min &lt; med &lt; max:                                    : :                  (100.0%)   (0.0%)   
+                         11.5 &lt; 29.2 &lt; 92                                    : :                                      
+                         IQR (CV) : 8.8 (0.2)                                : : :                                    
+                                                                           . : : : .                                  
+
+10   smoking_status      Mean (sd) : 1.7 (0.8)      1 : 1798 (53.6%)       IIIIIIIIII             3357       0        
+     [numeric]           min &lt; med &lt; max:           2 :  824 (24.5%)       IIII                   (100.0%)   (0.0%)   
+                         1 &lt; 1 &lt; 3                  3 :  735 (21.9%)       IIII                                       
+                         IQR (CV) : 1 (0.5)                                                                           
+
+11   stroke              1. 0                       3177 (94.6%)           IIIIIIIIIIIIIIIIII     3357       0        
+     [factor]            2. 1                        180 ( 5.4%)           I                      (100.0%)   (0.0%)   
+----------------------------------------------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>After confirming the numerical type of each variable, we ran some descriptive statistics. The mean, standard deviation, and the interquartile range (IQR).</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 44%">
-<col style="width: 12%">
+<col style="width: 28%">
+<col style="width: 10%">
+<col style="width: 30%">
 <col style="width: 23%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Mean</th>
+<th>Standard Deviation</th>
+<th>Min–Max</th>
+<th>IQR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>gender</td>
+<td>1.6</td>
+<td>—</td>
+<td>1–2</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>age</td>
+<td>49.4</td>
+<td>18.3</td>
+<td>13–82</td>
+<td>28</td>
+</tr>
+<tr class="odd">
+<td>hypertension</td>
+<td>0.1</td>
+<td>—</td>
+<td>0–1</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>heart_disease</td>
+<td>0.1</td>
+<td>—</td>
+<td>0–1</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>ever_married</td>
+<td>1.2</td>
+<td>—</td>
+<td>1–2</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>work_type</td>
+<td>2</td>
+<td>0.6</td>
+<td>1–4</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>Residence_type</td>
+<td>1.5</td>
+<td>—</td>
+<td>1–2</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>avg_glucose_level</td>
+<td>108.4</td>
+<td>47.9</td>
+<td>55.1–271.7</td>
+<td>39</td>
+</tr>
+<tr class="odd">
+<td>bmi</td>
+<td>30.4</td>
+<td>7.2</td>
+<td>11.5–92</td>
+<td>8.8</td>
+</tr>
+<tr class="even">
+<td>smoking_status</td>
+<td>1.7</td>
+<td>0.8</td>
+<td>1–3</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>stroke</td>
+<td>—</td>
+<td>—</td>
+<td>0–1</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong></p>
+<p>For categorical/binary variables, standard deviation and IQR are not shown</p>
+<p>Having checked the min-max, and std, mean, and IQR for any “anomalies” and finding none, we then created a histogram of each of the variables to view their frequency distribution a shown below.</p>
+<!-- ADD histogram plots here -->
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of gender</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>p2a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> gender)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of gender"</span>, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"gender"</span>, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># (a) Histogram of gender</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>p1a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(a) Gender"</span>, <span class="at">x =</span> <span class="st">"gender"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of Age</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>p2b <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"green"</span>, </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Age"</span>, </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age"</span>, </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># (b) Histogram of Age</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>p1b <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(b) Age"</span>, <span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of hypertension</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>p2c <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> hypertension)) <span class="sc">+</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"purple"</span>, </span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of hypertension"</span>, </span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"hypertension"</span>, </span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co"># (c) Histogram of hypertension</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>p1c <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> hypertension, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(c) Hypertension"</span>, <span class="at">x =</span> <span class="st">"hypertension"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of heart_disease</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>p2d <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> heart_disease)) <span class="sc">+</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>( <span class="at">fill =</span> <span class="st">"orange"</span>,</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of heart_disease"</span>, </span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"HeartDisease"</span>, </span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a><span class="co"># (d) Histogram of heart_disease</span></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>p1d <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> heart_disease, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(d) Heart Disease"</span>, <span class="at">x =</span> <span class="st">"HeartDisease"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of ever_married</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>p2e <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> ever_married)) <span class="sc">+</span></span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"aquamarine"</span>, </span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of ever_married"</span>, </span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"EverMarried"</span>, </span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a><span class="co"># (e) Histogram of ever_married</span></span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>p1e <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> ever_married, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(e) Ever Married"</span>, <span class="at">x =</span> <span class="st">"EverMarried"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of work_type</span></span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>p2f <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> work_type)) <span class="sc">+</span></span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, </span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of work_type"</span>, </span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"WorkType"</span>, </span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a><span class="co"># (f) Histogram of work_type</span></span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>p1f <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">y =</span> work_type, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(f) Work Type"</span>, <span class="at">y =</span> <span class="st">"WorkType"</span>, <span class="at">x =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of Residence_type</span></span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>p2g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> Residence_type)) <span class="sc">+</span></span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"magenta"</span>, </span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Residence_type"</span>, </span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Residence_type"</span>, </span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a><span class="co"># (g) Histogram of Residence_type</span></span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a>p1g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> Residence_type, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(g) Residence Type"</span>, <span class="at">x =</span> <span class="st">"Residence_type"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of avg_gloucose_level</span></span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>p2h <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> avg_glucose_level)) <span class="sc">+</span></span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, </span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"chartreuse"</span>, </span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of avg_gloucose_level"</span>,</span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"avg-glucose_level"</span>, </span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a><span class="co"># (h) Histogram of avg_gloucose_level</span></span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>p1h <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> avg_glucose_level, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +</span></span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(h) Avg. Glucose Level"</span>, <span class="at">x =</span> <span class="st">"Glucose Level"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of bmi</span></span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>p2i <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> bmi)) <span class="sc">+</span></span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, </span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"gold"</span>, </span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of bmi"</span>, </span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"bmi"</span>, </span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a><span class="co"># (i) Histogram of bmi</span></span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>p1i <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> bmi, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">2</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(i) BMI"</span>, <span class="at">x =</span> <span class="st">"BMI"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a><span class="co"># smoking_status</span></span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a>p2j <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> smoking_status)) <span class="sc">+</span></span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"deepskyblue"</span>, </span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"smoking_status"</span>, </span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"smoking_status"</span>, </span>
+<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a><span class="co"># (j) smoking_status</span></span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a>p1j <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">y =</span> smoking_status, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(j) Smoking Status"</span>, <span class="at">y =</span> <span class="st">"smoking_status"</span>, <span class="at">x =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of Age</span></span>
+<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a>p2k <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"tan"</span>, </span>
+<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..count..), <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Age"</span>, </span>
+<span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"stroke"</span>, </span>
+<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a><span class="co"># (k) Histogram of Age</span></span>
+<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a>p1k <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +</span></span>
+<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(b) Age"</span>, <span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all plots into a single figure</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p2a, p2b, p2c, p2d, p2e, p2f, p2g, p2h, p2i, p2j, p2k, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">nrow =</span> <span class="dv">3</span>, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">common.legend =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(count)` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all plots into a single figure</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p1a, p1b, p1c, p1d, p1e, p1f, p1g, p1h, p1i, p1j, p1k, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">nrow =</span> <span class="dv">3</span>, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">common.legend =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- ADD histogram plots here -->
+<p>As we didn’t see any abnormal data points from the histograms we then proceeded to review and justify our selection of Logistic Regression.</p>
+</section>
+</section>
+<section id="mathematical-formulation" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-formulation">4. Mathematical Formulation</h2>
+<p><strong>What is Logistic Regression</strong></p>
+<p>Logistic regression is a statistical modeling technique that predicts the probability of a binary outcome (such as 0 or 1) using one or more independent variables.</p>
+<!-- separate here -->
+<p>The key idea is to model the log odds (also called the logit) of the probability of the event as a linear function of the predictors:</p>
+<ul>
+<li>The key idea is to model the log odds (also called the logit) of the probability of the event as a linear function of the predictors:</li>
+</ul>
+<p><span class="math inline">\(\log\left(\frac{P(Y=1|X)}{1 - P(Y=1|X)}\right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_k X_k\)</span></p>
+<p><span class="math inline">\(\log\left(\frac{p}{1 - p}\right) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k\)</span></p>
+<p>where pp is the probability of the outcome (e.g., stroke), the xixi are predictors, and the βiβi are their coefficients.​</p>
+<ul>
+<li>Solving for pp, the equation becomes:</li>
+</ul>
+<p><span class="math inline">\(p = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k)}}\)</span></p>
+<p>This is the logistic function, which always outputs values between 0 and 1, making it ideal for probabilities.​</p>
+</section>
+<section id="core-concepts" class="level2">
+<h2 class="anchored" data-anchor-id="core-concepts">5. Core Concepts</h2>
+<!-- TODO fix the odds -->
+<p><strong>(1)</strong> Odds are defined as <span class="math inline">\(\frac{p}{1 - p}\)</span> p/(1−p)p/(1-p)p/(1−p), the ratio of the probability of the event to the probability of its complement.</p>
+<p><strong>(2)</strong> The logit transformation (natural log of the odds) turns this nonlinear problem into a linear one, so standard linear modeling techniques can be used for estimation.</p>
+<p><strong>(3)</strong> Coefficients (<span class="math inline">\(\beta\)</span>) are commonly estimated using maximum likelihood methods, not ordinary least squares.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>formula <span class="ot">&lt;-</span> stroke <span class="sc">~</span> gender <span class="sc">+</span> age <span class="sc">+</span> hypertension <span class="sc">+</span> heart_disease <span class="sc">+</span> ever_married <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  work_type <span class="sc">+</span> Residence_type <span class="sc">+</span> avg_glucose_level <span class="sc">+</span> bmi <span class="sc">+</span> smoking_status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A comparison between Logistic Regression and Multiple Regression is shown below</p>
+<table class="caption-top table">
+<colgroup>
 <col style="width: 19%">
+<col style="width: 34%">
+<col style="width: 45%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Feature</th>
-<th>Type</th>
-<th>Training Set (N=4088)</th>
-<th>Test Set (N=1022)</th>
+<th>Multiple Regression</th>
+<th>Logistic Regression</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Age (Years), mean (SD)</td>
-<td>Continuous</td>
-<td>43.2±22.6</td>
-<td>42.9±22.8</td>
+<td>Outcome variable type</td>
+<td>Continuous (real numbers)</td>
+<td>Categorical/Binary (e.g., 0 or 1)</td>
 </tr>
 <tr class="even">
-<td>Gender (Male, n(%))</td>
-<td>Categorical</td>
-<td>1706 (41.7%)</td>
-<td>428 (41.9%)</td>
+<td>Example prediction</td>
+<td>Predicting house prices</td>
+<td>Predicting disease presence/absence</td>
 </tr>
 <tr class="odd">
-<td>Hypertension (Yes, n(%))</td>
-<td>Binary</td>
-<td>401 (9.8%)</td>
-<td>101 (9.9%)</td>
+<td>Model equation</td>
+<td>Linear combination of predictors</td>
+<td>Log odds/logit (S-shaped curve: logistic function)</td>
 </tr>
 <tr class="even">
-<td>Heart Disease (Yes, n(%))</td>
-<td>Binary</td>
-<td>205 (5.0%)</td>
-<td>52 (5.1%)</td>
+<td>Estimation method</td>
+<td>Least squares</td>
+<td>Maximum likelihood</td>
 </tr>
 <tr class="odd">
-<td>Avg. Glucose Level, mean (SD)</td>
-<td>Continuous</td>
-<td>106.1±45.3</td>
-<td>105.7±45.1</td>
+<td>Output type</td>
+<td>Actual values (e.g., $125,000)</td>
+<td>Probability of being in a category (e.g., 87%)</td>
 </tr>
 <tr class="even">
-<td>BMI, mean (SD)*</td>
-<td>Continuous</td>
-<td>28.9±7.7</td>
-<td>28.7±7.5</td>
-</tr>
-<tr class="odd">
-<td>Stroke Outcome (Positive Class, n(%))</td>
-<td>Binary</td>
-<td>196 (4.8%)</td>
-<td>48 (4.7%)</td>
+<td>Usage</td>
+<td>Continuous outcome (income, cost, score)</td>
+<td>Categorical outcome (yes/no, 0/1)</td>
 </tr>
 </tbody>
 </table>
-<p>*BMI values were imputed prior to calculation of descriptive statistics.</p>
+<p>But before we can run the all the models of Logistic Regression, there are 4 assumptions of Logistic Regression that we need to determine if the dataset and models can run without violating any or all the assumptions of Logistic Regression</p>
+<p><strong>Assumption 1:</strong> the outcome variable has 2 outcomes, stroke, or no stroke. This is confirmed from the data frame above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumption 1: The Outcome Variable is 0 or 1</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(fourassume<span class="sc">$</span>stroke)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 0
+Levels: 0 1</code></pre>
+</div>
+</div>
+<p><strong>Assumption 2:</strong> There is a linear relationship between each of the predictor variables and the outcome variable. This is met, but a plot of the residuals against the outcome variables shows a flat magenta line. As shown below</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumption 2: There is linear relationship between the outcome variable and each predictor that is numeric. Categorical predictors are reviewed in the histograms avove</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fourassume<span class="sc">$</span>ageadj <span class="ot">&lt;-</span> fourassume<span class="sc">$</span>age <span class="sc">+</span> <span class="fu">abs</span>(<span class="fu">min</span>(fourassume<span class="sc">$</span>age)) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fourassume<span class="sc">$</span>avg_glucose_leveladj <span class="ot">&lt;-</span> fourassume<span class="sc">$</span>avg_glucose_level <span class="sc">+</span> <span class="fu">abs</span>(<span class="fu">min</span>(fourassume<span class="sc">$</span>avg_glucose_level)) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fourassume<span class="sc">$</span>bmiadj <span class="ot">&lt;-</span> fourassume<span class="sc">$</span>bmi <span class="sc">+</span> <span class="fu">abs</span>(<span class="fu">min</span>(fourassume<span class="sc">$</span>bmi)) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fourassume)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>numeric_vars <span class="ot">&lt;-</span> <span class="fu">sapply</span>(fourassume, is.numeric)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>fourassume_numeric <span class="ot">&lt;-</span> fourassume[, numeric_vars]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(fourassume_numeric))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>fourAdj <span class="ot">&lt;-</span> fourassume</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>fourAdj <span class="ot">&lt;-</span> fourAdj[ , <span class="sc">!</span>(<span class="fu">names</span>(fourAdj) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"heart_disease"</span>, <span class="st">"avg_glucose_level"</span>, <span class="st">"bmi"</span>)) ]</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>model4 <span class="ot">&lt;-</span> <span class="fu">glm</span>(stroke <span class="sc">~</span> ageadj <span class="sc">+</span> avg_glucose_leveladj <span class="sc">+</span> bmiadj, <span class="at">data=</span>fourAdj, <span class="at">family=</span>binomial)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># residualPlots(model4)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">residualPlots</span>(model4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     Test stat Pr(&gt;|Test stat|)
+ageadj                  1.9958           0.1577
+avg_glucose_leveladj    0.0070           0.9331
+bmiadj                  0.3549           0.5514</code></pre>
+</div>
+</div>
+<p><strong>Assumption 3:</strong> There are no substantial outliers. We can demonstratre this by using Cooks D shows a range between 0 and .0122. The rule of thumb is 4/ the nsize. Ie 4/3577 or .0012. While our value of .0122 is 10 times larger than the rule of thumb, it’s a lot less than the danger zone of .05.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumption 3: Assess Influentional Outliers that are numeric. Categorical predictors are reviewed n the hhistrams above</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">alias</span>(model4)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(fourassume_numeric))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">influencePlot</span>(model4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        StudRes          Hat       CookD
+17    2.3495313 0.0040917969 0.014793349
+83    2.5500288 0.0045425981 0.026906139
+87    3.0778217 0.0004677603 0.012890963
+131   3.2110607 0.0003364260 0.014101935
+186  -0.7488292 0.0184781611 0.001532740
+2583 -0.7113787 0.0167417735 0.001232964</code></pre>
+</div>
+</div>
+<p><strong>Assumption 4:</strong> Finally, there is no multicollinearity as shown by using vif from the car package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumption 4: Assess Multicollinearity for numeric predictors</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              ageadj avg_glucose_leveladj               bmiadj 
+            1.070909             1.081460             1.101382 </code></pre>
+</div>
+</div>
+<p>The results show that range is 1.01 to 1.21. Multicollinearity becomes a danger at substantially higher values i.e., 5 or 10. This means there is no collinearity.</p>
+<p><strong>Conclusion:</strong></p>
+<p>the 4 assumptions of Logistic Regression are met.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit of the Model with Nagelkerke R</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hoslem.test</span>(model4<span class="sc">$</span>y, <span class="fu">fitted</span>(model4), <span class="at">g =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Hosmer and Lemeshow goodness of fit (GOF) test
+
+data:  model4$y, fitted(model4)
+X-squared = 8.8522, df = 8, p-value = 0.3549</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nagelkerke</span>(model4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Models
+                                                                                
+Model: "glm, stroke ~ ageadj + avg_glucose_leveladj + bmiadj, binomial, fourAdj"
+Null:  "glm, stroke ~ 1, binomial, fourAdj"                                     
+
+$Pseudo.R.squared.for.model.vs.null
+                             Pseudo.R.squared
+McFadden                            0.1713030
+Cox and Snell (ML)                  0.0691131
+Nagelkerke (Cragg and Uhler)        0.2022700
+
+$Likelihood.ratio.test
+ Df.diff LogLik.diff  Chisq   p.value
+      -3     -120.21 240.42 7.721e-52
+
+$Number.of.observations
+           
+Model: 3357
+Null:  3357
+
+$Messages
+[1] "Note: For models fit with REML, these statistics are based on refitting with ML"
+
+$Warnings
+[1] "None"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictive Capability</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>model4_CM <span class="ot">&lt;-</span> <span class="fu">glm</span>(stroke <span class="sc">~</span> gender <span class="sc">+</span> age <span class="sc">+</span> hypertension <span class="sc">+</span> heart_disease <span class="sc">+</span> ever_married <span class="sc">+</span> work_type <span class="sc">+</span> Residence_type <span class="sc">+</span> avg_glucose_level <span class="sc">+</span> bmi <span class="sc">+</span> smoking_status, <span class="at">data=</span>fourassume, <span class="at">family =</span> binomial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="model-performance-metrics-and-comparison" class="level2">
-<h2 class="anchored" data-anchor-id="model-performance-metrics-and-comparison">4.2. Model Performance Metrics and Comparison</h2>
-<p>The performance of the Logistic Regression model was evaluated on the independent, held-out test set (<span class="math inline">\(N=1022\)</span>). The resulting metrics, crucial for understanding both the discrimination ability and the detection capability of the model, are summarized in Table 2.</p>
-<p>Table 2: Performance Metrics of the Logistic Regression Stroke Prediction Model on Test Set</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 57%">
-<col style="width: 8%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Metric</th>
-<th>Value</th>
-<th>95% Confidence Interval</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Area Under ROC Curve (AUROC)</td>
-<td>0.725</td>
-<td>0.701, 0.749</td>
-</tr>
-<tr class="even">
-<td>Area Under Precision-Recall Curve (AUPRC)</td>
-<td>0.180</td>
-<td>0.155, 0.205</td>
-</tr>
-<tr class="odd">
-<td>Sensitivity (Recall)</td>
-<td>0.700</td>
-<td>0.650, 0.750</td>
-</tr>
-<tr class="even">
-<td>Specificity</td>
-<td>0.722</td>
-<td>0.690, 0.754</td>
-</tr>
-<tr class="odd">
-<td>F1-Score</td>
-<td>0.45</td>
-<td>0.42, 0.48</td>
-</tr>
-</tbody>
-</table>
-<p>The AUROC of 0.725 demonstrates adequate discriminatory ability, aligning closely with benchmarks for conventional statistical models applied to complex clinical endpoints.<span class="citation" data-cites="citation11"><sup>[<a href="#ref-citation11" role="doc-biblioref">7</a>]</sup></span> However, the AUPRC, which is specifically relevant for the rare stroke event, is significantly lower at 0.180. The substantial gap between the AUROC and AUPRC underscores the inherent difficulty in achieving high precision (a low false positive rate) when predicting a minority class outcome.<span class="citation" data-cites="citation9"><sup>[<a href="#ref-citation9" role="doc-biblioref"><strong>citation9?</strong></a>]</sup></span> The high sensitivity (0.700) indicates that the model is effective at detecting true stroke events, which is prioritized in clinical settings where missing a stroke case (a false negative) carries severe consequences.<span class="citation" data-cites="citation9"><sup>[<a href="#ref-citation9" role="doc-biblioref"><strong>citation9?</strong></a>]</sup></span> Conversely, the associated specificity (0.722) suggests a reasonable ability to identify non-stroke patients, balancing the clinical need for safety with resource allocation efficiency.<span class="citation" data-cites="citation26"><sup>[<a href="#ref-citation26" role="doc-biblioref">15</a>]</sup></span></p>
+<section id="developing-3-different-logistic-regression-models" class="level2">
+<h2 class="anchored" data-anchor-id="developing-3-different-logistic-regression-models">6. Developing 3 Different Logistic Regression Models</h2>
+<p>We decided to develop 3 different logistic regression models. The rationale for this came from the percentage of strokes from the Kaggle dataset compared to the percentage of strokes in the US. The percentage of strokes in the Kagle dataset is 5.6%, compared the CDC’s percentage of strokes at 3.1%. There are problems with bias, separation and skewed predicted probabilities.</p>
+<p><strong>(1)</strong> <strong>Small Sample Bias</strong> is an issue where the outcome is a stroke, is rare, which could produce biased parameter estimates. So, there is a danger of over or under estimation of stroke risk, because the dataset’s prevalence rate differs from the population in the US.</p>
+<p><strong>(2)</strong> <strong>Separation:</strong> if the dataset is imbalanced there is a danger of categories of predictors predicting the outcome at a perfect percentage of 100% or near perfect. The Coefficient estimates can become infinite or very large making the basic logistic regression model unreliable.</p>
+<p><strong>(3)</strong> <strong>Miscallibrated probabilities:</strong> The predicted probabilities from standard logistic regression can be skewed when the datasets outcome of a stroke, 5.6% doesn’t match the population levels.</p>
+<p>Because of these reasons, 2 alternative models are being used to compare. Firth Regression and Refinement of Firth Regression called FLIC.</p>
+<p>In datasets of rare events, <strong>Firth Regression</strong> introduces bias reduction through Jeffries Prior that reduces the biases in datasets with rare events. This pulls parameter estimates away from infinity and large numbers.</p>
+<p><strong>Firth regression</strong> produced refined finite estimates even if there is perfect prediction between predictors that perfectly separate stroke vs no stroke cases.</p>
+<p>Finally, <strong>Firth Regression</strong> produces results similar to large sample sizes.</p>
+<p><strong>Probability calibration:</strong> Firth regression, while correcting bias, tends to bias predicted event probabilities (average predicted toward 0.5).The stroke model could predict higher risk for all, regardless of the actual prevalence.</p>
+<p><strong>FLIC (Firth’s logistic regression with intercept correction)</strong> adjusts the intercept after fitting the model so that the average predicted probability exactly matches the observed rate in your data (5.6% in this case). This is especially useful if your sample prevalence intentionally differs from the “true” population prevalence, as in case-control studies or enriched samples.</p>
+<p>Hence there 3 models, base, Firth, and Flic Logistic Regression models.</p>
 </section>
-<section id="multivariate-logistic-regression-findings-and-odds-ratio-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="multivariate-logistic-regression-findings-and-odds-ratio-analysis">4.3. Multivariate Logistic Regression Findings and Odds Ratio Analysis</h2>
-<p>The core of the LR analysis is the output of the multivariate model, which provides the estimated <span class="math inline">\(\beta\)</span> coefficients and the exponentiated coefficients (Odds Ratios, ORs) for each predictor.32<span class="citation" data-cites="citation32"><sup>[<a href="#ref-citation32" role="doc-biblioref"><strong>citation32?</strong></a>]</sup></span> These results quantify the impact of each variable independently, holding all other variables constant.</p>
-<p>Table 3: Multivariate Logistic Regression Analysis of Stroke Predictors</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 19%">
-<col style="width: 15%">
-<col style="width: 13%">
-<col style="width: 14%">
-<col style="width: 6%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Independent Variable</th>
-<th>Partial Coefficient (β)</th>
-<th>Standard Error (SE)</th>
-<th>Odds Ratio (OR)</th>
-<th>95% CI for OR</th>
-<th>P-value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Age (per 10 years increase)</td>
-<td>0.948</td>
-<td>0.101</td>
-<td>2.58</td>
-<td>2.13, 3.12</td>
-<td>&lt;0.001</td>
-</tr>
-<tr class="even">
-<td>Hypertension (Yes vs No)</td>
-<td>0.678</td>
-<td>0.150</td>
-<td>1.97</td>
-<td>1.46, 2.66</td>
-<td>&lt;0.001</td>
-</tr>
-<tr class="odd">
-<td>Avg. Glucose Level (per 10 units)</td>
-<td>0.049</td>
-<td>0.021</td>
-<td>1.05</td>
-<td>1.02, 1.08</td>
-<td>0.012</td>
-</tr>
-<tr class="even">
-<td>Heart Disease (Yes vs No)</td>
-<td>0.297</td>
-<td>0.183</td>
-<td>1.35</td>
-<td>0.94, 1.95</td>
-<td>0.100</td>
-</tr>
-<tr class="odd">
-<td>Smoking Status (Current vs Never)</td>
-<td>0.122</td>
-<td>0.089</td>
-<td>1.13</td>
-<td>0.95, 1.34</td>
-<td>0.178</td>
-</tr>
-<tr class="even">
-<td>Intercept (β0)</td>
-<td>-8.55</td>
-<td>0.450</td>
-<td>-</td>
-<td>-</td>
-<td>&lt;0.001</td>
-</tr>
-</tbody>
-</table>
-<p>Variables demonstrating statistically significant independent association with stroke risk (<span class="math inline">\(p&lt;0.05\)</span>) were Age, Hypertension, and Average Glucose Level. Age showed the strongest association; for every 10-year increase in age, the odds of suffering a stroke increase by a factor of 2.58, assuming all other clinical variables remain constant. This finding reinforces age as the single most influential determinant of stroke risk, consistent with external feature ranking analyses.33<span class="citation" data-cites="citation33"><sup>[<a href="#ref-citation33" role="doc-biblioref">19</a>]</sup></span></p>
-<p>Similarly, the presence of hypertension significantly elevated risk (OR 1.97). Elevated average glucose level also contributed independently to risk (OR 1.05 per 10 units of glucose increase). Conversely, variables such as Heart Disease and Smoking Status, while clinically relevant, did not achieve statistical significance in this specific multivariate model (<span class="math inline">\(p=0.100\)</span> and <span class="math inline">\(p=0.178\)</span> respectively). This suggests that their predictive power may be largely captured by the inclusion of Age and Hypertension in the model, demonstrating the analytical utility of LR in dissecting complex risk factor associations and controlling for confounding effects.22<span class="citation" data-cites="citation22"><sup>[<a href="#ref-citation22" role="doc-biblioref">14</a>]</sup></span></p>
+<section id="analyzing-the-3-models" class="level2">
+<h2 class="anchored" data-anchor-id="analyzing-the-3-models">7. Analyzing the 3 models</h2>
+<p>The Three different Models of Logistic Regression: Baseline Firth and Flic Correction. We are creating 3 different models to really test to see if the dataset had a stroke percentage that is less than the real percentage of stroke to population ratio in the US. Because this is a so called “rare event” Firth regression takes this into account. as does its refinement FLIC.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Baseline Logistic Regression</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>model_base <span class="ot">&lt;-</span> <span class="fu">glm</span>(formula, <span class="at">data=</span>strokeclean, <span class="at">family=</span>binomial)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>prob_base <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_base, <span class="at">type=</span><span class="st">"response"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Firth Logistic Regression</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>model_firth <span class="ot">&lt;-</span> <span class="fu">logistf</span>(formula, <span class="at">data=</span>strokeclean)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>prob_firth <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_firth, <span class="at">type=</span><span class="st">"response"</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># FLIC Correction (this correction changes the intercept)</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>model_flic <span class="ot">&lt;-</span> <span class="fu">flic</span>(formula, <span class="at">data=</span>strokeclean)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>prob_flic <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_flic, <span class="at">type=</span><span class="st">"response"</span>)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> strokeclean<span class="sc">$</span>stroke</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Creating Youdens J. Youden’s J is a good way to look at how well each model balances sensitivity and selectivity. The closer to the curve, a Youden’s J is the better the model can distinguish between sensitivity and selectivity.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>youden_point <span class="ot">&lt;-</span> <span class="cf">function</span>(roc_obj) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  coords <span class="ot">&lt;-</span> <span class="fu">coords</span>(roc_obj, <span class="st">"best"</span>, <span class="at">best.method =</span> <span class="st">"youden"</span>, <span class="at">ret=</span><span class="fu">c</span>(<span class="st">"threshold"</span>, <span class="st">"sensitivity"</span>, <span class="st">"specificity"</span>, <span class="st">"youden"</span>))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(coords)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Results:</p>
+<p>Plot the ROC curves and Annotate Youden’s J on each of the Curve</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pred_base <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(prob_base <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>pred_firth <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(prob_firth <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>pred_flic <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(prob_flic <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>), <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> <span class="cf">function</span>(pred, prob, labels, name) {</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred, labels, <span class="at">positive =</span> <span class="st">"1"</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  roc_obj <span class="ot">&lt;-</span> <span class="fu">roc</span>(labels, <span class="fu">as.numeric</span>(prob))</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  auc_val <span class="ot">&lt;-</span> <span class="fu">auc</span>(roc_obj)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  precision <span class="ot">&lt;-</span> cm<span class="sc">$</span>byClass[<span class="st">"Pos Pred Value"</span>]</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  recall <span class="ot">&lt;-</span> cm<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>]</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  f1 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> ((precision <span class="sc">*</span> recall) <span class="sc">/</span> (precision <span class="sc">+</span> recall))</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  youden <span class="ot">&lt;-</span> <span class="fu">youden_point</span>(roc_obj)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># All list arguments separated by commas only, no '+'</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">confusion =</span> cm<span class="sc">$</span>table,</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">precision =</span> precision,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">recall =</span> recall,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">f1 =</span> f1,</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">auc =</span> auc_val,</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">roc_obj =</span> roc_obj,</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">youden =</span> youden,</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> name</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Intialize Results. We have to initialize results before calling the model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>results_base <span class="ot">&lt;-</span> <span class="fu">metrics</span>(pred_base, prob_base, labels, <span class="st">"Baseline LR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting levels: control = 0, case = 1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting direction: controls &lt; cases</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>results_firth <span class="ot">&lt;-</span> <span class="fu">metrics</span>(pred_firth, prob_firth, labels, <span class="st">"firth LR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting levels: control = 0, case = 1
+Setting direction: controls &lt; cases</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>results_flic <span class="ot">&lt;-</span> <span class="fu">metrics</span>(pred_flic, prob_flic, labels, <span class="st">"flic LR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting levels: control = 0, case = 1
+Setting direction: controls &lt; cases</code></pre>
+</div>
+</div>
+<p>Print Results</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">== Baseline Logistic Regression ==</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+== Baseline Logistic Regression ==</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results_base[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$confusion
+          Reference
+Prediction    0    1
+         0 3177  178
+         1    0    2
+
+$precision
+Pos Pred Value 
+             1 
+
+$recall
+Sensitivity 
+ 0.01111111 
+
+$f1
+Pos Pred Value 
+    0.02197802 
+
+$auc
+Area under the curve: 0.8285
+
+$roc_obj
+
+Call:
+roc.default(response = labels, predictor = as.numeric(prob))
+
+Data: as.numeric(prob) in 3177 controls (labels 0) &lt; 180 cases (labels 1).
+Area under the curve: 0.8285</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Youden's J (optimal threshold):</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Youden's J (optimal threshold):</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results_base<span class="sc">$</span>youden)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   threshold sensitivity specificity   youden
+1 0.06934436   0.7444444   0.7777778 1.522222</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">== Firth Logistic Regression ==</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+== Firth Logistic Regression ==</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results_firth[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$confusion
+          Reference
+Prediction    0    1
+         0 3176  178
+         1    1    2
+
+$precision
+Pos Pred Value 
+     0.6666667 
+
+$recall
+Sensitivity 
+ 0.01111111 
+
+$f1
+Pos Pred Value 
+    0.02185792 
+
+$auc
+Area under the curve: 0.8285
+
+$roc_obj
+
+Call:
+roc.default(response = labels, predictor = as.numeric(prob))
+
+Data: as.numeric(prob) in 3177 controls (labels 0) &lt; 180 cases (labels 1).
+Area under the curve: 0.8285</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Youden's J (optimal threshold):</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Youden's J (optimal threshold):</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results_firth<span class="sc">$</span>youden)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   threshold sensitivity specificity   youden
+1 0.07100345   0.7444444   0.7777778 1.522222</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">== FLIC Logistic Regression ==</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+== FLIC Logistic Regression ==</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results_flic[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$confusion
+          Reference
+Prediction    0    1
+         0 3177  178
+         1    0    2
+
+$precision
+Pos Pred Value 
+             1 
+
+$recall
+Sensitivity 
+ 0.01111111 
+
+$f1
+Pos Pred Value 
+    0.02197802 
+
+$auc
+Area under the curve: 0.8285
+
+$roc_obj
+
+Call:
+roc.default(response = labels, predictor = as.numeric(prob))
+
+Data: as.numeric(prob) in 3177 controls (labels 0) &lt; 180 cases (labels 1).
+Area under the curve: 0.8285</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Youden's J (optimal threshold):</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Youden's J (optimal threshold):</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(results_flic<span class="sc">$</span>youden)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   threshold sensitivity specificity   youden
+1 0.06935441   0.7444444   0.7777778 1.522222</code></pre>
+</div>
+</div>
+<p>Plot the ROC curves and Annotate Youden’s J on each of the Curves</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(results_base<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"cyan"</span>, <span class="at">main=</span><span class="st">"ROC Curves: Baseline (blue) vs Firth (red)"</span>)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(results_firth<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"magenta"</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(results_flic<span class="sc">$</span>roc_obj, <span class="at">col =</span><span class="st">"gold"</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">auc</span>(results_base<span class="sc">$</span>roc_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area under the curve: 0.8285</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">auc</span>(results_firth<span class="sc">$</span>roc_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area under the curve: 0.8285</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">auc</span>(results_flic<span class="sc">$</span>roc_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area under the curve: 0.8285</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">-</span>results_base<span class="sc">$</span>youden[<span class="st">"specificity"</span>],</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  results_base<span class="sc">$</span>youden[<span class="st">"sensitivity"</span>],</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">col=</span><span class="st">"cyan"</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">1.5</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">-</span>results_firth<span class="sc">$</span>youden[<span class="st">"specificity"</span>],</span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  results_firth<span class="sc">$</span>youden[<span class="st">"sensitivity"</span>],</span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">col=</span><span class="st">"magenta"</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">1.5</span></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(</span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">-</span>results_flic<span class="sc">$</span>youden[<span class="st">"specificity"</span>],</span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>  results_flic<span class="sc">$</span>youden[<span class="st">"sensitivity"</span>],</span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">col=</span><span class="st">"gold"</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">1.5</span></span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"Baseline"</span>, <span class="st">"Firth"</span>,<span class="st">"flic"</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">"cyan"</span>, <span class="st">"magenta"</span>, <span class="st">"gold"</span>), <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(</span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="dv">1</span><span class="sc">-</span>results_base<span class="sc">$</span>youden[<span class="st">"specificity"</span>], <span class="at">y=</span>results_base<span class="sc">$</span>youden[<span class="st">"sensitivity"</span>],</span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">"Youden: "</span>, <span class="fu">round</span>(results_base<span class="sc">$</span>youden[<span class="st">"youden"</span>], <span class="dv">3</span>)),</span>
+<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">pos=</span><span class="dv">4</span>, <span class="at">col=</span><span class="st">"cyan"</span></span>
+<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(</span>
+<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="dv">1</span><span class="sc">-</span>results_firth<span class="sc">$</span>youden[<span class="st">"specificity"</span>], <span class="at">y=</span>results_firth<span class="sc">$</span>youden[<span class="st">"sensitivity"</span>],</span>
+<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">"Youden: "</span>, <span class="fu">round</span>(results_firth<span class="sc">$</span>youden[<span class="st">"youden"</span>], <span class="dv">3</span>)),</span>
+<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">pos=</span><span class="dv">4</span>, <span class="at">col=</span><span class="st">"magenta"</span></span>
+<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(</span>
+<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="dv">1</span><span class="sc">-</span>results_flic<span class="sc">$</span>youden[<span class="st">"specificity"</span>], <span class="at">y=</span>results_flic<span class="sc">$</span>youden[<span class="st">"sensitivity"</span>],</span>
+<span id="cb68-31"><a href="#cb68-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">"Youden: "</span>, <span class="fu">round</span>(results_flic<span class="sc">$</span>youden[<span class="st">"youden"</span>], <span class="dv">3</span>)),</span>
+<span id="cb68-32"><a href="#cb68-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">pos=</span><span class="dv">4</span>, <span class="at">col=</span><span class="st">"gold"</span></span>
+<span id="cb68-33"><a href="#cb68-33" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we see the results. Note that overlaying the curves and Youden’s J is EXACTLY the same for all three models. This is a strong indication that the dataset is currently balanced enough to distinguish between stroke and non stroke. <strong>The bias, if any, would have shown up in a different AUC curve, and a different Youden’s J. It does not.</strong></p>
+<p>Plot the Confusion Matrices</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">2</span>))  <span class="co"># more top margin for all</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fourfoldplot</span>(results_base<span class="sc">$</span>confusion, <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"lightskyblue"</span>, <span class="st">"plum2"</span>),</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">conf.level =</span> <span class="dv">0</span>, <span class="at">margin =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Baseline Confusion Matrix"</span>)</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fourfoldplot</span>(results_firth<span class="sc">$</span>confusion, <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"lightskyblue"</span>, <span class="st">"plum2"</span>),</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">conf.level =</span> <span class="dv">0</span>, <span class="at">margin =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Firth Confusion Matrix"</span>)</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="fu">fourfoldplot</span>(results_flic<span class="sc">$</span>confusion, <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"lightskyblue"</span>, <span class="st">"plum2"</span>),</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">conf.level =</span> <span class="dv">0</span>, <span class="at">margin =</span> <span class="dv">1</span>, <span class="at">main =</span> <span class="st">"Flic Confusion Matrix"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="report_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>)) <span class="co"># Reset to default after</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-</section>
-<section id="discussion" class="level1">
-<h1>5. Discussion</h1>
-<section id="translating-statistical-interpretation-to-clinical-practice" class="level2">
-<h2 class="anchored" data-anchor-id="translating-statistical-interpretation-to-clinical-practice">5.1. Translating Statistical Interpretation to Clinical Practice</h2>
-<p>The central value proposition of employing Logistic Regression in clinical risk prediction is its explicit interpretability, fundamentally delivered through the Odds Ratio.<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">4</a>]</sup></span> Unlike coefficients derived from complex black-box algorithms, which require post-hoc explainability tools (e.g., SHAP) to estimate feature importance<span class="citation" data-cites="citation10"><sup>[<a href="#ref-citation10" role="doc-biblioref">6</a>]</sup></span>, the LR model provides direct, quantified relationships between risk factors and outcome probability.</p>
-<p>The calculated ORs for Age and Hypertension provide immediate, actionable quantitative data for clinicians. For example, knowing that a patient with hypertension has nearly twice the odds of experiencing a stroke compared to a non-hypertensive patient (holding other factors constant) allows for precise risk communication.<span class="citation" data-cites="citation5"><sup>[<a href="#ref-citation5" role="doc-biblioref">4</a>]</sup></span> This level of transparency facilitates evidence-based decision-making and supports the adoption of preventative measures like initiating prophylactic statin therapy or aggressively managing blood pressure.<span class="citation" data-cites="citation2"><sup>[<a href="#ref-citation2" role="doc-biblioref">2</a>]</sup></span> The fact that these statistically derived importance scores align perfectly with established clinical understanding, where hypertension and age are known high-risk factors<span class="citation" data-cites="citation12"><sup>[<a href="#ref-citation12" role="doc-biblioref">8</a>]</sup></span>, strengthens the trust necessary for model deployment in high-stakes healthcare environments.<span class="citation" data-cites="citation20"><sup>[<a href="#ref-citation20" role="doc-biblioref"><strong>citation20?</strong></a>]</sup></span></p>
-</section>
-<section id="comparative-performance-and-the-argument-for-simplicity" class="level2">
-<h2 class="anchored" data-anchor-id="comparative-performance-and-the-argument-for-simplicity">5.2. Comparative Performance and the Argument for Simplicity</h2>
-<p>While the LR model demonstrated robust discrimination (AUROC 0.725), it is acknowledged that other, more complex machine learning approaches have achieved numerically higher AUROC values in comparable studies.<span class="citation" data-cites="citation26"><sup>[<a href="#ref-citation26" role="doc-biblioref">15</a>]</sup></span> However, this study strategically prioritizes LR based on established principles in medical informatics.</p>
-<p>Firstly, evidence suggests that the practical benefits of advanced ML models, such as deep learning, only significantly emerge when the models are trained on sample sizes several magnitudes larger than conventional clinical datasets.<span class="citation" data-cites="citation29"><sup>[<a href="#ref-citation29" role="doc-biblioref"><strong>citation29?</strong></a>]</sup></span> When the feature space is limited (11 clinical variables) and the sample size is moderate, the increased mathematical complexity of advanced ML models often does not translate into superior performance upon external validation, as indicated by systematic reviews.<span class="citation" data-cites="citation28"><sup>[<a href="#ref-citation28" role="doc-biblioref">16</a>]</sup></span> In fact, linear models have been shown to outperform complex models on small datasets.<span class="citation" data-cites="citation29"><sup>[<a href="#ref-citation29" role="doc-biblioref"><strong>citation29?</strong></a>]</sup></span></p>
-<p>Secondly, model reliability, measured through calibration, is frequently a stronger performance indicator for clinical deployment than raw discriminatory power (AUROC).<span class="citation" data-cites="citation16"><sup>[<a href="#ref-citation16" role="doc-biblioref"><strong>citation16?</strong></a>]</sup></span> LR models often demonstrate good calibration, ensuring that a predicted probability (e.g., 20% risk) accurately reflects the observed incidence rate in that risk cohort.<span class="citation" data-cites="citation28"><sup>[<a href="#ref-citation28" role="doc-biblioref">16</a>]</sup></span> Furthermore, complex models introduce methodological challenges, such as difficulties in thoughtful model specification and criticism, especially when integrating multiple data sources.<span class="citation" data-cites="citation34"><sup>[<a href="#ref-citation34" role="doc-biblioref"><strong>citation34?</strong></a>]</sup></span> For generalizable primary prevention models, prioritizing an interpretable model with reliable calibration over marginal gains in AUROC is a defensible clinical strategy.</p>
-</section>
-<section id="ethical-implications-bias-and-fairness" class="level2">
-<h2 class="anchored" data-anchor-id="ethical-implications-bias-and-fairness">5.3. Ethical Implications, Bias, and Fairness</h2>
-<p>The application of predictive modeling in healthcare carries significant ethical obligations, particularly regarding bias and fairness.<span class="citation" data-cites="citation35"><sup>[<a href="#ref-citation35" role="doc-biblioref">20</a>]</sup></span> Systemic biases in model outputs can originate from imbalanced training data, which leads to the underrepresentation of certain patient groups and potentially results in inequitable healthcare access or outcomes.<span class="citation" data-cites="citation35"><sup>[<a href="#ref-citation35" role="doc-biblioref">20</a>]</sup></span></p>
-<p>The decision to address the dataset’s severe class imbalance through sampling techniques during the methodology phase was critical not just for statistical performance (improving sensitivity and AUPRC) but for addressing potential fairness concerns. Failure to accurately classify the minority (stroke) class results in high false negative rates, which could disproportionately affect specific subgroups if the model learned to ignore their subtle risk cues. While bias refers to systematic errors in model development, fairness is concerned with how equitably the model performs across different demographic groups.<span class="citation" data-cites="citation35"><sup>[<a href="#ref-citation35" role="doc-biblioref">20</a>]</sup></span></p>
-<p>Future development must move beyond overall performance parity (like aggregate AUROC) to evaluate specific fairness criteria, such as <strong>equalized odds</strong> or <strong>predictive rate parity</strong>.<span class="citation" data-cites="citation36"><sup>[<a href="#ref-citation36" role="doc-biblioref"><strong>citation36?</strong></a>]</sup></span> These criteria ensure that the error rates (false positives and false negatives) or predictive values are equitable across critical subgroups (e.g., by gender or race). The inherent interpretability of LR simplifies this ethical auditing process, as coefficients can be directly scrutinized for potential demographic weighting, which is significantly more challenging in opaque ML models.<span class="citation" data-cites="citation20"><sup>[<a href="#ref-citation20" role="doc-biblioref"><strong>citation20?</strong></a>]</sup></span> Transparency and generalizability, ensuring the model accounts for data from diverse patient populations, are fundamental ethical guardrails for AI in stroke research.<span class="citation" data-cites="citation19"><sup>[<a href="#ref-citation19" role="doc-biblioref"><strong>citation19?</strong></a>]</sup></span></p>
-</section>
-<section id="limitations-and-future-research-directions" class="level2">
-<h2 class="anchored" data-anchor-id="limitations-and-future-research-directions">5.4. Limitations and Future Research Directions</h2>
-<p>This study is subject to several limitations. First, the model was validated solely using an internal test set derived from the same source population. As demonstrated in comparative literature, models often underperform when assessed in independent, external validation datasets due to reduced transportability.@citation28 Second, the feature set was restricted to 11 common clinical variables. More advanced risk prediction may be possible by integrating supplementary data, such as detailed physical activity metrics or neuroimaging-derived measures like lesion location.<span class="citation" data-cites="citation10"><sup>[<a href="#ref-citation10" role="doc-biblioref">6</a>]</sup></span> The omission of key factors related to acute stroke management or patient preferences for rehabilitation also limits the model’s scope for predicting functional recovery outcomes.<span class="citation" data-cites="citation16"><sup>[<a href="#ref-citation16" role="doc-biblioref"><strong>citation16?</strong></a>]</sup></span> Furthermore, as a linear model, LR cannot capture non-linear interactions or highly complex epidemiological relationships between risk factors.<span class="citation" data-cites="citation34"><sup>[<a href="#ref-citation34" role="doc-biblioref"><strong>citation34?</strong></a>]</sup></span></p>
-<p>Future research should focus on three primary areas. First, external validation of this LR model is necessary to confirm its generalizability across different clinical sites and populations. Second, comparative studies should prioritize clinical utility metrics—specifically Decision Curve Analysis (DCA) and detailed Calibration—to objectively assess whether non-linear ML models offer tangible clinical net benefits over simpler, more interpretable models like LR.<span class="citation" data-cites="citation16"><sup>[<a href="#ref-citation16" role="doc-biblioref"><strong>citation16?</strong></a>]</sup></span> Third, future predictive modeling efforts must integrate rigorous fairness-aware validation, ensuring equalized error rates across defined patient subgroups to support safe and equitable deployment in real-world healthcare settings.<span class="citation" data-cites="citation35"><sup>[<a href="#ref-citation35" role="doc-biblioref">20</a>]</sup></span></p>
-</section>
-</section>
-<section id="conclusion" class="level1">
-<h1>6. Conclusion</h1>
-<p>The Logistic Regression model developed and validated in this study offers a robust, highly interpretable, and reproducible tool for stroke risk stratification using standardized clinical predictors. The model successfully quantified the independent risks associated with core factors, confirming that Age and Hypertension are the most significant drivers of stroke probability, providing the results in the form of clear, clinically actionable Odds Ratios. While complex machine learning methods continue to push boundaries in performance metrics, the transparency and reliable calibration of Logistic Regression ensure its critical role in clinical prediction. By executing the analysis through a transparent Quarto workflow, this research advocates for reproducibility as a mandatory standard in medical informatics. Ultimately, the simplicity and interpretability of LR enhance clinician trust and facilitate the direct application of personalized risk information, which is essential for guiding primary prevention strategies and improving public health outcomes.</p>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">8. Conclusion</h2>
+<p>The results indicate that the confusion matrices are the same. So the conclusion we can reach is there was no significant bias in the dataset. The dataset can distinguish between stroke and non stroke events with sufficient selectivity.</p>
 <section id="references" class="level3">
 <h3 class="anchored" data-anchor-id="references">References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
@@ -717,59 +1446,35 @@ window.Quarto = {
 <div id="ref-citation2" class="csl-entry" role="listitem">
 2. Boehme, A., Esenwa, C., &amp; Elkind, M. (2017). Stroke: A global health crisis. <em>Circulation Research</em>, <em>123</em>(4), 459–471.
 </div>
-<div id="ref-citation4" class="csl-entry" role="listitem">
-3. Wang, L. (2023). Logistic regression for stroke prediction: An evaluation of its accuracy and validity. <em>International Journal of Advanced Medical Informatics</em>, <em>15</em>(2), 112–125.
-</div>
-<div id="ref-citation5" class="csl-entry" role="listitem">
-4. Steyerberg, E., Moons, K., &amp; Van Calster, B. (2025). The role of logistic regression in clinical prediction: A narrative review. <em>Academic Medicine and Surgery</em>, <em>2</em>(1), 10001–10015.
-</div>
-<div id="ref-citation7" class="csl-entry" role="listitem">
-5. Allaire, J., &amp; Yihui, X. (2024). Quarto: Publishable scientific and technical documents. <em>Journal of Statistical Software</em>, <em>109</em>(1), 1–25.
-</div>
-<div id="ref-citation10" class="csl-entry" role="listitem">
-6. Liu, T., Hu, M., &amp; Wang, Y. (2025). Machine learning algorithms for stroke risk prediction: A comprehensive evaluation. <em>Frontiers in Neurology</em>, <em>16</em>, 1668420.
-</div>
-<div id="ref-citation11" class="csl-entry" role="listitem">
-7. Chen, S., Liu, Y., &amp; Zhang, L. (2024). Comparison of machine learning models for predicting stroke risk in hypertensive patients. <em>BMC Cardiovascular Disorders</em>, <em>24</em>, 305.
-</div>
-<div id="ref-citation12" class="csl-entry" role="listitem">
-8. Sun, W., Liu, M., &amp; Li, S. (2021). Feature ranking and risk analysis for stroke prediction using machine learning. <em>IEEE Access</em>, <em>9</em>, 78901–78913.
-</div>
 <div id="ref-citation14" class="csl-entry" role="listitem">
-9. Buongiorno, R., Caudai, C., Colantonio, S., &amp; Germanese, D. (2024). Integrating AI in personalized disease management: New trends in medical informatics. <em>Proceedings of the International Conference on Health Informatics</em>, 112–120.
+3. Buongiorno, R., Caudai, C., Colantonio, S., &amp; Germanese, D. (2024). Integrating AI in personalized disease management: New trends in medical informatics. <em>Proceedings of the International Conference on Health Informatics</em>, 112–120.
 </div>
 <div id="ref-citation15" class="csl-entry" role="listitem">
-10. Luo, W., Ye, H., &amp; Zou, T. (2024). Guidelines for developing and reporting machine learning predictive models in biomedical research: A multidisciplinary view. <em>Journal of Medical Internet Research</em>, <em>26</em>(1), e50890.
+4. Luo, W., Ye, H., &amp; Zou, T. (2024). Guidelines for developing and reporting machine learning predictive models in biomedical research: A multidisciplinary view. <em>Journal of Medical Internet Research</em>, <em>26</em>(1), e50890.
 </div>
 <div id="ref-citation17" class="csl-entry" role="listitem">
-11. Wu, Y., Chen, M., &amp; Li, H. (2023). Machine learning algorithms for stroke risk prediction: A review of feature selection and model performance. <em>Medical Informatics and Decision Making</em>, <em>23</em>(1), 304.
+5. Wu, Y., Chen, M., &amp; Li, H. (2023). Machine learning algorithms for stroke risk prediction: A review of feature selection and model performance. <em>Medical Informatics and Decision Making</em>, <em>23</em>(1), 304.
 </div>
 <div id="ref-citation18" class="csl-entry" role="listitem">
-12. Holzinger, A., Keil, P., &amp; Kappel, M. (2024). Explainable AI (XAI) in healthcare: A review of opportunities and challenges. <em>Artificial Intelligence in Medicine</em>, <em>150</em>, 102875.
+6. Holzinger, A., Keil, P., &amp; Kappel, M. (2024). Explainable AI (XAI) in healthcare: A review of opportunities and challenges. <em>Artificial Intelligence in Medicine</em>, <em>150</em>, 102875.
 </div>
-<div id="ref-citation23" class="csl-entry" role="listitem">
-13. Zou, T., He, Q., &amp; Liu, M. (2023). Performance metrics for imbalanced classification in medical diagnosis: Moving beyond accuracy. <em>Diagnostics</em>, <em>13</em>(15), 2590.
+<div id="ref-citation4" class="csl-entry" role="listitem">
+7. Wang, L. (2023). Logistic regression for stroke prediction: An evaluation of its accuracy and validity. <em>International Journal of Advanced Medical Informatics</em>, <em>15</em>(2), 112–125.
+</div>
+<div id="ref-citation5" class="csl-entry" role="listitem">
+8. Steyerberg, E., Moons, K., &amp; Van Calster, B. (2025). The role of logistic regression in clinical prediction: A narrative review. <em>Academic Medicine and Surgery</em>, <em>2</em>(1), 10001–10015.
 </div>
 <div id="ref-citation22" class="csl-entry" role="listitem">
-14. McHugh, M. (2013). Logistic regression: The procedure, interpretation, and application. <em>Journal of Biostatistics and Epidemiology</em>, <em>4</em>(2), 167–172.
+9. McHugh, M. (2013). Logistic regression: The procedure, interpretation, and application. <em>Journal of Biostatistics and Epidemiology</em>, <em>4</em>(2), 167–172.
 </div>
-<div id="ref-citation26" class="csl-entry" role="listitem">
-15. Wang, Y., Li, H., &amp; Chen, G. (2022). Predicting stroke outcome: Comparison of generalized regression neural network and logistic regression. <em>International Journal of Medical Sciences</em>, <em>19</em>(5), 800–807.
+<div id="ref-citation23" class="csl-entry" role="listitem">
+10. Zou, T., He, Q., &amp; Liu, M. (2023). Performance metrics for imbalanced classification in medical diagnosis: Moving beyond accuracy. <em>Diagnostics</em>, <em>13</em>(15), 2590.
 </div>
-<div id="ref-citation28" class="csl-entry" role="listitem">
-16. Jelmer, M., Wynants, L., &amp; Van Calster, B. (2019). A systematic review shows no performance benefit of machine learning over logistic regression for clinical prediction models. <em>Journal of Clinical Epidemiology</em>, <em>110</em>, 12–22.
+<div id="ref-citation10" class="csl-entry" role="listitem">
+11. Liu, T., Hu, M., &amp; Wang, Y. (2025). Machine learning algorithms for stroke risk prediction: A comprehensive evaluation. <em>Frontiers in Neurology</em>, <em>16</em>, 1668420.
 </div>
-<div id="ref-citation6" class="csl-entry" role="listitem">
-17. Shah, J. (2021). <em>Stroke prediction using logistic regression</em>. Kaggle Notebook. <a href="https://www.kaggle.com/code/js1312/stroke-prediction-using-logistic-regression">https://www.kaggle.com/code/js1312/stroke-prediction-using-logistic-regression</a>
-</div>
-<div id="ref-citation8" class="csl-entry" role="listitem">
-18. Al-Shaykh, A., Alghazawi, M., &amp; Al-Haddad, R. (2024). Addressing class imbalance in stroke prediction: A comparative analysis of sampling techniques. <em>Journal of Biomedical Informatics</em>, <em>149</em>, 104543.
-</div>
-<div id="ref-citation33" class="csl-entry" role="listitem">
-19. Gao, Y., Zhang, L., &amp; Li, Q. (2025). SHAP analysis reveals the dominance of clinical comorbidities in postoperative stroke prediction. <em>Journal of Surgical Research</em>, <em>301</em>, 112–120.
-</div>
-<div id="ref-citation35" class="csl-entry" role="listitem">
-20. Gichoya, J., Many, J., &amp; Zafar, A. (2025). Bias and fairness in patient-level prediction models: Ethical and technical challenges. <em>Journal of the American Medical Informatics Association Open</em>, <em>8</em>(5), ooaf115.
+<div id="ref-citation7" class="csl-entry" role="listitem">
+12. Allaire, J., &amp; Yihui, X. (2024). Quarto: Publishable scientific and technical documents. <em>Journal of Statistical Software</em>, <em>109</em>(1), 1–25.
 </div>
 </div>
 

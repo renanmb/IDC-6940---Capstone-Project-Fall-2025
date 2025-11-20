@@ -47,7 +47,6 @@ renv::activate("website")
 
 ```{r setup}
 #| code-fold: true
-#| label: load-libraries
 #| message: false
 #| warning: false
 
