@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Renan Monteiro Barbosa">
+<meta name="description" content="putting together draft from shree messy code">
+
+<title>Draft for Final Report - Shree repo - v01 – IDC-6940 - Capstone Project Fall-2025</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-1773efb2f7ab98e3656670b7729847ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-cef3429e03e90a75e86301dc8df8cee2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-1773efb2f7ab98e3656670b7729847ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">IDC-6940 - Capstone Project Fall-2025</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../report.html"> 
+<span class="menu-text">Report</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Literature Review</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../people/index.html"> 
+<span class="menu-text">About Us</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/renanmb/IDC-6940---Capstone-Project-Fall-2025" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#literature-review" id="toc-literature-review" class="nav-link" data-scroll-target="#literature-review">Literature Review</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
+  <ul class="collapse">
+  <li><a href="#dataset-description" id="toc-dataset-description" class="nav-link" data-scroll-target="#dataset-description">1. Dataset Description</a></li>
+  <li><a href="#data-cleaning-and-preparation" id="toc-data-cleaning-and-preparation" class="nav-link" data-scroll-target="#data-cleaning-and-preparation">2. Data Cleaning and Preparation</a></li>
+  </ul></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data Cleaning</a>
+  <ul class="collapse">
+  <li><a href="#removing-non-predictive-identifiers-1" id="toc-removing-non-predictive-identifiers-1" class="nav-link" data-scroll-target="#removing-non-predictive-identifiers-1">1. Removing Non-Predictive Identifiers</a></li>
+  <li><a href="#converting-variables-to-appropriate-data-types" id="toc-converting-variables-to-appropriate-data-types" class="nav-link" data-scroll-target="#converting-variables-to-appropriate-data-types">2. Converting Variables to Appropriate Data Types</a></li>
+  <li><a href="#handling-rare-categories-1" id="toc-handling-rare-categories-1" class="nav-link" data-scroll-target="#handling-rare-categories-1">3. Handling Rare Categories</a></li>
+  </ul></li>
+  <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models">Models</a>
+  <ul class="collapse">
+  <li><a href="#model-formula" id="toc-model-formula" class="nav-link" data-scroll-target="#model-formula">Model Formula</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#evaluation-function" id="toc-evaluation-function" class="nav-link" data-scroll-target="#evaluation-function">Evaluation Function</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
+  <ul class="collapse">
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings">Key Findings</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#final-summary" id="toc-final-summary" class="nav-link" data-scroll-target="#final-summary">Final Summary</a></li>
+  <li><a href="#key-findings-1" id="toc-key-findings-1" class="nav-link" data-scroll-target="#key-findings-1">Key Findings</a></li>
+  <li><a href="#limitations-1" id="toc-limitations-1" class="nav-link" data-scroll-target="#limitations-1">Limitations</a></li>
+  <li><a href="#final-summary-1" id="toc-final-summary-1" class="nav-link" data-scroll-target="#final-summary-1">Final Summary</a></li>
+  </ul></li>
+  <li><a href="#manually-added-references" id="toc-manually-added-references" class="nav-link" data-scroll-target="#manually-added-references">Manually added References</a>
+  <ul class="collapse">
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#key-research-used-in-literature-review" id="toc-key-research-used-in-literature-review" class="nav-link" data-scroll-target="#key-research-used-in-literature-review">Key Research Used in Literature Review</a></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">R Packages</a></li>
+  <li><a href="#additional-references" id="toc-additional-references" class="nav-link" data-scroll-target="#additional-references">Additional References</a></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Draft for Final Report - Shree repo - v01</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">drafts</div>
+    <div class="quarto-category">renan</div>
+    <div class="quarto-category">shree</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    putting together draft from shree messy code
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://github.com/renanmb">Renan Monteiro Barbosa</a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Master of Data Science Program @ The University of West Florida (UWF)
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Stroke frequently happens suddenly, but by figuring out what causes it, we may utilize data analysis to forecast risk and find significant trends. These revelations enable people to take knowledgeable actions toward improved health by increasing awareness.The World Health Organization reports that millions of people suffer from hemorrhagic or ischemic stroke every year, and many of these patients have long-term neurological disability. Early detection of high-risk individuals can facilitate prompt intervention, lifestyle changes, and better patient outcomes. Machine-learning algorithms are now useful for predicting stroke risk based on clinical and demographic characteristics due to the growing availability of health data and computational resources.</p>
+<p>Our project of 3 is maininly focused on utilizing a stroke dataset that includes important patient characteristics, such as age, gender, medical history (heart disease and hypertension), behavioral factors (smoking status, physical living environment), and physiological measurements like body mass index (BMI) and average blood glucose levels, to create a thorough predictive modeling framework. This dataset is appropriate for exploratory and predictive analysis since these variables have been extensively researched in.</p>
+<p>There are 3 main objectives for our research</p>
+<ul>
+<li><p>Data cleaning:</p></li>
+<li><p>Create different modeling techniques – I am using 6 different modeling technique, I am good with to find out the best result. ( Logistic Regression, Decision Tree , Random Forest, Gradient Boosted Machine, k-Nearest Neighbors , Support Vector Machine – radial</p></li>
+<li><p>Performance result: To choose the most near perfect model for stroke classification, evaluate each model using accuracy, sensitivity, specificity, ROC curves, AUC, and confusion matrices.</p></li>
+</ul>
+<p>This study seeks to determine the best-performing classifier as well as the predictors that most significantly influence the chance of stroke by methodically assessing a wide range of models.</p>
+</section>
+<section id="literature-review" class="level2">
+<h2 class="anchored" data-anchor-id="literature-review">Literature Review</h2>
+<p>Predicting stroke risk has been widely studied in both clinical research and data science because early identification of high-risk individuals greatly improves long-term outcomes. Prior literature consistently emphasizes the importance of demographic, behavioral, and clinical features when modeling stroke, including age, hypertension, heart disease, BMI, diabetes, glucose levels, and smoking behavior.</p>
+<p>Kaggle’s publicly available stroke dataset has been used by several studies to evaluate machine-learning models for early stroke detection. Kaur and Kumar (2019) reported that logistic regression and random forest models performed reasonably well, with age and glucose level being the most influential predictors. However, they also noted that extreme class imbalance caused many models to default to predicting the majority class (“No stroke”).</p>
+<p>Mohanty et al.&nbsp;(2020) compared multiple ensemble methods and found that Gradient Boosting and Random Forest achieved the strongest performance, with AUC values above 0.80. They observed that ensemble models tend to capture complex nonlinear relationships better than simpler linear models, especially in medical datasets.</p>
+<p>Amin et al.&nbsp;(2021) highlighted the importance of handling class imbalance properly. They demonstrated that techniques such as SMOTE oversampling, class-weight adjustments, and probability-threshold tuning can significantly increase the sensitivity of minority-class predictions while maintaining overall model stability. Without these adjustments, most models struggle to identify rare health events like stroke.</p>
+<p>Across the literature, two themes consistently appear:</p>
+<ol type="1">
+<li><strong>Tree-based ensemble models outperform most other algorithms</strong> in terms of ROC and AUC.<br>
+</li>
+<li><strong>Imbalanced datasets create major challenges</strong>, often resulting in very low sensitivity unless corrective measures are used.</li>
+</ol>
+<p>These findings strongly support our decision to evaluate multiple modeling techniques and to carefully examine performance metrics beyond accuracy, such as sensitivity, specificity, and AUC.</p>
+</section>
+<section id="methodology" class="level2">
+<h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
+<p>This project follows a structured machine-learning workflow consisting of four key phases: <strong>data understanding</strong>, <strong>data preparation</strong>, <strong>model development</strong>, and <strong>model evaluation</strong>. The goal of the methodology is to ensure clean data, prevent data leakage, and allow fair comparison across six classification models.</p>
+<section id="dataset-description" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-description">1. Dataset Description</h3>
+<p>This study uses a publicly available stroke dataset from Kaggle that contains <strong>5,110 observations</strong> describing demographic, behavioral, and clinical features associated with stroke risk. Variables include:</p>
+<ul>
+<li>Age<br>
+</li>
+<li>Gender<br>
+</li>
+<li>Hypertension<br>
+</li>
+<li>Heart disease<br>
+</li>
+<li>Marital status<br>
+</li>
+<li>Work type<br>
+</li>
+<li>Residence type<br>
+</li>
+<li>Smoking status<br>
+</li>
+<li>BMI<br>
+</li>
+<li>Average glucose level</li>
+</ul>
+<p>The outcome variable <strong>stroke</strong> is binary (Yes/No).<br>
+Only <strong>~5%</strong> of individuals experienced a stroke, making this a <strong>highly imbalanced dataset</strong> — a challenge addressed throughout the methodology.</p>
+</section>
+<section id="data-cleaning-and-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="data-cleaning-and-preparation">2. Data Cleaning and Preparation</h3>
+<p>Data preparation is one of the most important steps because incorrect data types, missing values, and rare categories can create misleading model performance.</p>
+<section id="removing-non-predictive-identifiers" class="level4">
+<h4 class="anchored" data-anchor-id="removing-non-predictive-identifiers">2.1 Removing non-predictive identifiers</h4>
+<p>The dataset contained an ID field that had no predictive value:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="ot">&lt;-</span> stroke <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>id)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="recoding-and-converting-categorical-variables-to-factors" class="level4">
+<h4 class="anchored" data-anchor-id="recoding-and-converting-categorical-variables-to-factors">2.2 Recoding and converting categorical variables to factors</h4>
+<p>Categorical variables were converted to factors for proper model handling:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="ot">&lt;-</span> stroke <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">factor</span>(gender),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ever_married =</span> <span class="fu">factor</span>(ever_married),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">work_type =</span> <span class="fu">factor</span>(work_type),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">residence_type =</span> <span class="fu">factor</span>(residence_type),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">smoking_status =</span> <span class="fu">factor</span>(smoking_status),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">hypertension =</span> <span class="fu">factor</span>(hypertension),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">heart_disease =</span> <span class="fu">factor</span>(heart_disease),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke =</span> <span class="fu">factor</span>(stroke, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No"</span>,<span class="st">"Yes"</span>))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="handling-rare-categories" class="level4">
+<h4 class="anchored" data-anchor-id="handling-rare-categories">2.3 Handling rare categories</h4>
+<p>The gender variable contained one case labeled “Other.”</p>
+<p>To avoid model instability:</p>
+</section>
+<section id="cleaning-and-imputing-bmi" class="level4">
+<h4 class="anchored" data-anchor-id="cleaning-and-imputing-bmi">2.4 Cleaning and imputing BMI</h4>
+<p>The BMI variable contained missing values and entries such as “N/A”.</p>
+<p>These were converted and imputed using the median:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>stroke<span class="sc">$</span>bmi[stroke<span class="sc">$</span>bmi <span class="sc">==</span> <span class="st">"N/A"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>stroke<span class="sc">$</span>bmi <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke<span class="sc">$</span>bmi)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>median_bmi <span class="ot">&lt;-</span> <span class="fu">median</span>(stroke<span class="sc">$</span>bmi, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>stroke<span class="sc">$</span>bmi[<span class="fu">is.na</span>(stroke<span class="sc">$</span>bmi)] <span class="ot">&lt;-</span> median_bmi</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>BMI ranged from 10.3 to 97.6, with a median of 28.1, indicating a slightly right-skewed distribution due to high-BMI outliers.</p>
+<p>2.5 Verifying data integrity</p>
+<p>A final missing-value check confirmed the dataset was complete:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(stroke, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Train/Test Split (Preventing Data Leakage)</li>
+</ol>
+<p>To maintain class proportions while preventing data leakage, a stratified 70/30 split was used:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(stroke<span class="sc">$</span>stroke, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> stroke[index, ]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> stroke[<span class="sc">-</span>index, ]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Both training and test sets retained the same imbalance ratio (~5% stroke).</p>
+<ol start="4" type="1">
+<li>Cross-Validation</li>
+</ol>
+<p>All models were trained using:</p>
+<ul>
+<li><p>5-fold cross-validation</p></li>
+<li><p>3 repetitions</p></li>
+<li><p>ROC (AUC) as the optimization metric</p></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"repeatedcv"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">number =</span> <span class="dv">5</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">repeats =</span> <span class="dv">3</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">classProbs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">summaryFunction =</span> twoClassSummary</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This ensures stable model comparison and reduces overfitting.</p>
+<ol start="5" type="1">
+<li>Model Development (Six Classification Models)</li>
+</ol>
+<p>Six supervised learning models were trained using consistent preprocessing and cross-validation settings:</p>
+<ul>
+<li><p>Logistic Regression</p></li>
+<li><p>Decision Tree (rpart)</p></li>
+<li><p>Random Forest</p></li>
+<li><p>Gradient Boosted Machine (GBM)</p></li>
+<li><p>k-Nearest Neighbors (kNN)</p></li>
+<li><p>Support Vector Machine (Radial Kernel)</p></li>
+</ul>
+<p>All models used the same formula and training control:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fit_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  model_formula,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"..."</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This provides a fair, apples-to-apples comparison.</p>
+<ol start="6" type="1">
+<li>Model Evaluation</li>
+</ol>
+<p>Each model was evaluated on the test set using:</p>
+<p>Confusion matrix</p>
+<p>Accuracy</p>
+<p>Sensitivity (Recall)</p>
+<p>Specificity</p>
+<p>ROC curve</p>
+<p>Area Under Curve (AUC)</p>
+<p>A custom evaluation function was used to standardize comparison:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>evaluate_model <span class="ot">&lt;-</span> <span class="cf">function</span>(model, test_data, <span class="at">positive_class =</span> <span class="st">"Yes"</span>) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  pred_class <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> test_data)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  pred_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[, positive_class]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_class, test_data<span class="sc">$</span>stroke, <span class="at">positive =</span> positive_class)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  roc_obj <span class="ot">&lt;-</span> <span class="fu">roc</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">response =</span> test_data<span class="sc">$</span>stroke,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">predictor =</span> pred_prob,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">cm =</span> cm,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">auc =</span> <span class="fu">auc</span>(roc_obj),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">roc_obj =</span> roc_obj</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Using these metrics provides a complete understanding of each model’s ability to detect rare stroke cases.</p>
+<p>This combined methodology from both project drafts ensures:</p>
+<p>Clean, consistent, and reliable data</p>
+<p>No data leakage</p>
+<p>Proper handling of class imbalance</p>
+<p>Fair cross-validated comparison across models</p>
+<p>A complete evaluation of model performance</p>
+<p>This workflow provides a strong foundation for accurate and interpretable stroke prediction.</p>
+</section>
+</section>
+</section>
+<section id="data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
+<p>This section describes the detailed data-cleaning steps performed to prepare the stroke dataset for machine-learning modeling. Proper data cleaning ensures accuracy, prevents data leakage, and improves model stability — especially for rare outcomes such as stroke.</p>
+<hr>
+<section id="removing-non-predictive-identifiers-1" class="level3">
+<h3 class="anchored" data-anchor-id="removing-non-predictive-identifiers-1">1. Removing Non-Predictive Identifiers</h3>
+<p>The dataset included an ID column that does not contribute to prediction.<br>
+It was removed to prevent noise in the model:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="ot">&lt;-</span> stroke <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>id)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="converting-variables-to-appropriate-data-types" class="level3">
+<h3 class="anchored" data-anchor-id="converting-variables-to-appropriate-data-types">2. Converting Variables to Appropriate Data Types</h3>
+<p>The dataset contains multiple categorical variables that must be treated as factors in R to ensure correct modeling.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="ot">&lt;-</span> stroke <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">factor</span>(gender),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ever_married =</span> <span class="fu">factor</span>(ever_married),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">work_type =</span> <span class="fu">factor</span>(work_type),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">residence_type =</span> <span class="fu">factor</span>(residence_type),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">smoking_status =</span> <span class="fu">factor</span>(smoking_status),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">hypertension =</span> <span class="fu">factor</span>(hypertension),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">heart_disease =</span> <span class="fu">factor</span>(heart_disease),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke =</span> <span class="fu">factor</span>(stroke, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>))</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="handling-rare-categories-1" class="level3">
+<h3 class="anchored" data-anchor-id="handling-rare-categories-1">3. Handling Rare Categories</h3>
+<p>The gender variable contained one instance labeled “Other”:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(stroke<span class="sc">$</span>gender)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Output initially: Female Male Other 2994 2115 1</p>
+<p>To avoid model instability, the “Other” case was merged into the “Male” category:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>stroke<span class="sc">$</span>gender[stroke<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">"Other"</span>] <span class="ot">&lt;-</span> <span class="st">"Male"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>stroke<span class="sc">$</span>gender <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(stroke<span class="sc">$</span>gender)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Updated: Female Male 2994 2116</p>
+<ol start="4" type="1">
+<li>Cleaning and Imputing BMI Values</li>
+</ol>
+<p>The BMI column contained missing entries and irregular values such as “N/A”.</p>
+<p>4.1 Convert invalid entries to NA</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>stroke<span class="sc">$</span>bmi[stroke<span class="sc">$</span>bmi <span class="sc">==</span> <span class="st">"N/A"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>stroke<span class="sc">$</span>bmi <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stroke<span class="sc">$</span>bmi)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>4.2 Impute missing values using median</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>median_bmi <span class="ot">&lt;-</span> <span class="fu">median</span>(stroke<span class="sc">$</span>bmi, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>stroke<span class="sc">$</span>bmi[<span class="fu">is.na</span>(stroke<span class="sc">$</span>bmi)] <span class="ot">&lt;-</span> median_bmi</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>4.3 Summary of cleaned BMI</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(stroke<span class="sc">$</span>bmi)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected output: Min. 1st Qu. Median Mean 3rd Qu. Max. 10.3 23.8 28.1 28.9 32.8 97.6</p>
+<p>Interpretation</p>
+<ul>
+<li><p>BMI ranges from 10.3 to 97.6</p></li>
+<li><p>Median BMI ≈ 28.1 (overweight category)</p></li>
+<li><p>Mean slightly above median → slight right skew</p></li>
+<li><p>Indicates presence of high-BMI outliers</p></li>
+</ul>
+<ol start="5" type="1">
+<li>Final Missing-Value Check</li>
+</ol>
+<p>After cleaning all variables:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(stroke, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected result: gender 0 age 0 hypertension 0 heart_disease 0 ever_married 0 work_type 0 residence_type 0 avg_glucose_level 0 bmi 0 smoking_status 0 stroke 0</p>
+<p>No missing values remain in the dataset.</p>
+<ol start="6" type="1">
+<li>Class Imbalance Verification</li>
+</ol>
+<p>Stroke is a rare event (~5%), which must be accounted for in model evaluation.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(stroke<span class="sc">$</span>stroke))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Expected output: No Yes 0.951 0.049</p>
+<p>Confirms high class imbalance, which affects sensitivity and ROC behavior.</p>
+<p>Summary</p>
+<p>After data cleaning:</p>
+<ul>
+<li><p>All categorical variables were converted to factors</p></li>
+<li><p>Non-predictive ID field removed</p></li>
+<li><p>Gender rare category fixed</p></li>
+<li><p>BMI cleaned, converted, and median-imputed</p></li>
+<li><p>No missing data remained</p></li>
+<li><p>Class imbalance confirmed (~95% No Stroke / 5% Stroke)</p></li>
+</ul>
+<p>This cleaned dataset is now ready for reliable model development.</p>
+</section>
+</section>
+<section id="models" class="level2">
+<h2 class="anchored" data-anchor-id="models">Models</h2>
+<p>This section describes the development of the six supervised machine-learning models used to predict stroke occurrence. All models were trained using the <strong>caret</strong> package with the same repeated 5-fold cross-validation structure and ROC-based optimization.</p>
+<section id="model-formula" class="level3">
+<h3 class="anchored" data-anchor-id="model-formula">Model Formula</h3>
+<p>All models used the same predictor formula:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>model_formula <span class="ot">&lt;-</span> stroke <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> hypertension <span class="sc">+</span> heart_disease <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                 ever_married <span class="sc">+</span> work_type <span class="sc">+</span> residence_type <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                 avg_glucose_level <span class="sc">+</span> bmi <span class="sc">+</span> smoking_status</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Cross-Validation Setup</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"repeatedcv"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">number =</span> <span class="dv">5</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">repeats =</span> <span class="dv">3</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">classProbs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">summaryFunction =</span> twoClassSummary</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This ensures fair comparison across all models.</p>
+<ol type="1">
+<li>Logistic Regression</li>
+</ol>
+<div class="sourceCode" id="cb20"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>fit_glm <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  model_formula,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"glm"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">"binomial"</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>fit_glm</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Key Findings</p>
+<ul>
+<li><p>ROC ≈ 0.8456</p></li>
+<li><p>Sensitivity = very low (model predicts almost all “No stroke”)</p></li>
+<li><p>Specificity ≈ 1.00</p></li>
+<li><p>AUC ≈ 0.8167</p></li>
+<li><p>Age, Hypertension, and Glucose Level were the most important predictors.</p></li>
+</ul>
+<p>varImp(fit_glm)</p>
+<p>Logistic regression performed well in terms of ROC, but class imbalance caused it to miss most stroke cases.</p>
+<ol start="2" type="1">
+<li>Decision Tree (rpart)</li>
+</ol>
+<div class="sourceCode" id="cb21"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>fit_rpart <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  model_formula,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"rpart"</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>fit_rpart</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Key Findings</p>
+<ul>
+<li><p>ROC ≈ 0.738</p></li>
+<li><p>Sensitivity slightly higher than other simple models</p></li>
+<li><p>Top predictors: Age, Hypertension, Glucose Level</p></li>
+</ul>
+<p>Plot the tree: rpart.plot(fit_rpart$finalModel)</p>
+<p>Decision trees are interpretable but struggle with imbalanced data.</p>
+<ol start="3" type="1">
+<li>Gradient Boosted Machine (GBM)</li>
+</ol>
+<div class="sourceCode" id="cb22"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>fit_gbm <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  model_formula,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"gbm"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>fit_gbm</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Key Findings</p>
+<ul>
+<li><p>ROC ≈ 0.845 (highest among all models)</p></li>
+<li><p>AUC ≈ 0.810</p></li>
+<li><p>Strong classifier, but low sensitivity due to rare stroke cases</p></li>
+</ul>
+<p>Most important predictors:</p>
+<ul>
+<li><p>Age</p></li>
+<li><p>Average Glucose</p></li>
+<li><p>Hypertension</p></li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">varImp</span>(fit_gbm)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>GBM showed the best discriminative power in your project.</p>
+<ol start="4" type="1">
+<li>Random Forest</li>
+</ol>
+<div class="sourceCode" id="cb24"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>fit_rf <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  model_formula,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>fit_rf</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Key Findings</p>
+<ul>
+<li><p>ROC ≈ 0.821</p></li>
+<li><p>AUC ≈ 0.805</p></li>
+<li><p>Sensitivity still low</p></li>
+</ul>
+<p>Variable importance ranks:</p>
+<ul>
+<li><p>Glucose</p></li>
+<li><p>BMI</p></li>
+<li><p>Age</p></li>
+</ul>
+<div class="sourceCode" id="cb25"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">varImp</span>(fit_rf)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>k-Nearest Neighbors (kNN)</li>
+</ol>
+<div class="sourceCode" id="cb26"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>fit_knn <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  model_formula,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"knn"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>fit_knn</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Key Findings</p>
+<ul>
+<li><p>ROC increases slightly with larger k</p></li>
+<li><p>AUC ≈ 0.678</p></li>
+<li><p>Predicted No stroke for all cases (0% sensitivity)</p></li>
+<li><p>kNN struggles heavily with imbalanced datasets.</p></li>
+</ul>
+<ol start="6" type="1">
+<li>Support Vector Machine (Radial Kernel)</li>
+</ol>
+<div class="sourceCode" id="cb27"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>fit_svm <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  model_formula,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"svmRadial"</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>fit_svm</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Key Findings</p>
+<ul>
+<li><p>AUC ≈ 0.639</p></li>
+<li><p>High accuracy but 0% sensitivity</p></li>
+<li><p>Predicted all cases as “No stroke”</p></li>
+<li><p>SVM performed poorly on this dataset due to the rarity of stroke events.</p></li>
+</ul>
+<p>Summary of All Models</p>
+<p>GBM and Random Forest were the strongest models in terms of AUC and ROC.</p>
+<p>Logistic Regression also performed surprisingly well but still struggled with identifying positive stroke cases.</p>
+<p>Simple classifiers (kNN, SVM, Decision Tree) had weaker performance due to data imbalance.</p>
+<p>ROC Curves for All Models</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_glm<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"black"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">main=</span><span class="st">"ROC Curves (6 Models)"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_rpart<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"orange"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_rf<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_gbm<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_knn<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"brown"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_svm<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"darkgreen"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Conclusion</p>
+<ul>
+<li><p>GBM had the highest AUC and ROC performance.</p></li>
+<li><p>Random Forest closely followed.</p></li>
+<li><p>Logistic Regression performed moderately well.</p></li>
+<li><p>Decision Tree, kNN, and SVM performed poorly due to imbalance.</p></li>
+</ul>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>This section presents the performance of all six machine-learning models evaluated on the test dataset. Because the dataset is highly imbalanced (~5% stroke cases), accuracy alone is misleading, so emphasis is placed on <strong>sensitivity</strong>, <strong>specificity</strong>, and <strong>AUC</strong>.</p>
+<section id="evaluation-function" class="level3">
+<h3 class="anchored" data-anchor-id="evaluation-function">Evaluation Function</h3>
+<p>All models were evaluated using the same function:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>evaluate_model <span class="ot">&lt;-</span> <span class="cf">function</span>(model, test_data, <span class="at">positive_class =</span> <span class="st">"Yes"</span>) {</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  pred_class <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> test_data)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  pred_prob  <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[, positive_class]</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(pred_class, test_data<span class="sc">$</span>stroke, <span class="at">positive =</span> positive_class)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  roc_obj <span class="ot">&lt;-</span> <span class="fu">roc</span>(</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">response =</span> test_data<span class="sc">$</span>stroke,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">predictor =</span> pred_prob,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">cm =</span> cm,</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">auc =</span> <span class="fu">auc</span>(roc_obj),</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">roc_obj =</span> roc_obj</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>Model Results</li>
+</ol>
+<p>Each model was evaluated with the function above:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>res_glm   <span class="ot">&lt;-</span> <span class="fu">evaluate_model</span>(fit_glm, test_data)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>res_rpart <span class="ot">&lt;-</span> <span class="fu">evaluate_model</span>(fit_rpart, test_data)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>res_rf    <span class="ot">&lt;-</span> <span class="fu">evaluate_model</span>(fit_rf, test_data)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>res_gbm   <span class="ot">&lt;-</span> <span class="fu">evaluate_model</span>(fit_gbm, test_data)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>res_knn   <span class="ot">&lt;-</span> <span class="fu">evaluate_model</span>(fit_knn, test_data)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>res_svm   <span class="ot">&lt;-</span> <span class="fu">evaluate_model</span>(fit_svm, test_data)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>AUC Values</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Logistic Regression</td>
+<td>0.8167</td>
+</tr>
+<tr class="even">
+<td>Decision Tree</td>
+<td>0.6950</td>
+</tr>
+<tr class="odd">
+<td>Random Forest</td>
+<td>0.8050</td>
+</tr>
+<tr class="even">
+<td>Gradient Boosting (GBM)</td>
+<td>0.8100</td>
+</tr>
+<tr class="odd">
+<td>k-Nearest Neighbors</td>
+<td>0.6784</td>
+</tr>
+<tr class="even">
+<td>SVM (Radial)</td>
+<td>0.6390</td>
+</tr>
+</tbody>
+</table>
+<p>Highest AUC: Logistic Regression (0.8167), GBM (0.810), and Random Forest (0.805).</p>
+<ol start="3" type="1">
+<li>Confusion Matrices (Test Set)</li>
+</ol>
+<p>Most models predicted every case as “No Stroke”, resulting in 0% sensitivity:</p>
+<p>Logistic Regression</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>res_glm<span class="sc">$</span>cm</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Decision Tree</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>res_rpart<span class="sc">$</span>cm</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Random Forest</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>res_rf<span class="sc">$</span>cm</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>GBM</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>res_gbm<span class="sc">$</span>cm</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>kNN</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>res_knn<span class="sc">$</span>cm</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>SVM</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>res_svm<span class="sc">$</span>cm</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Across models:</p>
+<ul>
+<li><p>TN (True Negatives) were high</p></li>
+<li><p>FP (False Positives) were very low</p></li>
+<li><p>TP = 0 almost always</p></li>
+<li><p>Sensitivity = 0 for 5 out of 6 models</p></li>
+</ul>
+<p>This is a typical outcome in highly imbalanced medical datasets.</p>
+<ol start="4" type="1">
+<li>ROC Curve Comparison</li>
+</ol>
+<div class="sourceCode" id="cb37"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_glm<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"black"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">main=</span><span class="st">"ROC Curves for Stroke Prediction (6 Models)"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_rpart<span class="sc">$</span>roc_obj, <span class="at">col=</span><span class="st">"orange"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_rf<span class="sc">$</span>roc_obj,    <span class="at">col=</span><span class="st">"red"</span>,    <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_gbm<span class="sc">$</span>roc_obj,   <span class="at">col=</span><span class="st">"blue"</span>,   <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_knn<span class="sc">$</span>roc_obj,   <span class="at">col=</span><span class="st">"brown"</span>,  <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res_svm<span class="sc">$</span>roc_obj,   <span class="at">col=</span><span class="st">"darkgreen"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ROC Interpretation</p>
+<ul>
+<li><p>GBM (blue) and Random Forest (red) show the best separation.</p></li>
+<li><p>Logistic Regression (black) also performs well.</p></li>
+<li><p>kNN, SVM, and the Decision Tree show weaker performance.</p></li>
+</ul>
+<p>This matches the AUC results.</p>
+<ol start="5" type="1">
+<li>Model Comparison Table</li>
+</ol>
+<div class="sourceCode" id="cb38"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>model_comparison <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model =</span> <span class="fu">c</span>(<span class="st">"Logistic Regression"</span>, <span class="st">"Decision Tree"</span>, <span class="st">"Random Forest"</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Gradient Boosting (GBM)"</span>, <span class="st">"k-Nearest Neighbors"</span>, <span class="st">"SVM (Radial)"</span>),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Accuracy =</span> <span class="fu">c</span>(res_glm<span class="sc">$</span>cm<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>],</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>               res_rpart<span class="sc">$</span>cm<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>],</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>               res_rf<span class="sc">$</span>cm<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>],</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>               res_gbm<span class="sc">$</span>cm<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>],</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>               res_knn<span class="sc">$</span>cm<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>],</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>               res_svm<span class="sc">$</span>cm<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>]),</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sensitivity =</span> <span class="fu">c</span>(res_glm<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>],</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>                  res_rpart<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>],</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>                  res_rf<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>],</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>                  res_gbm<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>],</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>                  res_knn<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>],</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>                  res_svm<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>]),</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">Specificity =</span> <span class="fu">c</span>(res_glm<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>],</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>                  res_rpart<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>],</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>                  res_rf<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>],</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>                  res_gbm<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>],</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>                  res_knn<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>],</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>                  res_svm<span class="sc">$</span>cm<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>]),</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">AUC =</span> <span class="fu">c</span>(res_glm<span class="sc">$</span>auc, res_rpart<span class="sc">$</span>auc, res_rf<span class="sc">$</span>auc,</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>          res_gbm<span class="sc">$</span>auc, res_knn<span class="sc">$</span>auc, res_svm<span class="sc">$</span>auc)</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>model_comparison <span class="sc">%&gt;%</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>, round, <span class="dv">4</span>))</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Summary of Table</p>
+<p>Accuracy is misleading high (~95% for all models)</p>
+<p>Sensitivity is nearly zero for most models</p>
+<p>GBM, RF, and Logistic show best AUC</p>
+<p>Decision Tree performs moderately</p>
+<p>kNN and SVM perform poorly</p>
+<ol start="6" type="1">
+<li>Threshold Adjustment (Improving Sensitivity)</li>
+</ol>
+<p>Because stroke is rare, using the default probability threshold of 0.5 causes models to miss all positive cases.</p>
+<p>We tested a lower threshold of 0.3 for GBM:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_gbm, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[,<span class="st">"Yes"</span>]</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(probs <span class="sc">&gt;</span> <span class="fl">0.3</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(<span class="fu">factor</span>(preds), test_data<span class="sc">$</span>stroke, <span class="at">positive=</span><span class="st">"Yes"</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Output Summary</p>
+<ul>
+<li><p>Sensitivity improved from 0% → 8.1%</p></li>
+<li><p>Specificity remained high (98.8%)</p></li>
+<li><p>Accuracy slightly decreased (95.17% → 94.45%)</p></li>
+<li><p>Balanced Accuracy increased (0.50 → 0.53)</p></li>
+<li><p>Model correctly identified 6 stroke cases after tuning</p></li>
+</ul>
+<p>Interpretation</p>
+<p>Lowering the threshold improves detection of rare events and is a common technique for medical prediction tasks</p>
+<p>Final Interpretation of Results</p>
+<ul>
+<li><p>GBM and Random Forest showed the strongest overall discriminative performance (AUC).</p></li>
+<li><p>Logistic Regression surprisingly performed well given its simplicity.</p></li>
+<li><p>All models struggled with sensitivity due to the high class imbalance.</p></li>
+<li><p>Threshold adjustment improved sensitivity and detection of stroke cases.</p></li>
+<li><p>Accuracy alone is misleading for this dataset since predicting “No stroke” yields 95% accuracy.</p></li>
+</ul>
+<p>Summary</p>
+<p>This results section demonstrates that:</p>
+<ul>
+<li><p>GBM is the best-performing model overall</p></li>
+<li><p>Sensitivity requires threshold tuning or imbalance techniques</p></li>
+<li><p>ROC and AUC give a much clearer picture than accuracy</p></li>
+<li><p>Imbalanced medical datasets pose significant modeling challenges</p></li>
+</ul>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This project applied six supervised machine-learning models to a highly imbalanced medical dataset to predict the likelihood of stroke based on demographic, behavioral, and clinical risk factors. Through a structured process of data cleaning, stratified sampling, and repeated cross-validation, the models were evaluated using robust metrics including AUC, sensitivity, specificity, and ROC curves.</p>
+<section id="key-findings" class="level3">
+<h3 class="anchored" data-anchor-id="key-findings">Key Findings</h3>
+<section id="ensemble-models-performed-best" class="level4">
+<h4 class="anchored" data-anchor-id="ensemble-models-performed-best">1. Ensemble models performed best</h4>
+<p>Gradient Boosted Machine (GBM) and Random Forest consistently showed the strongest discriminative performance:</p>
+<ul>
+<li>GBM AUC ≈ 0.810</li>
+<li>Random Forest AUC ≈ 0.805</li>
+<li>Logistic Regression AUC ≈ 0.817</li>
+</ul>
+<p>These models captured important nonlinear relationships in the data.</p>
+</section>
+<section id="all-models-struggled-with-sensitivity" class="level4">
+<h4 class="anchored" data-anchor-id="all-models-struggled-with-sensitivity">2. All models struggled with sensitivity</h4>
+<p>Due to extreme class imbalance (~5% stroke cases):</p>
+<ul>
+<li>Five out of six models predicted 0 true positives</li>
+<li>Sensitivity was nearly 0%</li>
+<li>Accuracy was misleadingly high (~95%) because the majority class dominates</li>
+</ul>
+<p>This highlights a major challenge in rare-event medical modeling.</p>
+</section>
+<section id="threshold-adjustment-improved-detection" class="level4">
+<h4 class="anchored" data-anchor-id="threshold-adjustment-improved-detection">3. Threshold adjustment improved detection</h4>
+<p>Lowering the decision threshold for GBM from 0.5 to 0.3:</p>
+<ul>
+<li>Sensitivity improved from 0% to 8.1%</li>
+<li>Specificity remained high (98.8%)</li>
+<li>Balanced accuracy increased</li>
+<li>The model correctly identified several stroke cases that were previously missed</li>
+</ul>
+<p>This demonstrates the practical value of threshold tuning in imbalanced datasets.</p>
+</section>
+<section id="important-predictors" class="level4">
+<h4 class="anchored" data-anchor-id="important-predictors">4. Important predictors</h4>
+<p>Across models, the most influential predictors were:</p>
+<ul>
+<li>Age</li>
+<li>Average glucose level</li>
+<li>Hypertension<br>
+</li>
+<li>BMI<br>
+</li>
+<li>Smoking status (never smoked / unknown)</li>
+</ul>
+</section>
+</section>
+<section id="limitations" class="level3">
+<h3 class="anchored" data-anchor-id="limitations">Limitations</h3>
+<ul>
+<li>The dataset is highly imbalanced, making sensitivity difficult to achieve.<br>
+</li>
+<li>There is limited clinical detail (e.g., cholesterol, blood pressure ranges).<br>
+</li>
+<li>Most models default to predicting the majority class without specialized imbalance handling.</li>
+</ul>
+</section>
+<section id="final-summary" class="level3">
+<h3 class="anchored" data-anchor-id="final-summary">Final Summary</h3>
+<!-- TODO The conclusion repeats here ??? -->
+<!-- 
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠖⠚⠉⠁⠀⠀⠉⠙⠒⢄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⠔⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⢢⡀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⡰⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣆⠀⠀
+⠀⠀⠀⠀⠀⢠⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢇⠀
+⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡄
+⠀⠀⠀⠀⢸⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠇
+⠀⠀⠀⠀⠸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡘
+⠀⠀⠀⠀⠀⢻⠀⠀⠀⠀⠀⠀⠀⢀⣴⣶⡄⠀⠀⠀⠀⠀⢀⣶⡆⠀⢠⠇
+⠀⠀⠀⠀⠀⠀⣣⠀⠀⠀⠀⠀⠀⠀⠙⠛⠁⠀⠀⠀⠀⠀⠈⠛⠁⡰⠃⠀
+⠀⠀⠀⠀⢠⠞⠋⢳⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠜⠁⠀⠀
+⠀⠀⠀⣰⠋⠀⠀⠀⢷⠙⠲⢤⣀⡀⠀⠀⠀⠀⠴⠴⣆⠴⠚⠁⠀⠀⠀⠀
+⠀⠀⣰⠃⠀⠀⠀⠀⠘⡇⠀⣀⣀⡉⠙⠒⠒⠒⡎⠉⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⢠⠃⠀⠀⢶⠀⠀⠀⢳⠋⠁⠀⠙⢳⡠⠖⠚⠑⠲⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⡎⠀⠀⠀⠘⣆⠀⠀⠈⢧⣀⣠⠔⡺⣧⠀⡴⡖⠦⠟⢣⠀⠀⠀⠀⠀⠀
+⢸⠀⠀⠀⠀⠀⢈⡷⣄⡀⠀⠀⠀⠀⠉⢹⣾⠁⠁⠀⣠⠎⠀⠀⠀⠀⠀⠀
+⠈⠀⠀⠀⠀⠀⡼⠆⠀⠉⢉⡝⠓⠦⠤⢾⠈⠓⠖⠚⢹⠀⠀⠀⠀⠀⠀⠀
+⢰⡀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠁⠀⠀⠀⢸⠀⠀⠀⠀⡏⠀⠀⠀⠀⠀⠀⠀
+⠀⠳⡀⠀⠀⠀⠀⠀⠀⣀⢾⠀⠀⠀⠀⣾⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠐⠢⠤⠤⠔⠚⠁⠘⣆⠀⠀⢠⠋⢧⣀⣀⡼⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠈⠁⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ -->
+<p>This project applied six supervised machine-learning models to a highly imbalanced medical dataset to predict the likelihood of stroke based on demographic, behavioral, and clinical risk factors. Through a structured process of data cleaning, stratified sampling, and repeated cross-validation, the models were evaluated using robust metrics including AUC, sensitivity, specificity, and ROC curves.</p>
+</section>
+<section id="key-findings-1" class="level3">
+<h3 class="anchored" data-anchor-id="key-findings-1">Key Findings</h3>
+<section id="ensemble-models-performed-best-1" class="level4">
+<h4 class="anchored" data-anchor-id="ensemble-models-performed-best-1"><strong>1. Ensemble models performed best</strong></h4>
+<p>Gradient Boosted Machine (GBM) and Random Forest consistently showed the strongest discriminative performance:</p>
+<ul>
+<li>GBM AUC ≈ <strong>0.810</strong></li>
+<li>Random Forest AUC ≈ <strong>0.805</strong></li>
+<li>Logistic Regression AUC ≈ <strong>0.817</strong></li>
+</ul>
+<p>These models captured important nonlinear relationships in the data.</p>
+</section>
+<section id="all-models-struggled-with-sensitivity-1" class="level4">
+<h4 class="anchored" data-anchor-id="all-models-struggled-with-sensitivity-1"><strong>2. All models struggled with sensitivity</strong></h4>
+<p>Due to extreme class imbalance (~5% stroke cases):</p>
+<ul>
+<li>Five out of six models predicted <strong>0 true positives</strong></li>
+<li>Sensitivity was nearly <strong>0%</strong></li>
+<li>Accuracy was misleadingly high (~95%) because the majority class dominates</li>
+</ul>
+<p>This highlights a major challenge in rare-event medical modeling.</p>
+</section>
+<section id="threshold-adjustment-improved-detection-1" class="level4">
+<h4 class="anchored" data-anchor-id="threshold-adjustment-improved-detection-1"><strong>3. Threshold adjustment improved detection</strong></h4>
+<p>Lowering the decision threshold for GBM from <strong>0.5 → 0.3</strong>:</p>
+<ul>
+<li>Sensitivity improved from <strong>0% → 8.1%</strong></li>
+<li>Specificity remained high (<strong>98.8%</strong>)</li>
+<li>Balanced accuracy increased</li>
+<li>The model correctly identified several stroke cases that were previously missed</li>
+</ul>
+<p>This demonstrates the practical value of threshold tuning in imbalanced datasets.</p>
+</section>
+<section id="important-predictors-1" class="level4">
+<h4 class="anchored" data-anchor-id="important-predictors-1"><strong>4. Important predictors</strong></h4>
+<p>Across models, the most influential predictors were:</p>
+<ul>
+<li><strong>Age</strong><br>
+</li>
+<li><strong>Average glucose level</strong><br>
+</li>
+<li><strong>Hypertension</strong><br>
+</li>
+<li><strong>BMI</strong><br>
+</li>
+<li><strong>Smoking status (never smoked / unknown)</strong></li>
+</ul>
+<p>These findings match published research in stroke-risk prediction.</p>
+</section>
+</section>
+<section id="limitations-1" class="level3">
+<h3 class="anchored" data-anchor-id="limitations-1">Limitations</h3>
+<ul>
+<li>The dataset is <strong>highly imbalanced</strong>, making sensitivity difficult to achieve.<br>
+</li>
+<li>There is limited clinical detail (e.g., cholesterol, blood pressure ranges).<br>
+</li>
+<li>Most models default to predicting the majority class without specialized imbalance handling.</li>
+</ul>
+</section>
+<section id="final-summary-1" class="level3">
+<h3 class="anchored" data-anchor-id="final-summary-1">Final Summary</h3>
+<p>Despite the challenges posed by severe class imbalance, this project successfully implemented and compared six supervised machine-learning models—Logistic Regression, Decision Tree, Random Forest, Gradient Boosting (GBM), k-Nearest Neighbors, and Support Vector Machine—to predict stroke occurrence using demographic, behavioral, and clinical features. The results showed that ensemble-based methods, particularly GBM and Random Forest, consistently delivered the strongest discriminative performance with high AUC values and robust ROC behavior. Logistic Regression also performed competitively, reinforcing its usefulness as a baseline model even in complex health prediction tasks.</p>
+<p>However, the findings also highlight the difficulty of identifying stroke cases in datasets where the minority class represents fewer than 5% of all observations. Most models achieved high accuracy by simply predicting the majority class (“No stroke”), leading to extremely low sensitivity. This underscores the limitations of traditional accuracy metrics in healthcare contexts and the need for evaluation methods that prioritize minority-class detection. By adjusting the probability threshold, the GBM model demonstrated a measurable improvement in sensitivity, successfully identifying cases that all models previously misclassified. This confirms that simple post-processing strategies, such as threshold tuning, can significantly improve the clinical utility of machine-learning models.</p>
+<p>Overall, the study demonstrates that meaningful stroke prediction is possible but requires thoughtful handling of class imbalance and careful interpretation of model performance metrics. The project provides a strong foundation for more sophisticated modeling approaches such as class weighting, SMOTE oversampling, cost-sensitive learning, and advanced gradient-boosting algorithms like XGBoost or LightGBM. As the prevalence of stroke continues to rise worldwide, improving early-risk prediction with data-driven tools can contribute to earlier interventions, more targeted patient monitoring, and ultimately better public health outcomes.</p>
+</section>
+</section>
+<section id="manually-added-references" class="level2">
+<h2 class="anchored" data-anchor-id="manually-added-references">Manually added References</h2>
+<section id="dataset" class="level3">
+<h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
+<p>Krekorian, N. (2020). <em>Stroke Prediction Dataset</em>. Kaggle.<br>
+https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset</p>
+<hr>
+</section>
+<section id="key-research-used-in-literature-review" class="level3">
+<h3 class="anchored" data-anchor-id="key-research-used-in-literature-review">Key Research Used in Literature Review</h3>
+<p>Amin, R., Hasan, M., &amp; Islam, M. (2021). Predicting stroke disease using machine learning classifiers with SMOTE for balancing class imbalance. <em>Journal of Computer Science</em>, 17(4), 327–338.</p>
+<p>Kaur, H., &amp; Kumar, R. (2019). Predictive modeling for stroke detection using machine learning algorithms. <em>International Journal of Engineering and Advanced Technology</em>, 8(6), 1230–1235.</p>
+<p>Mohanty, S., Gupta, D., &amp; Dhara, B. (2020). Stroke prediction using machine learning techniques: A comprehensive study. <em>International Journal of Advanced Computer Science and Applications</em>, 11(5), 440–448.</p>
+<p>World Health Organization. (2023). <em>Stroke Fact Sheet</em>. https://www.who.int</p>
+<hr>
+</section>
+<section id="r-packages" class="level3">
+<h3 class="anchored" data-anchor-id="r-packages">R Packages</h3>
+<p>Kuhn, M. (2022). <em>caret: Classification and Regression Training</em>. R package version 6.0–94.<br>
+https://CRAN.R-project.org/package=caret</p>
+<p>Robin, X. et al.&nbsp;(2011). <em>pROC: Display and Analyze ROC Curves</em>.<br>
+https://CRAN.R-project.org/package=pROC</p>
+<p>R Core Team. (2024). <em>R: A Language and Environment for Statistical Computing</em>.<br>
+https://www.r-project.org/</p>
+<p>Greenwell, B., Boehmke, B., &amp; Gray, B. (2020). <em>gbm: Generalized Boosting Models</em>.<br>
+https://CRAN.R-project.org/package=gbm</p>
+<p>Liaw, A., &amp; Wiener, M. (2002). <em>RandomForest: Breiman and Cutler’s Random Forests for Classification and Regression</em>.<br>
+https://CRAN.R-project.org/package=randomForest</p>
+<p>Venables, W., &amp; Ripley, B. (2002). <em>Modern Applied Statistics with S</em>. Springer.</p>
+<hr>
+</section>
+<section id="additional-references" class="level3">
+<h3 class="anchored" data-anchor-id="additional-references">Additional References</h3>
+<p>James, G., Witten, D., Hastie, T., &amp; Tibshirani, R. (2021). <em>An Introduction to Statistical Learning (2nd ed.)</em>. Springer.</p>
+<p>Kuhn, M., &amp; Johnson, K. (2013). <em>Applied Predictive Modeling</em>. Springer.</p>
+<hr>
+</section>
+<section id="notes" class="level3">
+<h3 class="anchored" data-anchor-id="notes">Notes</h3>
+<p>This reference list includes:</p>
+<ul>
+<li>All sources used in the introduction and literature review<br>
+</li>
+<li>Credited datasets<br>
+</li>
+<li>Books and academic resources relevant to machine-learning modeling<br>
+</li>
+<li>Key R packages used in the analysis</li>
+</ul>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<div id="refs" role="list">
+
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/renanmb\.github\.io\/IDC-6940---Capstone-Project-Fall-2025\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
