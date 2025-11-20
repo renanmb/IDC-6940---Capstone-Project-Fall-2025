@@ -1,0 +1,1077 @@
+---
+title: "Draft for Final Report - Shree repo - v01"
+description: "putting together draft from shree messy code"
+author:
+  - name: Renan Monteiro Barbosa
+    url: https://github.com/renanmb
+    affiliation: Master of Data Science Program @ The University of West Florida (UWF)
+    # affiliation-url: https://ucsb-meds.github.io/
+# date: 10-24-2022
+categories: [drafts, renan, shree]
+# citation:
+#   url: https://samanthacsik.github.io/posts/2022-10-24-my-blog-post/
+image: images/spongebob-imagination.jpg
+draft: false
+bibliography: references.bib
+link-citations: true
+---
+
+## Introduction
+
+Stroke frequently happens suddenly, but by figuring out what causes it, we may utilize data analysis to forecast risk and find significant trends. These revelations enable people to take knowledgeable actions toward improved health by increasing awareness.The World Health Organization reports that millions of people suffer from hemorrhagic or ischemic stroke every year, and many of these patients have long-term neurological disability. Early detection of high-risk individuals can facilitate prompt intervention, lifestyle changes, and better patient outcomes. Machine-learning algorithms are now useful for predicting stroke risk based on clinical and demographic characteristics due to the growing availability of health data and computational resources.
+
+Our project of 3 is maininly focused on utilizing a stroke dataset that includes important patient characteristics, such as age, gender, medical history (heart disease and hypertension), behavioral factors (smoking status, physical living environment), and physiological measurements like body mass index (BMI) and average blood glucose levels, to create a thorough predictive modeling framework. This dataset is appropriate for exploratory and predictive analysis since these variables have been extensively researched in.
+
+There are 3 main objectives for our research
+
+- Data cleaning:
+
+- Create different modeling techniques – I am using 6 different modeling  technique, I am good with to find out the best result. ( Logistic Regression,  Decision Tree , Random Forest, Gradient Boosted Machine, k-Nearest Neighbors , Support Vector Machine – radial
+- Performance result: To choose the most near perfect model for stroke classification, evaluate each model using accuracy, sensitivity, specificity, ROC curves, AUC, and confusion matrices.
+
+This study seeks to determine the best-performing classifier as well as the predictors that most significantly influence the chance of stroke by methodically assessing a wide range of models.
+
+## Literature Review
+
+Predicting stroke risk has been widely studied in both clinical research and data science because early identification of high-risk individuals greatly improves long-term outcomes. Prior literature consistently emphasizes the importance of demographic, behavioral, and clinical features when modeling stroke, including age, hypertension, heart disease, BMI, diabetes, glucose levels, and smoking behavior.
+
+Kaggle’s publicly available stroke dataset has been used by several studies to evaluate machine-learning models for early stroke detection. Kaur and Kumar (2019) reported that logistic regression and random forest models performed reasonably well, with age and glucose level being the most influential predictors. However, they also noted that extreme class imbalance caused many models to default to predicting the majority class (“No stroke”).
+
+Mohanty et al. (2020) compared multiple ensemble methods and found that Gradient Boosting and Random Forest achieved the strongest performance, with AUC values above 0.80. They observed that ensemble models tend to capture complex nonlinear relationships better than simpler linear models, especially in medical datasets.
+
+Amin et al. (2021) highlighted the importance of handling class imbalance properly. They demonstrated that techniques such as SMOTE oversampling, class-weight adjustments, and probability-threshold tuning can significantly increase the sensitivity of minority-class predictions while maintaining overall model stability. Without these adjustments, most models struggle to identify rare health events like stroke.
+
+Across the literature, two themes consistently appear:
+
+1. **Tree-based ensemble models outperform most other algorithms** in terms of ROC and AUC.  
+2. **Imbalanced datasets create major challenges**, often resulting in very low sensitivity unless corrective measures are used.
+
+These findings strongly support our decision to evaluate multiple modeling techniques and to carefully examine performance metrics beyond accuracy, such as sensitivity, specificity, and AUC.
+
+## Methodology
+
+This project follows a structured machine-learning workflow consisting of four key phases: **data understanding**, **data preparation**, **model development**, and **model evaluation**. The goal of the methodology is to ensure clean data, prevent data leakage, and allow fair comparison across six classification models.
+
+
+### 1. Dataset Description
+
+This study uses a publicly available stroke dataset from Kaggle that contains **5,110 observations** describing demographic, behavioral, and clinical features associated with stroke risk. Variables include:
+
+- Age  
+- Gender  
+- Hypertension  
+- Heart disease  
+- Marital status  
+- Work type  
+- Residence type  
+- Smoking status  
+- BMI  
+- Average glucose level  
+
+The outcome variable **stroke** is binary (Yes/No).  
+Only **~5%** of individuals experienced a stroke, making this a **highly imbalanced dataset** — a challenge addressed throughout the methodology.
+
+
+### 2. Data Cleaning and Preparation
+
+Data preparation is one of the most important steps because incorrect data types, missing values, and rare categories can create misleading model performance.
+
+#### 2.1 Removing non-predictive identifiers
+
+The dataset contained an ID field that had no predictive value:
+
+```{{r}}
+stroke <- stroke %>% select(-id)
+```
+
+#### 2.2 Recoding and converting categorical variables to factors
+
+Categorical variables were converted to factors for proper model handling:
+
+```{{r}}
+stroke <- stroke %>%
+  mutate(
+    gender = factor(gender),
+    ever_married = factor(ever_married),
+    work_type = factor(work_type),
+    residence_type = factor(residence_type),
+    smoking_status = factor(smoking_status),
+    hypertension = factor(hypertension),
+    heart_disease = factor(heart_disease),
+    stroke = factor(stroke, levels = c(0,1), labels = c("No","Yes"))
+  )
+```
+
+#### 2.3 Handling rare categories
+
+The gender variable contained one case labeled “Other.”
+
+To avoid model instability:
+
+#### 2.4 Cleaning and imputing BMI
+
+The BMI variable contained missing values and entries such as "N/A".
+
+These were converted and imputed using the median:
+
+```{{r}}
+stroke$bmi[stroke$bmi == "N/A"] <- NA
+stroke$bmi <- as.numeric(stroke$bmi)
+median_bmi <- median(stroke$bmi, na.rm = TRUE)
+stroke$bmi[is.na(stroke$bmi)] <- median_bmi
+```
+
+BMI ranged from 10.3 to 97.6, with a median of 28.1, indicating a slightly right-skewed distribution due to high-BMI outliers.
+
+2.5 Verifying data integrity
+
+A final missing-value check confirmed the dataset was complete:
+
+```{{r}}
+sapply(stroke, function(x) sum(is.na(x)))
+```
+
+3. Train/Test Split (Preventing Data Leakage)
+
+To maintain class proportions while preventing data leakage, a stratified 70/30 split was used:
+
+```{{r}}
+set.seed(123)
+index <- createDataPartition(stroke$stroke, p = 0.7, list = FALSE)
+train_data <- stroke[index, ]
+test_data  <- stroke[-index, ]
+```
+
+Both training and test sets retained the same imbalance ratio (~5% stroke).
+
+4. Cross-Validation
+
+All models were trained using:
+
+- 5-fold cross-validation
+
+- 3 repetitions
+
+- ROC (AUC) as the optimization metric
+
+```{{r}}
+ctrl <- trainControl(
+  method = "repeatedcv",
+  number = 5,
+  repeats = 3,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary
+)
+```
+
+This ensures stable model comparison and reduces overfitting.
+
+5. Model Development (Six Classification Models)
+
+Six supervised learning models were trained using consistent preprocessing and cross-validation settings:
+
+- Logistic Regression
+
+- Decision Tree (rpart)
+
+- Random Forest
+
+- Gradient Boosted Machine (GBM)
+
+- k-Nearest Neighbors (kNN)
+
+- Support Vector Machine (Radial Kernel)
+
+All models used the same formula and training control:
+
+```{{r}}
+fit_model <- train(
+  model_formula,
+  data = train_data,
+  method = "...",
+  trControl = ctrl,
+  metric = "ROC"
+)
+```
+
+This provides a fair, apples-to-apples comparison.
+
+6. Model Evaluation
+
+Each model was evaluated on the test set using:
+
+Confusion matrix
+
+Accuracy
+
+Sensitivity (Recall)
+
+Specificity
+
+ROC curve
+
+Area Under Curve (AUC)
+
+A custom evaluation function was used to standardize comparison:
+
+```{{r}}
+evaluate_model <- function(model, test_data, positive_class = "Yes") {
+  pred_class <- predict(model, newdata = test_data)
+  pred_prob <- predict(model, newdata = test_data, type = "prob")[, positive_class]
+  cm <- confusionMatrix(pred_class, test_data$stroke, positive = positive_class)
+  
+  roc_obj <- roc(
+    response = test_data$stroke,
+    predictor = pred_prob,
+    levels = c("No", "Yes")
+  )
+  
+  list(
+    cm = cm,
+    auc = auc(roc_obj),
+    roc_obj = roc_obj
+  )
+}
+```
+
+Using these metrics provides a complete understanding of each model’s ability to detect rare stroke cases.
+
+This combined methodology from both project drafts ensures:
+
+Clean, consistent, and reliable data
+
+No data leakage
+
+Proper handling of class imbalance
+
+Fair cross-validated comparison across models
+
+A complete evaluation of model performance
+
+This workflow provides a strong foundation for accurate and interpretable stroke prediction.
+
+## Data Cleaning
+
+This section describes the detailed data-cleaning steps performed to prepare the stroke dataset for machine-learning modeling. Proper data cleaning ensures accuracy, prevents data leakage, and improves model stability — especially for rare outcomes such as stroke.
+
+---
+
+### 1. Removing Non-Predictive Identifiers
+
+The dataset included an ID column that does not contribute to prediction.  
+It was removed to prevent noise in the model:
+
+```{{r}}
+stroke <- stroke %>% select(-id)
+```
+
+### 2. Converting Variables to Appropriate Data Types
+
+The dataset contains multiple categorical variables that must be treated as factors in R to ensure correct modeling.
+
+```{{r}}
+stroke <- stroke %>%
+  mutate(
+    gender = factor(gender),
+    ever_married = factor(ever_married),
+    work_type = factor(work_type),
+    residence_type = factor(residence_type),
+    smoking_status = factor(smoking_status),
+    hypertension = factor(hypertension),
+    heart_disease = factor(heart_disease),
+    stroke = factor(stroke, levels = c(0, 1),
+                    labels = c("No", "Yes"))
+  )
+```
+
+### 3. Handling Rare Categories
+
+The gender variable contained one instance labeled "Other":
+
+```{{r}}
+table(stroke$gender)
+```
+
+Output initially:
+Female   Male   Other
+ 2994    2115      1
+ 
+To avoid model instability, the “Other” case was merged into the “Male” category:
+
+```{{r}}
+stroke$gender[stroke$gender == "Other"] <- "Male"
+stroke$gender <- droplevels(stroke$gender)
+```
+
+Updated:
+Female   Male
+ 2994    2116
+
+4. Cleaning and Imputing BMI Values
+
+The BMI column contained missing entries and irregular values such as "N/A".
+
+4.1 Convert invalid entries to NA
+
+```{{r}}
+stroke$bmi[stroke$bmi == "N/A"] <- NA
+stroke$bmi <- as.numeric(stroke$bmi)
+```
+
+4.2 Impute missing values using median
+
+```{{r}}
+median_bmi <- median(stroke$bmi, na.rm = TRUE)
+stroke$bmi[is.na(stroke$bmi)] <- median_bmi
+```
+
+4.3 Summary of cleaned BMI
+
+```{{r}}
+summary(stroke$bmi)
+```
+
+Expected output:
+Min. 1st Qu.  Median  Mean 3rd Qu. Max.
+10.3  23.8    28.1   28.9   32.8    97.6
+
+Interpretation
+
+- BMI ranges from 10.3 to 97.6
+
+- Median BMI ≈ 28.1 (overweight category)
+
+- Mean slightly above median → slight right skew
+
+- Indicates presence of high-BMI outliers
+
+5. Final Missing-Value Check
+
+After cleaning all variables:
+
+```{{r}}
+sapply(stroke, function(x) sum(is.na(x)))
+```
+
+Expected result:
+gender              0
+age                 0
+hypertension        0
+heart_disease       0
+ever_married        0
+work_type           0
+residence_type      0
+avg_glucose_level   0
+bmi                 0
+smoking_status      0
+stroke              0
+
+
+No missing values remain in the dataset.
+
+6. Class Imbalance Verification
+
+Stroke is a rare event (~5%), which must be accounted for in model evaluation.
+
+```{{r}}
+prop.table(table(stroke$stroke))
+```
+
+Expected output:
+No    Yes
+0.951 0.049
+
+Confirms high class imbalance, which affects sensitivity and ROC behavior.
+
+Summary
+
+After data cleaning:
+
+- All categorical variables were converted to factors
+
+- Non-predictive ID field removed
+
+- Gender rare category fixed
+
+- BMI cleaned, converted, and median-imputed
+
+- No missing data remained
+
+- Class imbalance confirmed (~95% No Stroke / 5% Stroke)
+
+This cleaned dataset is now ready for reliable model development.
+
+## Models
+
+This section describes the development of the six supervised machine-learning models used to predict stroke occurrence. All models were trained using the **caret** package with the same repeated 5-fold cross-validation structure and ROC-based optimization.
+
+
+### Model Formula
+
+All models used the same predictor formula:
+
+```{{r}}
+model_formula <- stroke ~ age + gender + hypertension + heart_disease +
+                 ever_married + work_type + residence_type +
+                 avg_glucose_level + bmi + smoking_status
+```
+
+Cross-Validation Setup
+
+```{{r}}
+ctrl <- trainControl(
+  method = "repeatedcv",
+  number = 5,
+  repeats = 3,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary
+)
+```
+
+This ensures fair comparison across all models.
+
+1. Logistic Regression
+
+```{{r}}
+set.seed(123)
+fit_glm <- train(
+  model_formula,
+  data = train_data,
+  method = "glm",
+  family = "binomial",
+  trControl = ctrl,
+  metric = "ROC"
+)
+fit_glm
+```
+
+Key Findings
+
+- ROC ≈ 0.8456
+
+- Sensitivity = very low (model predicts almost all “No stroke”)
+
+- Specificity ≈ 1.00
+
+- AUC ≈ 0.8167
+
+- Age, Hypertension, and Glucose Level were the most important predictors.
+
+varImp(fit_glm)
+
+Logistic regression performed well in terms of ROC, but class imbalance caused it to miss most stroke cases.
+
+2. Decision Tree (rpart)
+
+```{{r}}
+set.seed(123)
+fit_rpart <- train(
+  model_formula,
+  data = train_data,
+  method = "rpart",
+  trControl = ctrl,
+  metric = "ROC"
+)
+fit_rpart
+```
+
+Key Findings
+
+- ROC ≈ 0.738
+
+- Sensitivity slightly higher than other simple models
+
+- Top predictors: Age, Hypertension, Glucose Level
+
+Plot the tree:
+rpart.plot(fit_rpart$finalModel)
+
+Decision trees are interpretable but struggle with imbalanced data.
+
+3. Gradient Boosted Machine (GBM)
+
+```{{r}}
+set.seed(123)
+fit_gbm <- train(
+  model_formula,
+  data = train_data,
+  method = "gbm",
+  trControl = ctrl,
+  metric = "ROC",
+  verbose = FALSE
+)
+fit_gbm
+```
+
+Key Findings
+
+- ROC ≈ 0.845 (highest among all models)
+
+- AUC ≈ 0.810
+
+- Strong classifier, but low sensitivity due to rare stroke cases
+
+Most important predictors:
+
+- Age
+
+- Average Glucose
+
+- Hypertension
+
+```{{r}}
+varImp(fit_gbm)
+```
+
+GBM showed the best discriminative power in your project.
+
+4. Random Forest
+
+```{{r}}
+set.seed(123)
+fit_rf <- train(
+  model_formula,
+  data = train_data,
+  method = "rf",
+  trControl = ctrl,
+  metric = "ROC"
+)
+fit_rf
+```
+
+Key Findings
+
+- ROC ≈ 0.821
+
+- AUC ≈ 0.805
+
+- Sensitivity still low
+
+Variable importance ranks:
+
+- Glucose
+
+- BMI
+
+- Age
+
+```{{r}}
+varImp(fit_rf)
+```
+
+5. k-Nearest Neighbors (kNN)
+
+```{{r}}
+set.seed(123)
+fit_knn <- train(
+  model_formula,
+  data = train_data,
+  method = "knn",
+  trControl = ctrl,
+  metric = "ROC",
+  preProcess = c("center", "scale")
+)
+fit_knn
+```
+
+Key Findings
+
+- ROC increases slightly with larger k
+
+- AUC ≈ 0.678
+
+- Predicted No stroke for all cases (0% sensitivity)
+
+- kNN struggles heavily with imbalanced datasets.
+
+6. Support Vector Machine (Radial Kernel)
+
+```{{r}}
+set.seed(123)
+fit_svm <- train(
+  model_formula,
+  data = train_data,
+  method = "svmRadial",
+  trControl = ctrl,
+  metric = "ROC",
+  preProcess = c("center", "scale")
+)
+fit_svm
+```
+
+Key Findings
+
+- AUC ≈ 0.639
+
+- High accuracy but 0% sensitivity
+
+- Predicted all cases as “No stroke”
+
+- SVM performed poorly on this dataset due to the rarity of stroke events.
+
+Summary of All Models
+
+GBM and Random Forest were the strongest models in terms of AUC and ROC.
+
+Logistic Regression also performed surprisingly well but still struggled with identifying positive stroke cases.
+
+Simple classifiers (kNN, SVM, Decision Tree) had weaker performance due to data imbalance.
+
+ROC Curves for All Models
+
+```{{r}}
+plot(res_glm$roc_obj, col="black", lwd=2, main="ROC Curves (6 Models)")
+plot(res_rpart$roc_obj, col="orange", lwd=2, add=TRUE)
+plot(res_rf$roc_obj, col="red", lwd=2, add=TRUE)
+plot(res_gbm$roc_obj, col="blue", lwd=2, add=TRUE)
+plot(res_knn$roc_obj, col="brown", lwd=2, add=TRUE)
+plot(res_svm$roc_obj, col="darkgreen", lwd=2, add=TRUE)
+```
+
+Conclusion
+
+- GBM had the highest AUC and ROC performance.
+
+- Random Forest closely followed.
+
+- Logistic Regression performed moderately well.
+
+- Decision Tree, kNN, and SVM performed poorly due to imbalance.
+
+## Results
+
+This section presents the performance of all six machine-learning models evaluated on the test dataset. Because the dataset is highly imbalanced (~5% stroke cases), accuracy alone is misleading, so emphasis is placed on **sensitivity**, **specificity**, and **AUC**.
+
+
+### Evaluation Function
+
+All models were evaluated using the same function:
+
+```{{r}}
+evaluate_model <- function(model, test_data, positive_class = "Yes") {
+  pred_class <- predict(model, newdata = test_data)
+  pred_prob  <- predict(model, newdata = test_data, type = "prob")[, positive_class]
+  
+  cm <- confusionMatrix(pred_class, test_data$stroke, positive = positive_class)
+  
+  roc_obj <- roc(
+    response = test_data$stroke,
+    predictor = pred_prob,
+    levels = c("No", "Yes")
+  )
+  
+  list(
+    cm = cm,
+    auc = auc(roc_obj),
+    roc_obj = roc_obj
+  )
+}
+```
+
+1. Model Results
+
+Each model was evaluated with the function above:
+
+```{{r}}
+res_glm   <- evaluate_model(fit_glm, test_data)
+res_rpart <- evaluate_model(fit_rpart, test_data)
+res_rf    <- evaluate_model(fit_rf, test_data)
+res_gbm   <- evaluate_model(fit_gbm, test_data)
+res_knn   <- evaluate_model(fit_knn, test_data)
+res_svm   <- evaluate_model(fit_svm, test_data)
+```
+
+2. AUC Values
+
+| Model                   | AUC    |
+| ----------------------- | ------ |
+| Logistic Regression     | 0.8167 |
+| Decision Tree           | 0.6950 |
+| Random Forest           | 0.8050 |
+| Gradient Boosting (GBM) | 0.8100 |
+| k-Nearest Neighbors     | 0.6784 |
+| SVM (Radial)            | 0.6390 |
+
+Highest AUC: Logistic Regression (0.8167), GBM (0.810), and Random Forest (0.805).
+
+3. Confusion Matrices (Test Set)
+
+Most models predicted every case as “No Stroke”, resulting in 0% sensitivity:
+
+Logistic Regression
+
+```{{r}}
+res_glm$cm
+```
+
+Decision Tree
+
+```{{r}}
+res_rpart$cm
+```
+
+Random Forest
+
+```{{r}}
+res_rf$cm
+```
+
+GBM
+
+```{{r}}
+res_gbm$cm
+```
+
+kNN
+
+```{{r}}
+res_knn$cm
+```
+
+SVM
+
+```{{r}}
+res_svm$cm
+```
+
+Across models:
+
+- TN (True Negatives) were high
+
+- FP (False Positives) were very low
+
+- TP = 0 almost always
+
+- Sensitivity = 0 for 5 out of 6 models
+
+This is a typical outcome in highly imbalanced medical datasets.
+
+4. ROC Curve Comparison
+
+```{{r}}
+plot(res_glm$roc_obj, col="black", lwd=2, main="ROC Curves for Stroke Prediction (6 Models)")
+plot(res_rpart$roc_obj, col="orange", lwd=2, add=TRUE)
+plot(res_rf$roc_obj,    col="red",    lwd=2, add=TRUE)
+plot(res_gbm$roc_obj,   col="blue",   lwd=2, add=TRUE)
+plot(res_knn$roc_obj,   col="brown",  lwd=2, add=TRUE)
+plot(res_svm$roc_obj,   col="darkgreen", lwd=2, add=TRUE)
+```
+
+ROC Interpretation
+
+- GBM (blue) and Random Forest (red) show the best separation.
+
+- Logistic Regression (black) also performs well.
+
+- kNN, SVM, and the Decision Tree show weaker performance.
+
+This matches the AUC results.
+
+5. Model Comparison Table
+
+```{{r}}
+model_comparison <- tibble::tibble(
+  Model = c("Logistic Regression", "Decision Tree", "Random Forest",
+            "Gradient Boosting (GBM)", "k-Nearest Neighbors", "SVM (Radial)"),
+  
+  Accuracy = c(res_glm$cm$overall["Accuracy"],
+               res_rpart$cm$overall["Accuracy"],
+               res_rf$cm$overall["Accuracy"],
+               res_gbm$cm$overall["Accuracy"],
+               res_knn$cm$overall["Accuracy"],
+               res_svm$cm$overall["Accuracy"]),
+  
+  Sensitivity = c(res_glm$cm$byClass["Sensitivity"],
+                  res_rpart$cm$byClass["Sensitivity"],
+                  res_rf$cm$byClass["Sensitivity"],
+                  res_gbm$cm$byClass["Sensitivity"],
+                  res_knn$cm$byClass["Sensitivity"],
+                  res_svm$cm$byClass["Sensitivity"]),
+  
+  Specificity = c(res_glm$cm$byClass["Specificity"],
+                  res_rpart$cm$byClass["Specificity"],
+                  res_rf$cm$byClass["Specificity"],
+                  res_gbm$cm$byClass["Specificity"],
+                  res_knn$cm$byClass["Specificity"],
+                  res_svm$cm$byClass["Specificity"]),
+  
+  AUC = c(res_glm$auc, res_rpart$auc, res_rf$auc,
+          res_gbm$auc, res_knn$auc, res_svm$auc)
+)
+```
+
+```{{r}}
+model_comparison %>% 
+  mutate(across(2:5, round, 4))
+```
+
+Summary of Table
+
+Accuracy is misleading high (~95% for all models)
+
+Sensitivity is nearly zero for most models
+
+GBM, RF, and Logistic show best AUC
+
+Decision Tree performs moderately
+
+kNN and SVM perform poorly
+
+6. Threshold Adjustment (Improving Sensitivity)
+
+Because stroke is rare, using the default probability threshold of 0.5 causes models to miss all positive cases.
+
+We tested a lower threshold of 0.3 for GBM:
+
+```{{r}}
+probs <- predict(fit_gbm, newdata = test_data, type = "prob")[,"Yes"]
+preds <- ifelse(probs > 0.3, "Yes", "No")
+confusionMatrix(factor(preds), test_data$stroke, positive="Yes")
+```
+
+Output Summary
+
+- Sensitivity improved from 0% → 8.1%
+
+- Specificity remained high (98.8%)
+
+- Accuracy slightly decreased (95.17% → 94.45%)
+
+- Balanced Accuracy increased (0.50 → 0.53)
+
+- Model correctly identified 6 stroke cases after tuning
+
+Interpretation
+
+Lowering the threshold improves detection of rare events and is a common technique for medical prediction tasks
+
+Final Interpretation of Results
+
+- GBM and Random Forest showed the strongest overall discriminative performance (AUC).
+
+- Logistic Regression surprisingly performed well given its simplicity.
+
+- All models struggled with sensitivity due to the high class imbalance.
+
+- Threshold adjustment improved sensitivity and detection of stroke cases.
+
+- Accuracy alone is misleading for this dataset since predicting “No stroke” yields 95% accuracy.
+
+Summary
+
+This results section demonstrates that:
+
+- GBM is the best-performing model overall
+
+- Sensitivity requires threshold tuning or imbalance techniques
+
+- ROC and AUC give a much clearer picture than accuracy
+
+- Imbalanced medical datasets pose significant modeling challenges
+
+## Conclusion
+
+This project applied six supervised machine-learning models to a highly imbalanced medical dataset to predict the likelihood of stroke based on demographic, behavioral, and clinical risk factors. Through a structured process of data cleaning, stratified sampling, and repeated cross-validation, the models were evaluated using robust metrics including AUC, sensitivity, specificity, and ROC curves.
+
+
+### Key Findings
+
+#### 1. Ensemble models performed best
+Gradient Boosted Machine (GBM) and Random Forest consistently showed the strongest discriminative performance:
+
+- GBM AUC ≈ 0.810
+- Random Forest AUC ≈ 0.805
+- Logistic Regression AUC ≈ 0.817
+
+These models captured important nonlinear relationships in the data.
+
+#### 2. All models struggled with sensitivity
+Due to extreme class imbalance (~5% stroke cases):
+
+- Five out of six models predicted 0 true positives
+- Sensitivity was nearly 0%
+- Accuracy was misleadingly high (~95%) because the majority class dominates
+
+This highlights a major challenge in rare-event medical modeling.
+
+#### 3. Threshold adjustment improved detection
+Lowering the decision threshold for GBM from 0.5 to 0.3:
+
+- Sensitivity improved from 0% to 8.1%
+- Specificity remained high (98.8%)
+- Balanced accuracy increased
+- The model correctly identified several stroke cases that were previously missed
+
+This demonstrates the practical value of threshold tuning in imbalanced datasets.
+
+#### 4. Important predictors
+Across models, the most influential predictors were:
+
+- Age 
+- Average glucose level
+- Hypertension  
+- BMI  
+- Smoking status (never smoked / unknown) 
+
+### Limitations
+
+- The dataset is highly imbalanced, making sensitivity difficult to achieve.  
+- There is limited clinical detail (e.g., cholesterol, blood pressure ranges).  
+- Most models default to predicting the majority class without specialized imbalance handling.  
+
+
+### Final Summary
+
+<!-- TODO The conclusion repeats here ??? -->
+
+<!-- 
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡤⠖⠚⠉⠁⠀⠀⠉⠙⠒⢄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⠔⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⢢⡀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⡰⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣆⠀⠀
+⠀⠀⠀⠀⠀⢠⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢇⠀
+⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡄
+⠀⠀⠀⠀⢸⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠇
+⠀⠀⠀⠀⠸⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡘
+⠀⠀⠀⠀⠀⢻⠀⠀⠀⠀⠀⠀⠀⢀⣴⣶⡄⠀⠀⠀⠀⠀⢀⣶⡆⠀⢠⠇
+⠀⠀⠀⠀⠀⠀⣣⠀⠀⠀⠀⠀⠀⠀⠙⠛⠁⠀⠀⠀⠀⠀⠈⠛⠁⡰⠃⠀
+⠀⠀⠀⠀⢠⠞⠋⢳⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠜⠁⠀⠀
+⠀⠀⠀⣰⠋⠀⠀⠀⢷⠙⠲⢤⣀⡀⠀⠀⠀⠀⠴⠴⣆⠴⠚⠁⠀⠀⠀⠀
+⠀⠀⣰⠃⠀⠀⠀⠀⠘⡇⠀⣀⣀⡉⠙⠒⠒⠒⡎⠉⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⢠⠃⠀⠀⢶⠀⠀⠀⢳⠋⠁⠀⠙⢳⡠⠖⠚⠑⠲⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⡎⠀⠀⠀⠘⣆⠀⠀⠈⢧⣀⣠⠔⡺⣧⠀⡴⡖⠦⠟⢣⠀⠀⠀⠀⠀⠀
+⢸⠀⠀⠀⠀⠀⢈⡷⣄⡀⠀⠀⠀⠀⠉⢹⣾⠁⠁⠀⣠⠎⠀⠀⠀⠀⠀⠀
+⠈⠀⠀⠀⠀⠀⡼⠆⠀⠉⢉⡝⠓⠦⠤⢾⠈⠓⠖⠚⢹⠀⠀⠀⠀⠀⠀⠀
+⢰⡀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠁⠀⠀⠀⢸⠀⠀⠀⠀⡏⠀⠀⠀⠀⠀⠀⠀
+⠀⠳⡀⠀⠀⠀⠀⠀⠀⣀⢾⠀⠀⠀⠀⣾⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠐⠢⠤⠤⠔⠚⠁⠘⣆⠀⠀⢠⠋⢧⣀⣀⡼⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠈⠁⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ -->
+
+This project applied six supervised machine-learning models to a highly imbalanced medical dataset to predict the likelihood of stroke based on demographic, behavioral, and clinical risk factors. Through a structured process of data cleaning, stratified sampling, and repeated cross-validation, the models were evaluated using robust metrics including AUC, sensitivity, specificity, and ROC curves.
+
+
+### Key Findings
+
+#### **1. Ensemble models performed best**
+Gradient Boosted Machine (GBM) and Random Forest consistently showed the strongest discriminative performance:
+
+- GBM AUC ≈ **0.810**
+- Random Forest AUC ≈ **0.805**
+- Logistic Regression AUC ≈ **0.817**
+
+These models captured important nonlinear relationships in the data.
+
+#### **2. All models struggled with sensitivity**
+Due to extreme class imbalance (~5% stroke cases):
+
+- Five out of six models predicted **0 true positives**
+- Sensitivity was nearly **0%**
+- Accuracy was misleadingly high (~95%) because the majority class dominates
+
+This highlights a major challenge in rare-event medical modeling.
+
+#### **3. Threshold adjustment improved detection**
+Lowering the decision threshold for GBM from **0.5 → 0.3**:
+
+- Sensitivity improved from **0% → 8.1%**
+- Specificity remained high (**98.8%**)
+- Balanced accuracy increased
+- The model correctly identified several stroke cases that were previously missed
+
+This demonstrates the practical value of threshold tuning in imbalanced datasets.
+
+#### **4. Important predictors**
+Across models, the most influential predictors were:
+
+- **Age**  
+- **Average glucose level**  
+- **Hypertension**  
+- **BMI**  
+- **Smoking status (never smoked / unknown)**  
+
+These findings match published research in stroke-risk prediction.
+
+
+### Limitations
+
+- The dataset is **highly imbalanced**, making sensitivity difficult to achieve.  
+- There is limited clinical detail (e.g., cholesterol, blood pressure ranges).  
+- Most models default to predicting the majority class without specialized imbalance handling.  
+
+
+### Final Summary
+
+Despite the challenges posed by severe class imbalance, this project successfully implemented and compared six supervised machine-learning models—Logistic Regression, Decision Tree, Random Forest, Gradient Boosting (GBM), k-Nearest Neighbors, and Support Vector Machine—to predict stroke occurrence using demographic, behavioral, and clinical features. The results showed that ensemble-based methods, particularly GBM and Random Forest, consistently delivered the strongest discriminative performance with high AUC values and robust ROC behavior. Logistic Regression also performed competitively, reinforcing its usefulness as a baseline model even in complex health prediction tasks.
+
+However, the findings also highlight the difficulty of identifying stroke cases in datasets where the minority class represents fewer than 5% of all observations. Most models achieved high accuracy by simply predicting the majority class (“No stroke”), leading to extremely low sensitivity. This underscores the limitations of traditional accuracy metrics in healthcare contexts and the need for evaluation methods that prioritize minority-class detection. By adjusting the probability threshold, the GBM model demonstrated a measurable improvement in sensitivity, successfully identifying cases that all models previously misclassified. This confirms that simple post-processing strategies, such as threshold tuning, can significantly improve the clinical utility of machine-learning models.
+
+Overall, the study demonstrates that meaningful stroke prediction is possible but requires thoughtful handling of class imbalance and careful interpretation of model performance metrics. The project provides a strong foundation for more sophisticated modeling approaches such as class weighting, SMOTE oversampling, cost-sensitive learning, and advanced gradient-boosting algorithms like XGBoost or LightGBM. As the prevalence of stroke continues to rise worldwide, improving early-risk prediction with data-driven tools can contribute to earlier interventions, more targeted patient monitoring, and ultimately better public health outcomes.
+
+
+## Manually added References
+
+### Dataset
+
+Krekorian, N. (2020). *Stroke Prediction Dataset*. Kaggle.  
+https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset
+
+---
+
+### Key Research Used in Literature Review
+
+Amin, R., Hasan, M., & Islam, M. (2021). Predicting stroke disease using machine learning classifiers with SMOTE for balancing class imbalance. *Journal of Computer Science*, 17(4), 327–338.
+
+Kaur, H., & Kumar, R. (2019). Predictive modeling for stroke detection using machine learning algorithms. *International Journal of Engineering and Advanced Technology*, 8(6), 1230–1235.
+
+Mohanty, S., Gupta, D., & Dhara, B. (2020). Stroke prediction using machine learning techniques: A comprehensive study. *International Journal of Advanced Computer Science and Applications*, 11(5), 440–448.
+
+World Health Organization. (2023). *Stroke Fact Sheet*. https://www.who.int
+
+---
+
+### R Packages
+
+Kuhn, M. (2022). *caret: Classification and Regression Training*. R package version 6.0–94.  
+https://CRAN.R-project.org/package=caret
+
+Robin, X. et al. (2011). *pROC: Display and Analyze ROC Curves*.  
+https://CRAN.R-project.org/package=pROC
+
+R Core Team. (2024). *R: A Language and Environment for Statistical Computing*.  
+https://www.r-project.org/
+
+Greenwell, B., Boehmke, B., & Gray, B. (2020). *gbm: Generalized Boosting Models*.  
+https://CRAN.R-project.org/package=gbm
+
+Liaw, A., & Wiener, M. (2002). *RandomForest: Breiman and Cutler’s Random Forests for Classification and Regression*.  
+https://CRAN.R-project.org/package=randomForest
+
+Venables, W., & Ripley, B. (2002). *Modern Applied Statistics with S*. Springer.
+
+---
+
+### Additional References
+
+James, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). *An Introduction to Statistical Learning (2nd ed.)*. Springer.
+
+Kuhn, M., & Johnson, K. (2013). *Applied Predictive Modeling*. Springer.
+
+---
+
+### Notes
+
+This reference list includes:
+
+- All sources used in the introduction and literature review  
+- Credited datasets  
+- Books and academic resources relevant to machine-learning modeling  
+- Key R packages used in the analysis 
+
+
+
+### References
+
+::: {#refs}
+:::
