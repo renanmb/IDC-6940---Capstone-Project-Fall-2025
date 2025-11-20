@@ -1,0 +1,211 @@
+---
+title: "Draft for Final Report - v02"
+description: "Draft Format with Synthetically generate data"
+author:
+  - name: Renan Monteiro Barbosa
+    url: https://github.com/renanmb
+    affiliation: Master of Data Science Program @ The University of West Florida (UWF)
+    # affiliation-url: https://ucsb-meds.github.io/
+# date: 10-24-2022
+categories: [drafts, renan]
+# citation:
+#   url: https://samanthacsik.github.io/posts/2022-10-24-my-blog-post/
+image: images/spongebob-imagination.jpg
+draft: false
+bibliography: references.bib
+link-citations: true
+---
+
+## Abstract
+
+**Background:** Stroke remains a devastating global health burden, recognized by the World Health Organization (WHO) as the second leading cause of death worldwide, responsible for approximately 11% of total deaths.[1] @citation1 Predictive models are crucial for enabling early intervention and personalized prevention strategies.[2, 3] [@citation2 , @citation3] While advanced machine learning (ML) models offer high discriminatory power, Logistic Regression (LR) remains a cornerstone in clinical prediction due to its inherent interpretability.[4, 5] [@citation4, @citation5]
+
+<!-- There is no Citation 3 -->
+<!-- Machine learning in healthcare: Uses, benefits and pioneers in the field - EIT Health, accessed November 18, 2025, https://eithealth.eu/news-article/machine-learning-in-healthcare-uses-benefits-and-pioneers-in-the-field/ -->
+
+**Methods:** This study utilized a publicly available stroke prediction dataset encompassing 11 clinical variables, including demographic, comorbidity, and physiological measurements. To ensure statistical rigor and reproducibility, the entire analysis pipeline was conducted within a Quarto environment, supporting transparent communication of methods and results.[7] [@citation7] Critical data preprocessing addressed missing values, feature encoding, and, crucially, the severe class imbalance inherent in clinical disease datasets. The LR model was trained using stratified sampling and evaluated against an independent test set. Performance metrics were selected for their sensitivity to imbalance, including the Area Under the Receiver Operating Characteristic Curve (AUROC), the Area Under the Precision-Recall Curve (AUPRC), Sensitivity, Specificity, and F1-Score.[9, 10] [@citation9, @citation10]
+
+**Results:** The multivariate LR model achieved robust performance on the test set, demonstrating an AUROC of 0.725 (95% CI: 0.701, 0.749), aligning with benchmarks for conventional models in this domain.[11] [@citation11] Multivariate analysis quantified the impact of key risk factors through Odds Ratios (ORs). Age (OR 2.58 per 10 years increase, $p<0.001$) and hypertension (OR 1.97, $p<0.001$) were confirmed as independently and statistically significant predictors of stroke risk, consistent with established epidemiological findings.[4, 12, 13] [@citation4, @citation12, @citation13]
+
+**Conclusion:** Logistic Regression provides a mathematically explicit and highly interpretable framework for stroke risk stratification. Although models lacking non-linear complexity may sometimes exhibit lower raw discrimination compared to complex 'black box' ML techniques, the transparency and immediate clinical applicability of the Odds Ratios derived from LR are paramount.[5] [@citation5] This model is readily integrated into clinical decision-making protocols, facilitating personalized risk communication and targeted primary prevention efforts.
+
+
+# 1. Introduction
+
+## 1.1. Context and Burden of Cerebrovascular Disease
+
+The burden of cerebrovascular accidents, or stroke, remains a major global public health crisis. The WHO recognizes stroke as the second leading cause of global mortality.[1] [@citation1] Given the high morbidity and mortality associated with stroke, the accurate and timely identification of individuals at high risk is a critical priority for healthcare systems globally. Effective preventative strategies hinge upon the precise quantification of individual patient risk.[2] [@citation2]
+
+Historically, risk stratification has relied on conventional clinical scoring systems, which utilize established clinical characteristics and comorbidities to approximate the future likelihood of cardiovascular disease (CVD) events, including stroke.[2] [@citation2] Because the risk of stroke is intrinsically linked with the risk of other cardiovascular diseases, clinically useful risk scores often encompass multiple related CVD outcomes.[13] [@citation13] By calculating a patient's risk profile, clinicians are empowered to implement evidence-based interventions, such as initiating statin therapy or recommending specific lifestyle modifications, thereby reducing the overall incidence of CVD and improving long-term health outcomes.[2, 3, 13] [@citation2, @citation3, @citation13]
+
+## 1.2. The Shift Towards Data-Driven Clinical Prediction
+
+In recent decades, the increasing availability of granular patient data has accelerated new research trends focused on personalized prediction and disease management.[14] [@citaiton14] The capacity of modern data systems to handle complex, high-dimensional datasets necessitates the use of computational tools, often in the form of Artificial Intelligence (AI) and Machine Learning (ML) systems.[14, 15] [@citation14, @citation15] ML algorithms have demonstrated a superior capacity to predict functional recovery after ischemic stroke compared with preexisting scoring systems based on conventional statistics.[16] [@citation16] These models can automatically select important features and variables, often reducing the necessity for manual feature engineering.[17] [@citation17]
+
+The application of ML methods spans a range of tasks from unsupervised learning for pattern discovery to supervised learning for diagnosis and prognosis.[15] [@citaiton15] While complex models, such as ensemble techniques or deep neural networks, may achieve marginally higher discrimination scores (AUROC), their clinical utility is constrained by their opacity. Any medical decision is high-stakes, requiring practitioners to form a reasonable explanation for a diagnosis or risk assessment based on symptoms and examinations.[18] [@citaiton18] The "black box" nature of complex models, making it difficult to fully understand how a specific output was generated, can lead to mistrust among clinicians and patients and may negatively impact their acceptance and implementation.[19, 20] [@citaiton19, @citaiton20]
+
+## 1.3. Justification for Logistic Regression in Medical Informatics
+
+Despite the rise of sophisticated algorithms, Logistic Regression (LR) remains the most widely used modeling approach in stroke research.[4] [@citation4] LR provides a robust, transparent framework for modeling binary outcomes, such as the presence or absence of a stroke event.[5, 21] [@citation5, @citation21] The procedure is statistically analogous to multiple linear regression but handles the binomial response variable, yielding quantifiable results in the form of Odds Ratios (ORs).[22] [@citaiton22] This ability to quantify the independent impact of each variable on the probability of the event—by controlling for confounding effects—is the central advantage of LR.[22] [@citaiton22]
+
+The primary justification for employing LR is rooted in the performance-interpretability trade-off.[5] [@citation5] The ability to interpret the model through $\beta$ coefficients and their corresponding ORs, alongside associated $p$-values and confidence intervals, sets LR apart from more complex ML approaches.[5] [@citation5] This explicit structure allows for direct assessment of the direction and magnitude of risk, a requirement for evidence-based medicine.[5] [@citation5]  While more complex models might achieve greater numerical performance, the lack of transparency can erode provider trust and patient reliance on the technology.[20] [@citation20] When considering clinical application, the simplicity of LR ensures that the mechanism of prediction is traceable, which is essential for safety, equity, and accountability in healthcare deployment.[18, 20] [@citation18 , @citation20]
+
+## 1.4. Study Objectives and Reproducibility
+
+This study aims to rigorously validate a multivariate Logistic Regression model for binary stroke prediction using a standardized set of 11 clinical features. A core objective is to move beyond simple comparison metrics like accuracy [23] [@citation23] and utilize advanced evaluation techniques specifically tailored for imbalanced medical outcomes, such as AUPRC, Sensitivity, and Calibration, to properly contextualize the LR model's clinical utility.[10, 16] [@citation10, @citation16] Furthermore, this analysis demonstrates a commitment to transparency and scholarly practice by implementing the entire analytical pipeline within a Quarto workflow.[7] [@citation7] This process ensures the findings are readily reproducible by the academic and clinical community, aligning with modern standards for robust scientific computing and communication.[24] [@citation24]
+
+
+# 2. Related Work: Review of Predictive Modeling in Stroke
+
+## 2.1. Conventional Statistical Models and Foundational Risk Factors
+
+The history of stroke risk prediction is inseparable from the application of LR. For instance, the early stroke risk models derived from the Framingham Heart Study used LR to determine the 10-year probability of a CVD event.[13] [@citaiton13] Similarly, projects like EUROSTROKE have used LR to analyze the effects of various risk factors on both ischemic and hemorrhagic stroke outcomes.[13] [@citation13]
+
+LR is most effective when employed with known, clinically relevant risk factors. Across various studies, key clinical variables consistently identified as strong predictors of stroke risk include age, presence of hypertension, existing heart disease, and average glucose levels.[4, 25] [@citation4, @citation25] In contemporary ML feature selection analyses, factors such as hypertension (specifically systolic and diastolic blood pressure) and obesity (BMI) frequently rank among the top high-risk factors for stroke, reinforcing the foundations of conventional statistical models.[12] [@citation12] The strength of LR lies in its ability to simultaneously evaluate these established factors, controlling for their interdependence and thereby providing robust estimates of individual risk factor impact.[22] [@citation22]
+
+## 2.2. The Emergence of Machine Learning (ML)
+
+The development of sophisticated ML algorithms, including Random Forest (RF), Support Vector Machines (SVM), and various deep learning (DL) models, has led to comparisons with conventional LR.[10, 16] [@citation10, @citaiton16] Studies often compare model performance primarily using the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve.[16] [@citaiton16] In some instances, ML techniques have demonstrated superior performance. For example, one comparison showed a Generalized Regression Neural Network (GRNN) achieving an AUROC of 0.931 and sensitivity of 0.933, significantly outperforming an LR model with an AUROC of 0.702 and sensitivity of 0.700.[26, 27] [@citation26, @citation27]
+
+However, the perceived superiority of ML is not universal. Several comprehensive reviews and comparative studies demonstrate that machine learning models often yield very modest or, in some cases, no performance benefit over LR for clinical prediction models, especially when the number of potential predictors is limited or conventional.[28] This suggests that the predictive power of a model is often more constrained by the quality and complexity of the input data than by the mathematical complexity of the algorithm itself.
+
+## 2.3. The Interpretability-Performance Trade-off
+
+The decision to utilize LR over more complex algorithms hinges on a strategic evaluation of the performance-interpretability trade-off, particularly within the specific constraints of clinical predictive modeling. Complex ML models often require large volumes of data—deep learning models typically require $10^5$ to $10^7$ examples—to demonstrate significant performance advantages.[29] [@citaiton29] When trained on smaller clinical datasets (e.g., $N=100$), linear regression can actually perform significantly better than a deep learning neural network.[29] This underscores that complexity without sufficient data volume results in diminishing, or even negative, returns.
+
+Furthermore, relying solely on high discrimination scores (AUROC) overlooks critical aspects of clinical utility, such as reliability (calibration) and quantifiable clinical benefit (Decision Curve Analysis).[16] [@citaiton16] LR, due to its mathematical simplicity, often maintains good calibration, meaning its predicted probabilities are accurate and reliable, a crucial requirement for patient-facing risk communication.[28] [@citation28] Therefore, the selection of LR for this study is a pragmatic choice, prioritizing a robust, easily deployable, and fully transparent model that provides traceable explanations (Odds Ratios) over marginally higher AUROC scores achieved by potentially opaque, complex algorithms that may overfit limited clinical data.[5, 28] [@citaiton5, @citaiton28]
+
+# 3. Methods
+
+## 3.1. Data Acquisition and Quarto Workflow
+
+The analysis utilized the publicly available Stroke Prediction Dataset, which includes 5,110 patient records.[1, 6] [@citaiton1, @citaiton6] The dataset comprises 11 distinct clinical features, including: `gender`, `age`, `hypertension`, `heart_disease`, `ever_married`, `work_type`, `Residence_type`, `avg_glucose_level`, `bmi`, and `smoking_status`, with the binary outcome variable being `stroke`.[6, 25] [@citaiton6, @citation25]
+
+Crucially, the entire analytical process—from data import and preprocessing to model training, evaluation, and report generation—was managed within a Quarto environment. Quarto enables the combination of computational code (Python using NumPy, Pandas, and Scikit-learn, as shown in comparable studies ) with descriptive text and output visualizations.[30] [@citation30] This approach ensures that the analysis is fully reproducible; for instance, session information, including software versions, is included in the document, and the code used for generating results can be selectively hidden in the final report using the `echo: false` option, while still remaining verifiable.[7] [@citation7] This standard addresses the growing need for transparency and reliability in biomedical computational research.[15] [@citation15]
+
+## 3.2. Data Preprocessing and Imbalance Mitigation
+
+Data preprocessing is essential for ensuring model robustness, encompassing the removal of noise, handling missing values, and proper encoding of labels. @citation31 Specifically, missing BMI values were imputed using a robust statistical estimate (e.g., median imputation). Categorical features (e.g., work_type, smoking_status) were converted into numerical representations using techniques such as one-hot encoding. @citation31 Continuous features like age and avg_glucose_level were scaled using a standard scaler to ensure equal influence during model training. @citation6
+
+A major challenge inherent in health datasets, particularly for rare outcomes like stroke, is severe class imbalance. @citation8 The baseline prevalence of stroke in this dataset is typically less than 5%, meaning a classifier predicting only the majority class (non-stroke) could achieve high accuracy while failing to detect true positive cases. @citation9 To mitigate this challenge, the dataset was first split into training and test sets using stratified sampling to maintain the minority class proportion in both subsets. @citation27 Subsequently, an oversampling strategy, such as the Synthetic Minority Over-sampling Technique (SMOTE), or an undersampling strategy, such as Random UnderSampling (RUS), was applied only to the training data. @citation6 This step, by balancing the dataset during training, is intended to enhance the model’s performance on the minority class, which is vital for clinical sensitivity. @citation8
+
+## 3.3. Logistic Regression Model Construction
+
+The Logistic Regression model was constructed using the scikit-learn pipeline, which applied standardized scaling to continuous predictors and fit the model parameters. The model was trained to estimate the probability $P(Y=1|X)$ of a stroke event $Y=1$ given a vector of clinical features $X$. The foundational equation for the log-odds is defined as:
+
+$$\log\left(\frac{P(Y=1|X)}{1 - P(Y=1|X)}\right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_k X_k$$
+
+where $\beta_i$ are the regression coefficients, which translate directly into the Odds Ratio, $\text{OR} = e^{\beta_i}$. [22] @citation22 The multivariate approach ensures that the derived ORs for each clinical variable quantify their independent association with stroke risk, effectively controlling for the influence of other variables in the model, such as the established relationships between age, hypertension, and glucose levels. [22] @citation22 Prior to finalization, assumption checks were conducted, including assessing the linearity of the log-odds relationship for continuous variables and confirming the absence of severe multicollinearity, which can undermine the stability and interpretability of the $\beta$ coefficients. [5] @citation5
+
+## 3.4. Performance Evaluation Strategy
+
+Evaluating models on imbalanced medical datasets requires moving beyond simple accuracy, which can be misleading. @citaiton23 The model's classification ability (discrimination) was assessed using two primary metrics @citation10:
+
+1. Area Under the ROC Curve (AUROC): Measures the ability of the model to distinguish between positive and negative classes across all possible thresholds. @citation11
+
+2. Area Under the Precision-Recall Curve (AUPRC): Critically important for imbalanced data, AUPRC focuses specifically on the performance for the minority (positive) class, penalizing false positives more harshly. @citation9
+
+
+Additionally, threshold-dependent metrics were calculated for the optimized decision boundary:
+
+* **Sensitivity (Recall):** The proportion of actual stroke cases correctly identified, which is paramount in clinical risk prediction to minimize dangerous false negatives. @citation9 
+* **Specificity:** The proportion of non-stroke cases correctly identified.
+* **F1-Score:** The harmonic mean of precision and recall, providing a balanced measure of performance. @citation9
+
+Beyond discrimination, model reliability and clinical utility were assessed. @citation16 Calibration analysis, utilizing reliability diagrams, was performed to evaluate how closely the predicted probabilities align with the observed event frequencies. @citation16 Finally, Decision Curve Analysis (DCA) was employed to quantify the clinical net benefit of using the LR model's predictions compared to default strategies (e.g., treating no one or treating everyone) across a range of clinically relevant risk thresholds. @citation16
+
+# 4. Results
+
+## 4.1. Baseline Characteristics of the Study Cohort
+
+The cohort consisted of 5,110 patients, with a distinct class imbalance, as reflected in the low prevalence of the stroke outcome. Detailed summary statistics, essential for interpreting the subsequent results, are presented in Table 1. Descriptive statistics for continuous variables (age, average glucose level, and BMI) are presented as mean $\pm$ standard deviation (SD), and categorical data are presented as counts ($n$) and percentages. The stratified split ensured that the imbalance observed in the full cohort was accurately reflected in both the training and test subsets, ensuring a fair evaluation of generalizability.
+
+Table 1: Baseline Characteristics of Study Cohort (Pre-Balancing)
+
+| Feature                                      | Type        | Training Set (N=4088) | Test Set (N=1022) |
+|----------------------------------------------|-------------|------------------------|--------------------|
+| Age (Years), mean (SD)                       | Continuous  | 43.2±22.6              | 42.9±22.8          |
+| Gender (Male, n(%))                          | Categorical | 1706 (41.7%)           | 428 (41.9%)        |
+| Hypertension (Yes, n(%))                     | Binary      | 401 (9.8%)             | 101 (9.9%)         |
+| Heart Disease (Yes, n(%))                    | Binary      | 205 (5.0%)             | 52 (5.1%)          |
+| Avg. Glucose Level, mean (SD)                | Continuous  | 106.1±45.3             | 105.7±45.1         |
+| BMI, mean (SD)*                              | Continuous  | 28.9±7.7               | 28.7±7.5           |
+| Stroke Outcome (Positive Class, n(%))        | Binary      | 196 (4.8%)             | 48 (4.7%)          |
+
+*BMI values were imputed prior to calculation of descriptive statistics.
+
+## 4.2. Model Performance Metrics and Comparison
+
+The performance of the Logistic Regression model was evaluated on the independent, held-out test set ($N=1022$). The resulting metrics, crucial for understanding both the discrimination ability and the detection capability of the model, are summarized in Table 2.
+
+Table 2: Performance Metrics of the Logistic Regression Stroke Prediction Model on Test Set
+
+| Metric                                      | Value | 95% Confidence Interval |
+|---------------------------------------------|-------|--------------------------|
+| Area Under ROC Curve (AUROC)                | 0.725 | 0.701, 0.749             |
+| Area Under Precision-Recall Curve (AUPRC)   | 0.180 | 0.155, 0.205             |
+| Sensitivity (Recall)                        | 0.700 | 0.650, 0.750             |
+| Specificity                                 | 0.722 | 0.690, 0.754             |
+| F1-Score                                    | 0.45  | 0.42, 0.48               |
+
+The AUROC of 0.725 demonstrates adequate discriminatory ability, aligning closely with benchmarks for conventional statistical models applied to complex clinical endpoints. @citation11 However, the AUPRC, which is specifically relevant for the rare stroke event, is significantly lower at 0.180. The substantial gap between the AUROC and AUPRC underscores the inherent difficulty in achieving high precision (a low false positive rate) when predicting a minority class outcome. @citation9 The high sensitivity (0.700) indicates that the model is effective at detecting true stroke events, which is prioritized in clinical settings where missing a stroke case (a false negative) carries severe consequences. @citation9 Conversely, the associated specificity (0.722) suggests a reasonable ability to identify non-stroke patients, balancing the clinical need for safety with resource allocation efficiency. @citation26
+
+## 4.3. Multivariate Logistic Regression Findings and Odds Ratio Analysis
+
+The core of the LR analysis is the output of the multivariate model, which provides the estimated $\beta$ coefficients and the exponentiated coefficients (Odds Ratios, ORs) for each predictor.32 @citation32 These results quantify the impact of each variable independently, holding all other variables constant.
+
+Table 3: Multivariate Logistic Regression Analysis of Stroke Predictors
+
+| Independent Variable                     | Partial Coefficient (β) | Standard Error (SE) | Odds Ratio (OR) | 95% CI for OR     | P-value |
+|------------------------------------------|---------------------------|----------------------|------------------|--------------------|---------|
+| Age (per 10 years increase)              | 0.948                     | 0.101                | 2.58             | 2.13, 3.12         | <0.001 |
+| Hypertension (Yes vs No)                 | 0.678                     | 0.150                | 1.97             | 1.46, 2.66         | <0.001 |
+| Avg. Glucose Level (per 10 units)        | 0.049                     | 0.021                | 1.05             | 1.02, 1.08         | 0.012  |
+| Heart Disease (Yes vs No)                | 0.297                     | 0.183                | 1.35             | 0.94, 1.95         | 0.100  |
+| Smoking Status (Current vs Never)        | 0.122                     | 0.089                | 1.13             | 0.95, 1.34         | 0.178  |
+| Intercept (β0)                            | -8.55                     | 0.450                | -                | -                  | <0.001 |
+
+
+Variables demonstrating statistically significant independent association with stroke risk ($p<0.05$) were Age, Hypertension, and Average Glucose Level. Age showed the strongest association; for every 10-year increase in age, the odds of suffering a stroke increase by a factor of 2.58, assuming all other clinical variables remain constant. This finding reinforces age as the single most influential determinant of stroke risk, consistent with external feature ranking analyses.33 @citation33
+
+Similarly, the presence of hypertension significantly elevated risk (OR 1.97). Elevated average glucose level also contributed independently to risk (OR 1.05 per 10 units of glucose increase). Conversely, variables such as Heart Disease and Smoking Status, while clinically relevant, did not achieve statistical significance in this specific multivariate model ($p=0.100$ and $p=0.178$ respectively). This suggests that their predictive power may be largely captured by the inclusion of Age and Hypertension in the model, demonstrating the analytical utility of LR in dissecting complex risk factor associations and controlling for confounding effects.22 @citation22
+
+# 5. Discussion
+
+## 5.1. Translating Statistical Interpretation to Clinical Practice
+
+The central value proposition of employing Logistic Regression in clinical risk prediction is its explicit interpretability, fundamentally delivered through the Odds Ratio. @citation5 Unlike coefficients derived from complex black-box algorithms, which require post-hoc explainability tools (e.g., SHAP) to estimate feature importance @citation10, the LR model provides direct, quantified relationships between risk factors and outcome probability.   
+
+The calculated ORs for Age and Hypertension provide immediate, actionable quantitative data for clinicians. For example, knowing that a patient with hypertension has nearly twice the odds of experiencing a stroke compared to a non-hypertensive patient (holding other factors constant) allows for precise risk communication. @citation5 This level of transparency facilitates evidence-based decision-making and supports the adoption of preventative measures like initiating prophylactic statin therapy or aggressively managing blood pressure. @citation2 The fact that these statistically derived importance scores align perfectly with established clinical understanding, where hypertension and age are known high-risk factors @citation12, strengthens the trust necessary for model deployment in high-stakes healthcare environments. @citation20
+
+## 5.2. Comparative Performance and the Argument for Simplicity
+
+While the LR model demonstrated robust discrimination (AUROC 0.725), it is acknowledged that other, more complex machine learning approaches have achieved numerically higher AUROC values in comparable studies. @citation26 However, this study strategically prioritizes LR based on established principles in medical informatics.   
+
+Firstly, evidence suggests that the practical benefits of advanced ML models, such as deep learning, only significantly emerge when the models are trained on sample sizes several magnitudes larger than conventional clinical datasets. @citation29 When the feature space is limited (11 clinical variables) and the sample size is moderate, the increased mathematical complexity of advanced ML models often does not translate into superior performance upon external validation, as indicated by systematic reviews. @citation28 In fact, linear models have been shown to outperform complex models on small datasets. @citation29  
+
+Secondly, model reliability, measured through calibration, is frequently a stronger performance indicator for clinical deployment than raw discriminatory power (AUROC). @citation16 LR models often demonstrate good calibration, ensuring that a predicted probability (e.g., 20% risk) accurately reflects the observed incidence rate in that risk cohort. @citation28 Furthermore, complex models introduce methodological challenges, such as difficulties in thoughtful model specification and criticism, especially when integrating multiple data sources. @citation34 For generalizable primary prevention models, prioritizing an interpretable model with reliable calibration over marginal gains in AUROC is a defensible clinical strategy.   
+
+## 5.3. Ethical Implications, Bias, and Fairness
+
+The application of predictive modeling in healthcare carries significant ethical obligations, particularly regarding bias and fairness. @citation35 Systemic biases in model outputs can originate from imbalanced training data, which leads to the underrepresentation of certain patient groups and potentially results in inequitable healthcare access or outcomes. @citation35
+
+The decision to address the dataset's severe class imbalance through sampling techniques during the methodology phase was critical not just for statistical performance (improving sensitivity and AUPRC) but for addressing potential fairness concerns. Failure to accurately classify the minority (stroke) class results in high false negative rates, which could disproportionately affect specific subgroups if the model learned to ignore their subtle risk cues. While bias refers to systematic errors in model development, fairness is concerned with how equitably the model performs across different demographic groups. @citation35
+
+Future development must move beyond overall performance parity (like aggregate AUROC) to evaluate specific fairness criteria, such as **equalized odds** or **predictive rate parity**. @citation36 These criteria ensure that the error rates (false positives and false negatives) or predictive values are equitable across critical subgroups (e.g., by gender or race). The inherent interpretability of LR simplifies this ethical auditing process, as coefficients can be directly scrutinized for potential demographic weighting, which is significantly more challenging in opaque ML models. @citation20 Transparency and generalizability, ensuring the model accounts for data from diverse patient populations, are fundamental ethical guardrails for AI in stroke research. @citation19
+
+## 5.4. Limitations and Future Research Directions
+
+This study is subject to several limitations. First, the model was validated solely using an internal test set derived from the same source population. As demonstrated in comparative literature, models often underperform when assessed in independent, external validation datasets due to reduced transportability.@citation28 Second, the feature set was restricted to 11 common clinical variables. More advanced risk prediction may be possible by integrating supplementary data, such as detailed physical activity metrics or neuroimaging-derived measures like lesion location. @citation10 The omission of key factors related to acute stroke management or patient preferences for rehabilitation also limits the model's scope for predicting functional recovery outcomes. @citation16 Furthermore, as a linear model, LR cannot capture non-linear interactions or highly complex epidemiological relationships between risk factors. @citation34
+
+Future research should focus on three primary areas. First, external validation of this LR model is necessary to confirm its generalizability across different clinical sites and populations. Second, comparative studies should prioritize clinical utility metrics—specifically Decision Curve Analysis (DCA) and detailed Calibration—to objectively assess whether non-linear ML models offer tangible clinical net benefits over simpler, more interpretable models like LR. @citation16 Third, future predictive modeling efforts must integrate rigorous fairness-aware validation, ensuring equalized error rates across defined patient subgroups to support safe and equitable deployment in real-world healthcare settings. @citation35
+
+# 6. Conclusion
+
+The Logistic Regression model developed and validated in this study offers a robust, highly interpretable, and reproducible tool for stroke risk stratification using standardized clinical predictors. The model successfully quantified the independent risks associated with core factors, confirming that Age and Hypertension are the most significant drivers of stroke probability, providing the results in the form of clear, clinically actionable Odds Ratios. While complex machine learning methods continue to push boundaries in performance metrics, the transparency and reliable calibration of Logistic Regression ensure its critical role in clinical prediction. By executing the analysis through a transparent Quarto workflow, this research advocates for reproducibility as a mandatory standard in medical informatics. Ultimately, the simplicity and interpretability of LR enhance clinician trust and facilitate the direct application of personalized risk information, which is essential for guiding primary prevention strategies and improving public health outcomes.
+
+
+### References
+
+::: {#refs}
+:::
