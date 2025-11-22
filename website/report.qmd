@@ -1,5 +1,11 @@
 ---
 title: "Predicting stroke risk from common health indicators: a binary logistic regression analysis"
+author:
+  - name: Renan Monteiro Barbosa
+    url: https://github.com/renanmb
+    affiliation: Master of Data Science Program @ The University of West Florida (UWF)
+  - name: Shree 
+  - name: Cohen
 bibliography: references.bib
 link-citations: true
 ---
