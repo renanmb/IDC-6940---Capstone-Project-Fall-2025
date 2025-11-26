@@ -1,0 +1,770 @@
+---
+title: "Predicting stroke risk from common health indicators: a binary logistic regression analysis"
+description: "Draft 04 for Final report"
+author:
+  - "Shree Krishna M.S Basnet"
+  - "Renan"
+  - "Supervisor: Dr. Cohen"
+date: "December 2 2025"
+# format: 
+#   html:
+#     theme: cosmo
+#     toc: true
+#     toc-float: true
+#     code-fold: false
+#     self-contained: true
+number-sections: true
+bibliography: references.bib
+link-citations: true
+# csl: apa-numeric-superscript-brackets.csl
+categories: [drafts, renan]
+image: images/spongebob-imagination.jpg
+draft: false
+---
+
+```{r}
+#| include: false
+#| message: false
+#| warning: false
+
+# Load libraries explicitly (simpler than lapply)
+
+library(ggplot2)
+library(dplyr)
+library(car)
+library(ResourceSelection)
+library(caret)
+library(pROC)
+library(logistf)
+library(Hmisc)
+library(rcompanion)
+library(summarytools)
+library(tidyverse)
+library(knitr)
+library(ggpubr)
+library(ggcorrplot)
+library(randomForest)
+library(gbm)
+library(kernlab)
+
+# Set seed
+set.seed(123)
+
+# Load data
+find_git_root <- function(start = getwd()) {
+  path <- normalizePath(start, winslash = "/", mustWork = TRUE)
+  while (path != dirname(path)) {
+    if (dir.exists(file.path(path, ".git"))) return(path)
+    path <- dirname(path)
+  }
+  stop("No .git directory found — are you inside a Git repository?")
+}
+
+repo_root <- find_git_root()
+datasets_path <- file.path(repo_root, "datasets")
+
+# Reading the datafile healthcare-dataset-stroke-data
+steve_dataset_path <- file.path(datasets_path, "kaggle-healthcare-dataset-stroke-data/healthcare-dataset-stroke-data.csv")
+stroke1 = read_csv(steve_dataset_path, show_col_types = FALSE)
+
+# stroke1 <- read.csv("C:/Users/LaptopUser/Downloads/stroke.csv")
+
+# Handle dataset features
+
+stroke1[stroke1 == "N/A" | stroke1 == "Unknown" | stroke1 == "children" | stroke1 == "other"] <- NA
+stroke1$bmi <- round(as.numeric(stroke1$bmi), 2)
+stroke1$gender[stroke1$gender == "Male"] <- 1
+stroke1$gender[stroke1$gender == "Female"] <- 2
+stroke1$gender <- as.numeric(stroke1$gender)
+stroke1$ever_married[stroke1$ever_married == "Yes"] <- 1
+stroke1$ever_married[stroke1$ever_married == "No"] <- 2
+stroke1$ever_married <- as.numeric(stroke1$ever_married)
+stroke1$work_type[stroke1$work_type == "Govt_job"] <- 1
+stroke1$work_type[stroke1$work_type == "Private"] <- 2
+stroke1$work_type[stroke1$work_type == "Self-employed"] <- 3
+stroke1$work_type[stroke1$work_type == "Never_worked"] <- 4
+stroke1$work_type <- as.numeric(stroke1$work_type)
+stroke1$Residence_type[stroke1$Residence_type == "Urban"] <- 1
+stroke1$Residence_type[stroke1$Residence_type == "Rural"] <- 2
+stroke1$Residence_type <- as.numeric(stroke1$Residence_type)
+stroke1$avg_glucose_level <- as.numeric(stroke1$avg_glucose_level)
+stroke1$heart_disease <- as.numeric(stroke1$heart_disease)
+stroke1$hypertension <- as.numeric(stroke1$hypertension)
+stroke1$age <- round(as.numeric(stroke1$age), 2)
+stroke1$stroke <- as.numeric(stroke1$stroke)
+stroke1$smoking_status[stroke1$smoking_status == "never smoked"] <- 1
+stroke1$smoking_status[stroke1$smoking_status == "formerly smoked"] <- 2
+stroke1$smoking_status[stroke1$smoking_status == "smokes"] <- 3
+stroke1$smoking_status <- as.numeric(stroke1$smoking_status)
+stroke1 <- stroke1[, !(names(stroke1) %in% "id")]
+
+# Remove NAs and clean dataset
+
+stroke1$stroke <- as.factor(stroke1$stroke)
+stroke1_clean <- na.omit(stroke1)
+strokeclean <- stroke1_clean
+fourassume <- stroke1_clean
+
+strokeclean$stroke <- factor(
+  strokeclean$stroke,
+  levels = c("0", "1"),
+  labels = c("No", "Yes")
+)
+
+fourassume$stroke <- factor(
+  fourassume$stroke,
+  levels = c("0", "1"),
+  labels = c("No", "Yes")
+)
+
+```
+
+
+
+# Introduction
+
+Stroke is one of the leading causes of death and disability worldwide and remains a major public health challenge [@WHO2025]. Because stroke often occurs suddenly and can result in long-term neurological impairment, early identification of individuals at elevated risk is critical for prevention and timely intervention. Data-driven risk prediction models enable clinicians and public health professionals to quantify individual-level risk and to target high-risk groups for lifestyle counselling and clinical management.
+
+Logistic Regression (LR) is one of the most widely used approaches for modelling binary outcomes such as disease presence or absence [@sperandei2014understanding]. It extends linear regression to cases where the outcome is categorical and provides interpretable coefficients and odds ratios that describe how each predictor is associated with the probability of the event. LR has been applied across a wide range of domains, including child undernutrition and anaemia [@asmare2024determinants], road traffic safety [@rahman2021identification; @chen2024binary; @chen2020modeling], health-care utilisation and clinical admission decisions [@hutchinson2023predictors], and fraud detection [@samara2024using]. These applications highlight both the flexibility of LR and its suitability for real-world decision-making problems.
+
+In this project, we analyse a publicly available stroke dataset that includes key demographic, behavioural, and clinical predictors such as age, gender, hypertension status, heart disease, marital status, work type, residence type, smoking status, body mass index (BMI), and average glucose level. These variables are commonly reported in the stroke and cardiovascular literature as important determinants of risk. Using this dataset, we first clean and recode the variables into appropriate numeric formats and then develop a series of supervised learning models for stroke prediction.
+
+Logistic Regression is used as the primary, interpretable baseline model, but its performance is compared against several more complex machine-learning techniques, including Decision Tree, Random Forest, Gradient Boosted Machine, k-Nearest Neighbours, and Support Vector Machine (radial). Model performance is evaluated using accuracy, sensitivity, specificity, ROC curves, AUC, and confusion matrices. The main objectives are to identify the most influential predictors of stroke and to determine whether advanced machine-learning models offer meaningful improvements over Logistic Regression for classification of stroke risk in this dataset.
+
+# Methodology
+
+We use this study Using clinical and demographic data, this project aims to develop and evaluate a number of supervised machine-learning models for binary stroke prediction.  The dataset, preprocessing procedure, model development approach, and mathematical formulation of logistic regression—which is the main analytical model because of its interpretability and proven application in medical research—are all covered in this section [@sperandei2014understanding; @hosmer2013applied].
+
+## Dataset and visualization 
+
+We used stroke dataset containing 5,110 observations and 11 predictors commonly associated with cerebrovascular risk. After cleaning missing and inconsistent entries, a final dataset of 3,357 individuals remained for analysis. The dataset includes demographic, behavioral, and clinical indicators widely used in stroke-risk modeling.
+
+###Variables
+
+The key predictors are listed below.
+
+| Variable              | Type                           | Description                   |
+| --------------------- | ------------------------------ | ----------------------------- |
+| **age**               | Numeric                        | Age of the individual (years) |
+| **gender**            | Categorical (1=Male, 2=Female) | Biological sex                |
+| **hypertension**      | Binary (0/1)                   | Prior hypertension diagnosis  |
+| **heart_disease**     | Binary (0/1)                   | Presence of heart disease     |
+| **ever_married**      | Binary                         | Marital status                |
+| **work_type**         | Categorical (1–4)              | Employment category           |
+| **Residence_type**    | Binary (1=Urban, 2=Rural)      | Place of residence            |
+| **smoking_status**    | Categorical                    | Never/Former/Smokes           |
+| **bmi**               | Numeric                        | Body Mass Index               |
+| **avg_glucose_level** | Numeric                        | Average glucose level         |
+| **stroke**            | Binary outcome (0=No, 1=Yes)   | Stroke occurrence             |
+
+Stroke is a highly unbalanced outcome variable:
+- Yes (stroke): about 5%
+- No (no stroke): around 95%
+
+Bias-corrected logistic regression methods and ROC-based model evaluation are justified by this imbalance.
+
+
+# Dataset Prepration
+To guarantee model validity and stop data leakage, data preprocessing adhered to conventional clinical-analytics protocols [@wang2014].
+
+Among the steps were:
+
+- Elimination of non-predictive identifiers (patient ID)
+
+- Transforming categorical variables into dummy numerical representations
+
+- Managing uncommon or irregular categories (e.g., "Other" gender values handled as absent)
+
+- BMI, glucose, and age conversion to numerical
+
+- Rows with unintelligible labels ("Unknown," "N/A") are removed.
+
+- Valid range and consistency verification
+
+- After recoding, missing values might be imputed or removed.
+
+- During splitting, stratified sampling is used to maintain the stroke/no-stroke ratio [@chen2020modeling].
+
+The objective of preprocessing was to generate a cleansed dataset appropriate for binary classification, even if the Analysis section presents thorough summaries (distributions, histograms, and outlier checks).
+
+# Train–Test Split and Cross-Validation
+The model was trained using 70% of the data.
+
+Thirty percent of the data was kept for the last assessment.
+
+In accordance with best practices for limited or unbalanced clinical datasets, repeated 5-fold cross-validation was utilized to adjust hyperparameters and lower variance [@zhang2020descriptive].
+
+
+
+# Machine-Learning Models Compared
+2.6 Machine-Learning Models Compared
+
+Using the caret framework, six supervised models were trained for comparison:
+
+Logistic Regression
+
+Decision Tree
+
+Random Forest
+
+Gradient Boosted Machine (GBM)
+
+k-Nearest Neighbors (k-NN)
+
+Support Vector Machine (Radial Kernel)
+
+Each model used the same cross-validation scheme and the same train/test split to guarantee fair comparison.
+
+# Evaluation Metrics
+Models were evaluated using standard clinical classification metrics:
+
+Accuracy
+
+Sensitivity (Recall)
+
+Specificity
+
+Precision
+
+F1-Score
+
+Receiver Operating Characteristic (ROC) curve
+
+Area Under the Curve (AUC)
+
+Youden’s J Statistic
+
+Used to determine optimal classification threshold:
+
+𝐽
+=
+Sensitivity
++
+Specificity
+−
+1
+J=Sensitivity+Specificity−1
+
+These metrics are widely used in stroke-risk modeling literature [@chen2020modeling].
+
+
+
+# Analysis
+
+Before developing predictive models, an exploratory analysis was conducted to understand the distribution, structure, and relationships within the cleaned dataset (N = 3,357). This step is crucial in rare-event medical modeling because data imbalance, skewed predictors, or correlated variables can directly influence model behavior and classification performance.
+
+
+# Distribution of Key Continuous Variables
+
+Histograms were used to assess the spread of the primary numeric predictors (Age, BMI, and Average Glucose Level). These variables demonstrate clinically expected right-skewness, particularly glucose and BMI, consistent with published literature on metabolic and cardiovascular risk distributions.
+
+
+```{r}
+# Histograms for key numeric variables
+library(ggplot2)
+
+p_age  <- ggplot(strokeclean, aes(age)) + geom_histogram(binwidth=5, fill="green") +
+  labs(title="Age Distribution", x="Age", y="Count")
+
+p_bmi  <- ggplot(strokeclean, aes(bmi)) + geom_histogram(binwidth=2, fill="pink") +
+  labs(title="BMI Distribution", x="BMI", y="Count")
+
+p_gluc <- ggplot(strokeclean, aes(avg_glucose_level)) + 
+  geom_histogram(binwidth=10, fill="yellow") +
+  labs(title="Average Glucose Level", x="Glucose Level", y="Count")
+
+ggpubr::ggarrange(p_age, p_bmi, p_gluc, ncol=3)
+
+```
+Interpretation
+
+Age shows a broad distribution with a natural right tail, indicating more older adults.
+
+BMI has moderate right-skewness, consistent with obesity patterns in clinical datasets.
+
+Glucose level shows strong right-skewness, highlighting metabolic risk differences across individuals.
+
+These patterns match clinical expectations for populations at risk of cardiovascular complications.
+
+# Distribution of Key Categorical Variables
+
+Bar charts help visualize population composition. The dataset shows more females than males, a balanced rural–urban distribution, and substantial variation in work type and smoking behavior.
+
+
+```{r}
+# Bar charts for categorical variables
+
+p_gender <- ggplot(strokeclean, aes(gender)) + geom_bar(fill="red") +
+labs(title="Gender Distribution", x="Gender", y="Count")
+
+p_smoke <- ggplot(strokeclean, aes(smoking_status)) + geom_bar(fill="blue") +
+labs(title="Smoking Status", x="Smoking Category", y="Count")
+
+p_res <- ggplot(strokeclean, aes(Residence_type)) + geom_bar(fill="green") +
+labs(title="Residence Type", x="Residence", y="Count")
+
+ggpubr::ggarrange(p_gender, p_smoke, p_res, ncol=3)
+
+
+
+```
+
+Interpretation
+
+Bar plots were created to visualize demographic and behavioral attributes.
+Females are slightly more represented than males.
+
+Smoking status shows a large “never smoked” group.
+
+Residence type is roughly balanced between urban and rural households.
+
+These patterns form the baseline population characteristics.
+
+
+# Correlation Heatmap
+
+The associations between numerical predictors were assessed using a correlation heatmap. The variables exhibit low to moderate correlation, indicating that the assumptions of logistic regression are not broken. According to earlier stroke-epidemiology studies, age, hyperglycemia, and BMI exhibit the highest associations with stroke risk.
+
+
+
+```{r}
+
+# Correlation heatmap
+
+library(ggcorrplot)
+
+numeric_vars <- strokeclean[, c("age","bmi","avg_glucose_level",
+"hypertension","heart_disease")]
+
+corr_matrix <- cor(numeric_vars)
+
+ggcorrplot::ggcorrplot(corr_matrix,
+lab=TRUE,
+colors=c("purple","gold","grey"),
+title="Correlation Heatmap of Key Predictors")
+
+
+```
+
+Interpretation
+
+Correlations are generally low to moderate, indicating minimal multicollinearity.
+
+Age, glucose, and hypertension show noticeable associations — consistent with their clinical relevance.
+
+This supports the suitability of logistic regression.
+
+# Summary Interpretation
+
+- The distributions of age, BMI, and glucose are skewed to the right.
+
+- Unbalanced category proportions are shown in smoking status and occupational type.
+
+- The correlation levels are sufficiently low to prevent problems with multicollinearity.
+
+- These trends support the application of tree-based ensemble models and logistic regression.
+
+The modeling approach that follows is guided by this EDA, which offers a basis for comprehending how each predictor might help to stroke categorization.
+
+# Model Development Approach
+
+- Distributions of age, BMI, and glucose are skewed to the right.
+
+- There are unequal category proportions for both work type and smoking status.
+
+- The correlation levels are low enough to prevent problems with multicollinearity.
+
+- The application of logistic regression and tree-based ensemble models is justified by these patterns.
+
+The modeling approach that follows is guided by this EDA, which offers a basis for comprehending how each predictor may contribute to stroke classification.
+
+# Key Modeling Principles
+
+# Model Development Approach
+
+Six supervised machine-learning algorithms were trained to classify stroke vs. non-stroke cases. All models were implemented using the *caret* package with a consistent workflow to ensure fairness and prevent information leakage.
+
+#Key Modeling Principles
+- Train/Test Split: 70% training, 30% testing  
+- Cross-Validation: Repeated 5-fold CV optimized for ROC  
+- Outcome Variable: Stroke (1 = yes, 0 = no)  
+- Predictors: Age, gender, marital status, hypertension, heart disease, residence type, work type, smoking status, BMI, and average glucose  
+
+# Evaluation Metrics 
+  - Accuracy  
+  - Sensitivity (Recall)  
+  - Specificity  
+  - ROC Curve  
+  - AUC (Area Under the Curve)  
+  - Confusion Matrix
+
+This ensures a standardized and unbiased comparison across all six models.
+
+# Data Spitting
+
+```{r}
+
+model_df <- strokeclean
+model_df <- na.omit(model_df)
+model_df$stroke <- factor(model_df$stroke)
+levels(model_df$stroke) <- c("No", "Yes")
+table(model_df$stroke)
+
+
+set.seed(123)
+index <- createDataPartition(strokeclean$stroke, p = 0.70, list = FALSE)
+train_data <- strokeclean[index, ]
+test_data  <- strokeclean[-index, ]
+
+train_data$stroke <- factor(train_data$stroke, levels = c("No","Yes"))
+test_data$stroke  <- factor(test_data$stroke,  levels = c("No","Yes"))
+
+```
+# Train Control
+
+```{r}
+ctrl <- trainControl(
+method = "repeatedcv",
+number = 5,
+repeats = 3,
+classProbs = TRUE,
+summaryFunction = twoClassSummary,
+verboseIter = FALSE
+)
+
+
+```
+
+# Logestic Regression
+
+```{r}
+model_lr <- train(
+stroke ~ .,
+data = train_data,
+method = "glm",
+family = "binomial",
+metric = "ROC",
+trControl = ctrl
+)
+
+```
+
+# Decision Tree
+
+```{r}
+model_tree <- train(
+stroke ~ .,
+data = train_data,
+method = "rpart",
+metric = "ROC",
+trControl = ctrl,
+tuneLength = 10
+)
+
+```
+
+# Random Forest
+
+```{r}
+model_rf <- train(
+stroke ~ .,
+data = train_data,
+method = "rf",
+metric = "ROC",
+trControl = ctrl,
+tuneLength = 5
+)
+
+```
+
+# Gradient Boosted Machine
+
+```{r}
+model_gbm <- train(
+stroke ~ .,
+data = train_data,
+method = "gbm",
+metric = "ROC",
+trControl = ctrl,
+verbose = FALSE
+)
+
+```
+
+# k-Nearest Neighbors
+
+```{r}
+model_knn <- train(
+stroke ~ .,
+data = train_data,
+method = "knn",
+metric = "ROC",
+trControl = ctrl
+)
+
+```
+
+# Support Vector Machine
+
+```{r}
+model_svm <- train(
+stroke ~ .,
+data = train_data,
+method = "svmRadial",
+metric = "ROC",
+trControl = ctrl
+)
+
+```
+
+# Evaluation
+
+```{r}
+models_list <- list(
+  LR   = model_lr,
+  TREE = model_tree,
+  RF   = model_rf,
+  GBM  = model_gbm,
+  KNN  = model_knn,
+  SVM  = model_svm
+)
+
+library(pROC)
+
+results <- data.frame(
+  Model       = character(),
+  AUC         = numeric(),
+  Accuracy    = numeric(),
+  Sensitivity = numeric(),
+  Specificity = numeric()
+)
+
+for (m in names(models_list)) {
+  mdl <- models_list[[m]]
+
+  # Probabilities for the "Yes" class
+  preds_prob  <- predict(mdl, test_data, type = "prob")[, "Yes"]
+  # Class predictions
+  preds_class <- predict(mdl, test_data)
+
+  # ROC & AUC (explicitly say which level is "event")
+  roc_obj <- roc(test_data$stroke, preds_prob,
+                 levels = c("No", "Yes"), direction = "<")
+  auc_val <- auc(roc_obj)
+
+  # Confusion matrix – positive = "Yes"
+  cm <- confusionMatrix(preds_class, test_data$stroke, positive = "Yes")
+
+  results <- rbind(
+    results,
+    data.frame(
+      Model       = m,
+      AUC         = as.numeric(auc_val),
+      Accuracy    = cm$overall["Accuracy"],
+      Sensitivity = cm$byClass["Sensitivity"],
+      Specificity = cm$byClass["Specificity"]
+    )
+  )
+}
+
+results
+
+
+
+
+```
+
+# ROC Curve Comparison
+
+```{r}
+# ROC objects for each model
+roc_lr   <- roc(test_data$stroke,
+                predict(model_lr,   test_data, type = "prob")[, "Yes"],
+                levels = c("No", "Yes"), direction = "<")
+
+roc_tree <- roc(test_data$stroke,
+                predict(model_tree, test_data, type = "prob")[, "Yes"],
+                levels = c("No", "Yes"), direction = "<")
+
+roc_rf   <- roc(test_data$stroke,
+                predict(model_rf,   test_data, type = "prob")[, "Yes"],
+                levels = c("No", "Yes"), direction = "<")
+
+roc_gbm  <- roc(test_data$stroke,
+                predict(model_gbm,  test_data, type = "prob")[, "Yes"],
+                levels = c("No", "Yes"), direction = "<")
+
+roc_knn  <- roc(test_data$stroke,
+                predict(model_knn,  test_data, type = "prob")[, "Yes"],
+                levels = c("No", "Yes"), direction = "<")
+
+roc_svm  <- roc(test_data$stroke,
+                predict(model_svm,  test_data, type = "prob")[, "Yes"],
+                levels = c("No", "Yes"), direction = "<")
+
+# Plot all ROC curves
+plot(roc_lr,   col = "red",       main = "ROC Comparison for Six Models")
+plot(roc_tree, col = "blue",      add = TRUE)
+plot(roc_rf,   col = "darkgreen", add = TRUE)
+plot(roc_gbm,  col = "purple",    add = TRUE)
+plot(roc_knn,  col = "orange",    add = TRUE)
+plot(roc_svm,  col = "black",     add = TRUE)
+
+legend(
+  "bottomright",
+  legend = c("LR", "Tree", "RF", "GBM", "KNN", "SVM"),
+  col    = c("red", "blue", "darkgreen", "purple", "orange", "black"),
+  lwd    = 2
+)
+
+```
+
+# Odds ratio Forest plot
+
+```{r}
+glm_lr <- glm(
+stroke ~ age + gender + hypertension + heart_disease + ever_married +
+work_type + Residence_type + avg_glucose_level + bmi + smoking_status,
+data = train_data,
+family = binomial
+)
+
+```
+
+# Coefficient table
+
+```{r}
+lr_coef <- summary(glm_lr)$coefficients 
+
+```
+
+
+# Odds ratios = exp(beta)
+
+
+```{r}
+or_vals <- exp(lr_coef[, "Estimate"]) 
+
+ci_raw <- suppressMessages(confint(glm_lr)) # CI on log-odds scale
+ci_or <- exp(ci_raw) # convert to OR scale
+
+plot_df <- data.frame(
+Predictor = rownames(lr_coef),
+OR = or_vals,
+CI_lower = ci_or[, 1],
+CI_upper = ci_or[, 2]
+)
+
+
+
+plot_df <- subset(plot_df, Predictor != "(Intercept)")
+
+library(ggplot2)
+
+ggplot(plot_df, aes(x = reorder(Predictor, OR), y = OR)) +
+geom_point(size = 3, color = "red") +
+geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper), width = 0.2) +
+coord_flip() +
+labs(
+title = "Odds Ratios for Stroke Predictors (Logistic Regression)",
+y = "Odds Ratio (log scale)",
+x = ""
+) +
+scale_y_log10() +
+geom_hline(yintercept = 1, linetype = "dashed") +
+theme_minimal()
+
+plot_df[order(-plot_df$OR), ]
+
+```
+
+# stroke rateof top preadators 
+
+# hypertension and Stoke
+
+```{r}
+ggplot(strokeclean, aes(x = hypertension, fill = stroke)) +
+geom_bar(position = "fill") +
+scale_y_continuous(labels = scales::percent) +
+labs(
+title = "Stroke Rate by Hypertension Status",
+x = "Hypertension (0 = No, 1 = Yes)",
+y = "Percentage"
+) +
+scale_fill_manual(values = c("No" = "yellow", "Yes" = "red")) +
+theme_minimal()
+
+
+```
+
+Interpretation:
+
+Hypertensive individuals have strongly elevated stroke risk.
+
+# heart deasese and stroke
+
+
+```{r}
+ggplot(strokeclean, aes(x = heart_disease, fill = stroke)) +
+geom_bar(position = "fill") +
+scale_y_continuous(labels = scales::percent) +
+labs(
+title = "Stroke Rate by Heart Disease",
+x = "Heart Disease (0/1)",
+y = "Percentage"
+) +
+scale_fill_manual(values = c("No" = "pink", "Yes" = "green")) +
+theme_minimal()
+
+
+```
+
+Interpretation:
+
+Individuals with heart disease show 4–5× higher stroke rate.
+
+# Smoking and Stroke
+
+```{r}
+
+ggplot(strokeclean, aes(x = smoking_status, fill = stroke)) +
+geom_bar(position = "fill") +
+scale_y_continuous(labels = scales::percent) +
+labs(
+title = "Stroke Rate by Smoking Behavior",
+x = "1=Never, 2=Former, 3=Smokes",
+y = "Percentage"
+) +
+scale_fill_manual(values = c("No" = "grey70", "Yes" = "red")) +
+theme_minimal()
+
+
+```
+
+Interpretation:
+
+Smokers and former smokers show higher stroke percentages than never-smokers.
+
+# mini heat map for top preadators
+
+```{r}
+top_numeric <- strokeclean[, c("age","avg_glucose_level","bmi",
+"hypertension","heart_disease")]
+
+corr_matrix <- cor(top_numeric)
+
+ggcorrplot::ggcorrplot(
+corr_matrix,
+lab = TRUE,
+colors = c("blue", "white", "red"),
+title = "Correlation of Key Stroke Predictors"
+)
+
+
+
+```
+
+### References
+
+::: {#refs}
+:::
