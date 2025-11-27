@@ -7,9 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Renan Monteiro Barbosa">
+<meta name="author" content="Shree Krishna M.S Basnet">
+<meta name="author" content="Supervisor: Dr.&nbsp;Cohen">
 <meta name="description" content="Draft 04 for Final report">
 
-<title>Draft Final report v04 – IDC-6940 - Capstone Project Fall-2025</title>
+<title>Predicting stroke risk from common health indicators: a binary logistic regression analysis – IDC-6940 - Capstone Project Fall-2025</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -346,8 +348,7 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#predicting-stroke-risk-from-common-health-indicators-a-binary-logistic-regression-analysis" id="toc-predicting-stroke-risk-from-common-health-indicators-a-binary-logistic-regression-analysis" class="nav-link active" data-scroll-target="#predicting-stroke-risk-from-common-health-indicators-a-binary-logistic-regression-analysis">Predicting stroke risk from common health indicators: a binary logistic regression analysis</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a>
   <ul class="collapse">
   <li><a href="#dataset-and-visualization" id="toc-dataset-and-visualization" class="nav-link" data-scroll-target="#dataset-and-visualization">Dataset and visualization</a></li>
@@ -396,7 +397,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Draft Final report v04</h1>
+<h1 class="title">Predicting stroke risk from common health indicators: a binary logistic regression analysis</h1>
   <div class="quarto-categories">
     <div class="quarto-category">draft</div>
     <div class="quarto-category">renan</div>
@@ -411,7 +412,7 @@ div.csl-indent {
 </div>
 
 <div class="quarto-title-meta-author">
-  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Authors</div>
   <div class="quarto-title-meta-heading">Affiliation</div>
   
     <div class="quarto-title-meta-contents">
@@ -421,6 +422,16 @@ div.csl-indent {
         <p class="affiliation">
             Master of Data Science Program @ The University of West Florida (UWF)
           </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Shree Krishna M.S Basnet </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Supervisor: Dr.&nbsp;Cohen </p>
+  </div>
+  <div class="quarto-title-meta-contents">
       </div>
   </div>
 
@@ -436,8 +447,6 @@ div.csl-indent {
 </header>
 
 
-<section id="predicting-stroke-risk-from-common-health-indicators-a-binary-logistic-regression-analysis" class="level1">
-<h1>Predicting stroke risk from common health indicators: a binary logistic regression analysis</h1>
 <p>Author:</p>
 <p>Shree Krishna M.S Basnet</p>
 <p>Renan</p>
@@ -446,7 +455,6 @@ div.csl-indent {
   - "Shree Krishna M.S Basnet"
   - "Renan"
   - "Supervisor: Dr. Cohen" -->
-</section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>Stroke is one of the leading causes of death and disability worldwide and remains a major public health challenge<span class="citation" data-cites="WHO2025"><sup>[<a href="#ref-WHO2025" role="doc-biblioref">1</a>]</sup></span>. Because stroke often occurs suddenly and can result in long-term neurological impairment, early identification of individuals at elevated risk is critical for prevention and timely intervention. Data-driven risk prediction models enable clinicians and public health professionals to quantify individual-level risk and to target high-risk groups for lifestyle counselling and clinical management.</p>
@@ -614,7 +622,7 @@ div.csl-indent {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -644,7 +652,7 @@ div.csl-indent {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -682,7 +690,7 @@ div.csl-indent {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -958,7 +966,7 @@ Accuracy5   SVM 0.6390929 0.9414101  0.00000000   0.9947534</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1017,7 +1025,7 @@ Accuracy5   SVM 0.6390929 0.9414101  0.00000000   0.9947534</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1056,7 +1064,7 @@ work_type                 work_type 0.8378524 0.6216945 1.131027</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1080,7 +1088,7 @@ work_type                 work_type 0.8378524 0.6216945 1.131027</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1104,7 +1112,7 @@ work_type                 work_type 0.8378524 0.6216945 1.131027</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1129,7 +1137,7 @@ work_type                 work_type 0.8378524 0.6216945 1.131027</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1259,7 +1267,7 @@ work_type                 work_type 0.8378524 0.6216945 1.131027</code></pre>
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/renanmb\.github\.io\/IDC-6940---Capstone-Project-Fall-2025\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
