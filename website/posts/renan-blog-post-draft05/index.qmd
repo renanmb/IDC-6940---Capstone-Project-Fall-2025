@@ -1,0 +1,432 @@
+---
+title: "Draft Final Report - v05"
+description: "Change Format to fit with the samples and reviewed equations"
+author:
+  - name: Renan Monteiro Barbosa
+    url: https://github.com/renanmb
+    affiliation: Master of Data Science Program @ The University of West Florida (UWF)
+    # affiliation-url: https://ucsb-meds.github.io/
+# date: 10-24-2022
+categories: [draft, renan]
+# citation:
+#   url: https://samanthacsik.github.io/posts/2022-10-24-my-blog-post/
+image: images/spongebob-imagination.jpg
+draft: false
+bibliography: references.bib
+link-citations: true
+---
+
+## Introduction
+
+Stroke is one of the leading causes of death and disability worldwide and remains a major public health challenge [@WHO2025]. Because stroke often occurs suddenly and can result in long-term neurological impairment, early identification of individuals at elevated risk is critical for prevention and timely intervention. Data-driven risk prediction models enable clinicians and public health professionals to quantify individual-level risk and to target high-risk groups for lifestyle counselling and clinical management.
+
+Logistic Regression (LR) is one of the most widely used approaches for modelling binary outcomes such as disease presence or absence [@sperandei2014understanding]. It extends linear regression to cases where the outcome is categorical and provides interpretable coefficients and odds ratios that describe how each predictor is associated with the probability of the event. LR has been applied across a wide range of domains, including child undernutrition and anaemia [@asmare2024determinants], road traffic safety [@rahman2021identification; @chen2024binary; @chen2020modeling], health-care utilisation and clinical admission decisions [@hutchinson2023predictors], and fraud detection [@samara2024using]. These applications highlight both the flexibility of LR and its suitability for real-world decision-making problems.
+
+In this project, we analyse a publicly available stroke dataset that includes key demographic, behavioural, and clinical predictors such as age, gender, hypertension status, heart disease, marital status, work type, residence type, smoking status, body mass index (BMI), and average glucose level. These variables are commonly reported in the stroke and cardiovascular literature as important determinants of risk. Using this dataset, we first clean and recode the variables into appropriate numeric formats and then develop a series of supervised learning models for stroke prediction.
+
+Logistic Regression is used as the primary, interpretable baseline model, but its performance is compared against several more complex machine-learning techniques, including Decision Tree, Random Forest, Gradient Boosted Machine, k-Nearest Neighbours, and Support Vector Machine (radial). Model performance is evaluated using accuracy, sensitivity, specificity, ROC curves, AUC, and confusion matrices. The main objectives are to identify the most influential predictors of stroke and to determine whether advanced machine-learning models offer meaningful improvements over Logistic Regression for classification of stroke risk in this dataset.
+
+<!-- 
+⣿⣿⡇⢩⠘⣴⣿⣥⣤⢦⢁⠄⠉⡄⡇⠛⠛⠛⢛⣭⣾⣿⣿⡏
+⣿⣿⣿⡇⠹⢇⡹⣿⣿⣛⣓⣿⡿⠞⠑⣱⠄⢀⣴⣿⣿⣿⣿⡟
+⣿⣿⣿⣧⣸⡄⣿⣪⡻⣿⠿⠋⠄⠄⣀⣀⢡⣿⣿⣿⣿⡿⠋
+⠘⣿⣿⣿⣿⣷⣭⣓⡽⡆⡄⢀⣤⣾⣿⣿⣿⣿⣿⡿⠋
+⠄⢨⡻⡇⣿⢿⣿⣿⣭⡶⣿⣿⣿⣜⢿⡇⡿⠟⠉
+⠄⠸⣷⡅⣫⣾⣿⣿⣿⣷⣙⢿⣿⣿⣷⣦⣚⡀
+⠄⠄⢉⣾⡟⠙⠶⠖⠈⢻⣿⣷⣅⢻⣿⣿⣿⣿⣿⣶⣶⡆⠄⣤⡀
+⠄⢠⣿⣿⣧⣀⣀⣀⣀⣼⣿⣿⣿⡎⢿⣿⣿⣿⣿⣿⣿⣇⠄⠈⠁
+⠄⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢇⣎⢿⣿⣿⣿⣿⣿⣿⣿⣶⣶
+⠄⠄⠻⢿⣿⣿⣿⣿⣿⣿⣿⢟⣫⣾⣿⣷⡹⣿⣿⣿⣿⣿⣿⣿⡟
+⠄⠄⠄⠄⢮⣭⣍⡭⣭⡵⣾⣿⣿⣿⡎⣿⣿⣌⠻⠿⠿⠿⠟⠋
+⠄⠄⠄⠄⠈⠻⣿⣿⣿⣿⣹⣿⣿⣿⡇⣿⣿⡿
+⠄⠄⣀⣴⣾⣶⡞⣿⣿⣿⣿⣿⣿⣿⣾⣿⡿ 
+-->
+
+## Methods
+
+The binary logistic regression model is part of a family of statistical models called generalised linear models. The main characteristic that differentiates binary logistic regression from other generalised linear models is the type of dependent (or outcome) variable. @harris2019statistics A dependent variable in a binary logistic regression has two levels. For example, a variable that records whether or not someone has ever been diagnosed with a health condition like Stroke could be measured in two categories, yes and no. Likewise, someone might have coronary heart disease or not, be physically active or not, be a current smoker or not, or have any one of thousands of diagnoses or personal behaviours and characteristics that are of interest in family medicine.
+
+The binary logistic regression algorithm below:
+
+$ln\left(\frac{\pi}{1-\pi}\right) = \beta_{0} + \beta_{1}x_{1} + \cdots + \beta_{k}x_{k}$
+
+Where $\pi = P[Y =1]$ is the probability of the outcome.
+
+
+- Logistic Regression
+- Decision Tree
+- Random Forest
+- Gradient Boosted Machine
+- k-Nearest Neighbors
+- Support Vector Machine
+
+### Assumptions
+
+Binary logistic regression relies on the following underlying assumptions to be true:
+
+* The observations must be independent.
+* There must be no perfect multicollinearity among independent variables.
+* Logistic regression assumes linearity of independent variables and log odds.
+* There are no extreme outliers
+* The Sample Size is Sufficiently Large. Field recommends a minimum of 50 cases. @field2024discovering Hosmer, Lemeshow, and Sturdivant @hosmer2013applied suggest a minimum sample of 10 observations per independent variable in the model. Leblanc and Fitzgerald (2000) @leblanc2000logistic suggest a minimum of 30 observations per independent variable.
+
+
+
+<!-- 
+⣿⣿⡇⢩⠘⣴⣿⣥⣤⢦⢁⠄⠉⡄⡇⠛⠛⠛⢛⣭⣾⣿⣿⡏
+⣿⣿⣿⡇⠹⢇⡹⣿⣿⣛⣓⣿⡿⠞⠑⣱⠄⢀⣴⣿⣿⣿⣿⡟
+⣿⣿⣿⣧⣸⡄⣿⣪⡻⣿⠿⠋⠄⠄⣀⣀⢡⣿⣿⣿⣿⡿⠋
+⠘⣿⣿⣿⣿⣷⣭⣓⡽⡆⡄⢀⣤⣾⣿⣿⣿⣿⣿⡿⠋
+⠄⢨⡻⡇⣿⢿⣿⣿⣭⡶⣿⣿⣿⣜⢿⡇⡿⠟⠉
+⠄⠸⣷⡅⣫⣾⣿⣿⣿⣷⣙⢿⣿⣿⣷⣦⣚⡀
+⠄⠄⢉⣾⡟⠙⠶⠖⠈⢻⣿⣷⣅⢻⣿⣿⣿⣿⣿⣶⣶⡆⠄⣤⡀
+⠄⢠⣿⣿⣧⣀⣀⣀⣀⣼⣿⣿⣿⡎⢿⣿⣿⣿⣿⣿⣿⣇⠄⠈⠁
+⠄⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢇⣎⢿⣿⣿⣿⣿⣿⣿⣿⣶⣶
+⠄⠄⠻⢿⣿⣿⣿⣿⣿⣿⣿⢟⣫⣾⣿⣷⡹⣿⣿⣿⣿⣿⣿⣿⡟
+⠄⠄⠄⠄⢮⣭⣍⡭⣭⡵⣾⣿⣿⣿⡎⣿⣿⣌⠻⠿⠿⠿⠟⠋
+⠄⠄⠄⠄⠈⠻⣿⣿⣿⣿⣹⣿⣿⣿⡇⣿⣿⡿
+⠄⠄⣀⣴⣾⣶⡞⣿⣿⣿⣿⣿⣿⣿⣾⣿⡿ 
+-->
+
+## Analysis and Results
+
+Import all the dependencies:
+
+```{r}
+#| code-fold: true
+#| message: false
+#| warning: false
+#| output: false
+
+packages <- c("dplyr", "car", "ResourceSelection", "caret", "pROC",  "logistf", "Hmisc", "rcompanion", "ggplot2", "summarytools", "tidyverse", "knitr", "ggpubr", "ggcorrplot", "randomForest", "gbm", "kernlab", "skimr")
+# Load Libraries
+lapply(packages, library, character.only = TRUE)
+# Set seed for reproducibility
+set.seed(123)
+```
+
+### Data and Visualization
+
+Data source: [Stroke Prediction Dataset](https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset) @kaggle01
+
+```{r}
+#| code-fold: true
+#| output: false
+find_git_root <- function(start = getwd()) {
+  path <- normalizePath(start, winslash = "/", mustWork = TRUE)
+  while (path != dirname(path)) {
+    if (dir.exists(file.path(path, ".git"))) return(path)
+    path <- dirname(path)
+  }
+  stop("No .git directory found — are you inside a Git repository?")
+}
+
+repo_root <- find_git_root()
+datasets_path <- file.path(repo_root, "datasets")
+
+# Reading the datafile healthcare-dataset-stroke-data
+stroke_path <- file.path(datasets_path, "kaggle-healthcare-dataset-stroke-data/healthcare-dataset-stroke-data.csv")
+stroke1 = read_csv(stroke_path, show_col_types = FALSE)
+```
+
+**Dataset Description**
+
+The **Stroke Prediction Dataset** @kaggle01 is a health and public health resource on Kaggle that contains over 5,110 observations used for binary classification to predict whether a patient is likely to experience a stroke (output variable). The dataset is composed of 11 clinical and demographic features, including a patient's **age**, **gender**, presence of conditions like **hypertension** and **heart disease**, **work type**, **residence type**, **average glucose level**, and **BMI**. This dataset is primarily intended for use in developing and testing machine learning models focused on risk assessment and predictive analytics for stroke events, which are globally the second leading cause of death.
+
+| Feature Name       | Description                                              | Data Type          | Key Values/Range                                           |
+|--------------------|----------------------------------------------------------|--------------------|------------------------------------------------------------|
+| id                 | Unique identifier for the patient                        | Numeric            | Unique numeric ID                                          |
+| gender             | Patient's gender                                         | Character          | Male, Female, Other                                        |
+| age                | Patient's age in years                                   | Numeric            | 0.08 to 82                                                 |
+| hypertension       | Indicates if the patient has hypertension                | Numeric (binary)   | 0 (No), 1 (Yes)                                            |
+| heart_disease      | Indicates if the patient has any heart diseases          | Numeric (binary)   | 0 (No), 1 (Yes)                                            |
+| ever_married       | Whether the patient has ever been married                | Character          | No, Yes                                                    |
+| work_type          | Type of occupation                                       | Character          | Private, Self-employed, Govt_job, children, Never_worked   |
+| Residence_type     | Patient's area of residence                              | Character          | Rural, Urban                                               |
+| avg_glucose_level  | Average glucose level in blood                           | Numeric            | ≈55.12 to 271.74                                           |
+| bmi                | Body Mass Index                                          | Character          | ≈10.3 to 97.6 (has NA values)                              |
+| smoking_status     | Patient's smoking status                                 | Character          | formerly smoked, never smoked, smokes, Unknown             |
+| stroke             | Target Variable: Whether the patient had a stroke        | Numeric (binary)   | 0 (No Stroke), 1 (Stroke)                                  |
+
+<!-- TODO add a footnote for table -->
+
+<!-- 
+⠄⠄⣿⣿⣿⣿⠘⡿⢛⣿⣿⣿⣿⣿⣧⢻⣿⣿⠃⠸⣿⣿⣿⠄⠄⠄⠄⠄
+⠄⠄⣿⣿⣿⣿⢀⠼⣛⣛⣭⢭⣟⣛⣛⣛⠿⠿⢆⡠⢿⣿⣿⠄⠄⠄⠄⠄
+⠄⠄⠸⣿⣿⢣⢶⣟⣿⣖⣿⣷⣻⣮⡿⣽⣿⣻⣖⣶⣤⣭⡉⠄⠄⠄⠄⠄
+⠄⠄⠄⢹⠣⣛⣣⣭⣭⣭⣁⡛⠻⢽⣿⣿⣿⣿⢻⣿⣿⣿⣽⡧⡄⠄⠄⠄
+⠄⠄⠄⠄⣼⣿⣿⣿⣿⣿⣿⣿⣿⣶⣌⡛⢿⣽⢘⣿⣷⣿⡻⠏⣛⣀⠄⠄
+⠄⠄⠄⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠙⡅⣿⠚⣡⣴⣿⣿⣿⡆⠄
+⠄⠄⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠄⣱⣾⣿⣿⣿⣿⣿⣿⠄
+⠄⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿APPROVED⣿⣿⣿⣿⣿⠄
+⠄⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠣⣿⣿⣿⣿⣿⣿⣿⣿⣿⠄
+⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠑⣿⣮⣝⣛⠿⠿⣿⣿⣿⣿⠄
+⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠄
+-->
+
+**Dataset Preprocessing**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+# Handle dataset features
+stroke1[stroke1 == "N/A" | stroke1 == "Unknown" | stroke1 == "children" | stroke1 == "other"] <- NA
+stroke1$bmi <- round(as.numeric(stroke1$bmi), 2)
+stroke1$gender[stroke1$gender == "Male"] <- 1
+stroke1$gender[stroke1$gender == "Female"] <- 0
+stroke1$gender <- as.numeric(stroke1$gender)
+stroke1$ever_married[stroke1$ever_married == "Yes"] <- 1
+stroke1$ever_married[stroke1$ever_married == "No"] <- 0
+stroke1$ever_married <- as.numeric(stroke1$ever_married)
+stroke1$work_type[stroke1$work_type == "Govt_job"] <- 1
+stroke1$work_type[stroke1$work_type == "Private"] <- 2
+stroke1$work_type[stroke1$work_type == "Self-employed"] <- 3
+stroke1$work_type[stroke1$work_type == "Never_worked"] <- 4
+stroke1$work_type <- as.numeric(stroke1$work_type)
+stroke1$Residence_type[stroke1$Residence_type == "Urban"] <- 1
+stroke1$Residence_type[stroke1$Residence_type == "Rural"] <- 2
+stroke1$Residence_type <- as.numeric(stroke1$Residence_type)
+stroke1$avg_glucose_level <- as.numeric(stroke1$avg_glucose_level)
+stroke1$heart_disease <- as.numeric(stroke1$heart_disease)
+stroke1$hypertension <- as.numeric(stroke1$hypertension)
+stroke1$age <- round(as.numeric(stroke1$age), 2)
+stroke1$stroke <- as.numeric(stroke1$stroke)
+stroke1$smoking_status[stroke1$smoking_status == "never smoked"] <- 1
+stroke1$smoking_status[stroke1$smoking_status == "formerly smoked"] <- 2
+stroke1$smoking_status[stroke1$smoking_status == "smokes"] <- 3
+stroke1$smoking_status <- as.numeric(stroke1$smoking_status)
+stroke1 <- stroke1[, !(names(stroke1) %in% "id")]
+
+# Remove NAs and clean dataset
+stroke1$stroke <- as.factor(stroke1$stroke)
+stroke1_clean <- na.omit(stroke1)
+strokeclean <- stroke1_clean
+fourassume <- stroke1_clean
+
+strokeclean$stroke <- factor(
+  strokeclean$stroke,
+  levels = c("0", "1"),
+  labels = c("No", "Yes")
+)
+
+fourassume$stroke <- factor(
+  fourassume$stroke,
+  levels = c("0", "1"),
+  labels = c("No", "Yes")
+)
+```
+
+The initial exploration demonstrated that the **Stroke Prediction Dataset** @kaggle01 has several issues requiring changes for handling missing values, converting character (categorical) features into numerical codes, and removing the identifier column.
+
+Our initial step is to addresses specific string values that represent missing data or require special handling:
+
+* All instances of the string values "N/A", "Unknown", "children", and "other" across the entire dataset were replaced with the standard R missing value representation, NA.
+
+Then we must convert the data type of several character (categorical) features into numerical (integer) codes for use in machine learning models. The **bmi** column, which was initially read as character due to the presence of NA values, was converted to numeric then rounded to two decimal places. The categorical **gender** feature was re-coded to numeric with the values "Male" = 1 and "Female" = 0. The categorical **ever_married** feature was re-coded to numeric with the values "Yes" = 1 and "No" = 0. The categorical **work_type** feature was re-coded to numeric with values "Govt_job" $\rightarrow 1$, "Private" $\rightarrow 2$, "Self-employed" $\rightarrow 3$, "Never_worked" $\rightarrow 4$. The categorical **Residence_type** feature was re-coded to numeric with values "Urban" $\rightarrow 1$ and "Rural" $\rightarrow 2$. The categorical **smoking_status** feature was re-coded to numeric with values "never smoked" $\rightarrow 1$", formerly smoked" $\rightarrow 2$ and "smokes" $\rightarrow 3$. Additionally **avg_glucose_level**, **heart_disease**, **hypertension**, **age**, and **stroke** were all explicitly converted or confirmed as numeric data types, with **age** being rounded to two decimal places.
+
+Lastly, the **id** column, which is a unique identifier and not useful for predictive modeling, was removed from the dataset leaving us with 11 predictors. Now we can proceed on converting the target Variable **stroke** variable in **stroke1** to a factor (a categorical type used in R). Removal of missing and inconsistent entries and finally creating the Data Frames **strokeclean** and **fourassume**. Then the stroke factor levels were explicitly labeled 0 $\rightarrow$ "No" and 1 $\rightarrow$ "Yes".
+
+**Dataset Preprocessing Conclusion**
+
+The **Stroke Prediction Dataset** @kaggle01 that started containing 5,110 observations and 12 features. After cleaning missing and inconsistent entries among other necessarychanges, ended as a dataset containing 3,357 observations and 11 predictors commonly associated with cerebrovascular risk. Those key predictors are listed below.
+
+| Variable              | Type                           | Description                   |
+| --------------------- | ------------------------------ | ----------------------------- |
+| **age**               | Numeric                        | Age of the individual (years) |
+| **gender**            | Categorical (1=Male, 2=Female) | Biological sex                |
+| **hypertension**      | Binary (0/1)                   | Prior hypertension diagnosis  |
+| **heart_disease**     | Binary (0/1)                   | Presence of heart disease     |
+| **ever_married**      | Binary                         | Marital status                |
+| **work_type**         | Categorical (1–4)              | Employment category           |
+| **Residence_type**    | Binary (1=Urban, 2=Rural)      | Place of residence            |
+| **smoking_status**    | Categorical                    | Never/Former/Smokes           |
+| **bmi**               | Numeric                        | Body Mass Index               |
+| **avg_glucose_level** | Numeric                        | Average glucose level         |
+| **stroke**            | Binary outcome (0=No, 1=Yes)   | Stroke occurrence             |
+
+<!-- TODO add table footnote -->
+
+
+```{r}
+# skim(stroke1)
+nrow(fourassume)
+# class(stroke1$stroke)
+# unique(stroke1$stroke)
+```
+
+**Dataset Processing**
+
+We are splitting the dataset intro trainning and testing data.
+
+```{r}
+#| code-fold: true
+#| output: false
+
+model_df <- strokeclean
+model_df <- na.omit(model_df)
+model_df$stroke <- factor(model_df$stroke)
+levels(model_df$stroke) <- c("No", "Yes")
+table(model_df$stroke)
+
+index <- createDataPartition(strokeclean$stroke, p = 0.70, list = FALSE)
+train_data <- strokeclean[index, ]
+test_data  <- strokeclean[-index, ]
+
+train_data$stroke <- factor(train_data$stroke, levels = c("No","Yes"))
+test_data$stroke  <- factor(test_data$stroke,  levels = c("No","Yes"))
+```
+
+
+<!-- The **Stroke Prediction Dataset** @kaggle01 containing 5,110 observations and 11 predictors commonly associated with cerebrovascular risk. After cleaning missing and inconsistent entries, a final dataset of 3,357 individuals remained for analysis. The dataset includes demographic, behavioral, and clinical indicators widely used in stroke-risk modeling. -->
+
+### Data Analysis
+
+Before developing predictive models, an exploratory analysis was conducted to understand the distribution, structure, and relationships within the cleaned dataset (N = 3,357). This step is crucial in rare-event medical modeling because data imbalance, skewed predictors, or correlated variables can directly influence model behavior and classification performance.
+
+
+### Statistical Modelling
+
+- Logistic Regression
+- Decision Tree
+- Random Forest
+- Gradient Boosted Machine
+- k-Nearest Neighbors
+- Support Vector Machine
+
+
+```{r}
+# skim(stroke1)
+class(stroke1$stroke)
+unique(stroke1$stroke)
+```
+
+#### Repeated K-fold cross-validation.
+
+The trainControl() function in the R caret package is used to control the computational nuances and resampling methods employed by the train() function. It allows us to implement Repeated K-fold cross-validation ("repeatedcv").
+
+```{r}
+ctrl <- trainControl(
+method = "repeatedcv",
+number = 5,
+repeats = 3,
+classProbs = TRUE,
+summaryFunction = twoClassSummary,
+verboseIter = FALSE
+)
+```
+
+#### Logistic Regression
+
+```{r}
+# model_lr <- train(
+# stroke ~ .,
+# data = train_data,
+# method = "glm",
+# family = "binomial",
+# metric = "ROC",
+# trControl = ctrl
+# )
+model_lr <- glm(
+  stroke ~ . , 
+  data=train_data , 
+  family = "binomial" (link=logit)
+  )
+s1 <- summary(model_lr)
+c1 <- coefficients(model_lr)
+anova1 <- car::Anova(model_lr, type = 3)
+confint1 <- confint(model_lr, level=0.95)
+```
+
+<!-- Add Assumption testing here -->
+
+* The observations must be independent.
+* There must be no perfect multicollinearity among independent variables. Use the VIF.
+* Logistic regression assumes linearity of independent variables and log odds.
+* There are no extreme outliers, check using Cooks D
+* The Sample Size is Sufficiently Large. 
+
+**Check Multicollinearity**
+
+In OLS regression, multicollinearity can be calculated either from the correlations among the predictors, or from the correlations among the coefficient estimates, and these result in the same variance inflaction factors (VIFs).
+
+In GLMs, these two approaches yield similar but different VIFs. John Fox, one of the authors of the car package where the vif() function is found, opts for calculating the VIFs from the coefficient estimates.
+
+```{r}
+vif(model_lr)
+```
+
+**Check Outliers**
+
+
+
+<!-- 
+⣿⣿⡇⢩⠘⣴⣿⣥⣤⢦⢁⠄⠉⡄⡇⠛⠛⠛⢛⣭⣾⣿⣿⡏
+⣿⣿⣿⡇⠹⢇⡹⣿⣿⣛⣓⣿⡿⠞⠑⣱⠄⢀⣴⣿⣿⣿⣿⡟
+⣿⣿⣿⣧⣸⡄⣿⣪⡻⣿⠿⠋⠄⠄⣀⣀⢡⣿⣿⣿⣿⡿⠋
+⠘⣿⣿⣿⣿⣷⣭⣓⡽⡆⡄⢀⣤⣾⣿⣿⣿⣿⣿⡿⠋
+⠄⢨⡻⡇⣿⢿⣿⣿⣭⡶⣿⣿⣿⣜⢿⡇⡿⠟⠉
+⠄⠸⣷⡅⣫⣾⣿⣿⣿⣷⣙⢿⣿⣿⣷⣦⣚⡀
+⠄⠄⢉⣾⡟⠙⠶⠖⠈⢻⣿⣷⣅⢻⣿⣿⣿⣿⣿⣶⣶⡆⠄⣤⡀
+⠄⢠⣿⣿⣧⣀⣀⣀⣀⣼⣿⣿⣿⡎⢿⣿⣿⣿⣿⣿⣿⣇⠄⠈⠁
+⠄⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢇⣎⢿⣿⣿⣿⣿⣿⣿⣿⣶⣶
+⠄⠄⠻⢿⣿⣿⣿⣿⣿⣿⣿⢟⣫⣾⣿⣷⡹⣿⣿⣿⣿⣿⣿⣿⡟
+⠄⠄⠄⠄⢮⣭⣍⡭⣭⡵⣾⣿⣿⣿⡎⣿⣿⣌⠻⠿⠿⠿⠟⠋
+⠄⠄⠄⠄⠈⠻⣿⣿⣿⣿⣹⣿⣿⣿⡇⣿⣿⡿
+⠄⠄⣀⣴⣾⣶⡞⣿⣿⣿⣿⣿⣿⣿⣾⣿⡿ 
+-->
+
+## Conclusion
+
+
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⢀⣠⠤⠖⠈⠉⠉⠀⠀⠀⠀⠉⠢⡀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⣴⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢦⡀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠞⠋⢙⣦⡈⣷⡄⠀⠀⠀ -->
+<!-- ⠀⣀⠶⠁⠀⠀⣀⣀⡀⠀⠀⠀⠀⠀⡴⠁⠀⠀⠿⢿⡟⣌⢿⠀⠀⠀ -->
+<!-- ⣠⡿⠀⢠⣜⠉⠀⠀⠙⢷⢄⠀⠀⠀⢧⠀⠀⠀⠀⠀⠀⠘⡆⢧⡀⠀ -->
+<!-- ⣯⠃⠀⢾⣿⠗⠀⠀⠀⠀⡽⠀⠀⠀⠈⠳⢄⣀⠀⠀⠀⡰⠃⠘⣵⡄ -->
+<!-- ⡏⠀⠀⠘⡄⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠉⠉⠁⠀⠀⠀⢱⡇ -->
+<!-- ⡅⠀⠀⠀⠙⠒⠔⠚⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇ -->
+<!-- ⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⡗ -->
+<!-- ⡿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⣇ -->
+<!-- ⠹⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠷⣤⣤⣤⣤⠞⠁⠀⠀⠀⠀⠀⠀⣸ -->
+<!-- ⠀⠸⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⠇ -->
+<!-- ⠀⠀⢇⠳⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡏⠀ -->
+<!-- ⠀⠀⠈⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+
+### References
+
+::: {#refs}
+:::
+
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣒⢋⡤⣹⣯⣴⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡔⠉⣽⣿⣿⣦⣉⣿⣯⠉⠴⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡸⠀⠆⠿⠻⠻⠟⠿⠿⢟⣶⡄⢹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣣⠏⠀⠀⠀⠀⠀⠀⠀⠀⠘⠇⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡾⠀⠐⢀⠤⠀⠀⠀⠀⠀⠀⠀⡞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡞⡁⠀⠀⠉⠀⠀⠀⠐⠂⠄⢸⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⠂⠀⠀⠀⠠⠀⠀⠀⠀⠀⠈⡻⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢶⡄⠀⠀⠀⠀⠀⠀⠀⢀⣴⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡀⠀⠀⠀⠀⠀⠀⢀⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⠀⠀⠀⠀⠀⠀⠀⠸⢇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠴⠙⣆⠀⠀⠀⠀⠀⠀⡠⢢⣿⣷⣤⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⣠⡔⠈⣡⣄⡄⠀⠀⠲⠛⠂⠀⠀⠀⠈⠀⢸⣿⣿⣿⣷⣶⣯⣀⣒⡤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⣠⡐⣉⣤⣶⣿⣿⣿⡇⠀⠀⠀⠀⠂⠐⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣵⡄⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣛⡀⠀⠀⠠⢄⣀⣐⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⡆⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⡯⠤⠀⢇⣘⡒⠲⢾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣥⠀⠀⠀⠀⠀⠀ -->
+<!-- ⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣓⠀⢰⠤⢭⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀ -->
+<!-- ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡧⠬⠀⢘⣛⣓⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀ -->
+<!-- ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣒⠐⡷⠬⢭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀ -->
+<!-- ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⡁⣛⣓⢲⣿⣿⣿⣿⣿⡏⠉⠛⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀ -->
+<!-- ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡶⢲⠦⢭⣽⣿⣿⣿⣿⣿⣅⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀ -->
+<!-- ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣹⣛⣒⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧ -->
+<!-- ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠾⠬⣭⣿⣿⣿⣿⣿⣿⣿⣿⣶⣤⣄⠀⠀⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢼ -->
+<!-- ⠻⣿⣿⣿⣿⠛⠋⢋⠁⠀⠀⠀⣶⢗⣛⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣾⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣾ -->
+<!-- ⠀⣿⣿⣿⣷⣾⣿⠀⠀⠁⠀⠀⣸⡆⠾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣯ -->
+<!-- ⠀⠈⠻⣿⣿⣿⣿⡆⠀⠤⠄⣰⣿⡇⣭⣿⣿⣿⣿⣿⣿⣿⣿⡿⠻⣿⣿⣿⣿⣿⣿⣿⣿⠿⣿⣿⣿⡿⠟⠋⠁ -->
+<!-- ⠀⠀⠀⠀⠉⠺⢿⣿⣿⣿⣿⣿⣿⣧⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⢸⡿⢹⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⡸⢡⣿⣿⣿⣿⣿⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⠀⣷⣿⣿⣿⣿⣿⣿⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀ -->
+<!-- ⠀⠀⠀⠀⠀⢨⣿⣿⣿⣿⣿⣿⣿⣄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀ -->

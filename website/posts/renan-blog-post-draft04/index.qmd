@@ -282,8 +282,8 @@ p_gluc <- ggplot(strokeclean, aes(avg_glucose_level)) +
   labs(title="Average Glucose Level", x="Glucose Level", y="Count")
 
 ggpubr::ggarrange(p_age, p_bmi, p_gluc, ncol=3)
-
 ```
+
 Interpretation
 
 Age shows a broad distribution with a natural right tail, indicating more older adults.
@@ -312,9 +312,6 @@ p_res <- ggplot(strokeclean, aes(Residence_type)) + geom_bar(fill="green") +
 labs(title="Residence Type", x="Residence", y="Count")
 
 ggpubr::ggarrange(p_gender, p_smoke, p_res, ncol=3)
-
-
-
 ```
 
 Interpretation
@@ -336,7 +333,6 @@ The associations between numerical predictors were assessed using a correlation 
 
 
 ```{r}
-
 # Correlation heatmap
 
 library(ggcorrplot)
@@ -350,8 +346,6 @@ ggcorrplot::ggcorrplot(corr_matrix,
 lab=TRUE,
 colors=c("purple","gold","grey"),
 title="Correlation Heatmap of Key Predictors")
-
-
 ```
 
 Interpretation
@@ -411,13 +405,11 @@ This ensures a standardized and unbiased comparison across all six models.
 # Data Spitting
 
 ```{r}
-
 model_df <- strokeclean
 model_df <- na.omit(model_df)
 model_df$stroke <- factor(model_df$stroke)
 levels(model_df$stroke) <- c("No", "Yes")
 table(model_df$stroke)
-
 
 set.seed(123)
 index <- createDataPartition(strokeclean$stroke, p = 0.70, list = FALSE)
@@ -426,8 +418,8 @@ test_data  <- strokeclean[-index, ]
 
 train_data$stroke <- factor(train_data$stroke, levels = c("No","Yes"))
 test_data$stroke  <- factor(test_data$stroke,  levels = c("No","Yes"))
-
 ```
+
 # Train Control
 
 ```{r}
@@ -439,8 +431,6 @@ classProbs = TRUE,
 summaryFunction = twoClassSummary,
 verboseIter = FALSE
 )
-
-
 ```
 
 # Logestic Regression
@@ -454,7 +444,6 @@ family = "binomial",
 metric = "ROC",
 trControl = ctrl
 )
-
 ```
 
 # Decision Tree
@@ -522,7 +511,6 @@ method = "svmRadial",
 metric = "ROC",
 trControl = ctrl
 )
-
 ```
 
 # Evaluation
