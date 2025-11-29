@@ -447,7 +447,6 @@ Overall, these distributions show that the dataset includes a diverse mix of dem
 #| warning: false
 #| message: false
 
-
 numeric_vars = strokeclean[, c("age", "bmi", "avg_glucose_level",
 "hypertension", "heart_disease")]
 
