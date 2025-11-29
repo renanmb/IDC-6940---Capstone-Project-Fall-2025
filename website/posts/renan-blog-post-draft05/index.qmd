@@ -267,8 +267,8 @@ The **Stroke Prediction Dataset** @kaggle01 that started containing 5,110 observ
 ```{r}
 # skim(stroke1)
 # nrow(fourassume)
-class(strokeclean$stroke)
-# unique(stroke1$stroke)
+# class(strokeclean$stroke)
+# unique(strokeclean$gender)
 ```
 
 <!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
@@ -287,9 +287,11 @@ class(strokeclean$stroke)
 <!-- ⠀⠀⢇⠳⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡏⠀ -->
 <!-- ⠀⠀⠈⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
 
-#### 3.2.2 Dataset Visualization
+#### **3.2.2 Dataset Visualization**
 
 Before developing predictive models, an exploratory analysis was conducted to understand the distribution, structure, and relationships within the cleaned dataset (N = 3,357). This step is crucial in rare-event medical modeling because data imbalance, skewed predictors, or correlated variables can directly influence model behavior and classification performance.
+
+**Histograms**
 
 ```{r}
 #| code-fold: true
@@ -297,7 +299,11 @@ Before developing predictive models, an exploratory analysis was conducted to un
 # (a) Histogram of gender
 p1a <- ggplot(strokeclean, aes(x = gender, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +
+  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
+  scale_x_continuous(
+    breaks = c(0, 1), 
+    labels = c("Female", "Male")
+  ) +
   labs(title = "(a) Gender", x = "gender", y = "Count")
 
 # (b) Histogram of Age
@@ -309,31 +315,31 @@ p1b <- ggplot(strokeclean, aes(x = age, fill = stroke)) +
 # (c) Histogram of hypertension
 p1c <- ggplot(strokeclean, aes(x = hypertension, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +
+  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
   labs(title = "(c) Hypertension", x = "hypertension", y = "Frequency")
 
 # (d) Histogram of heart_disease
 p1d <- ggplot(strokeclean, aes(x = heart_disease, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +
+  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
   labs(title = "(d) Heart Disease", x = "HeartDisease", y = "Frequency")
 
 # (e) Histogram of ever_married
 p1e <- ggplot(strokeclean, aes(x = ever_married, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +
+  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
   labs(title = "(e) Ever Married", x = "EverMarried", y = "Frequency")
 
 # (f) Histogram of work_type
 p1f <- ggplot(strokeclean, aes(y = work_type, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +
+  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
   labs(title = "(f) Work Type", y = "WorkType", x = "Frequency")
 
 # (g) Histogram of Residence_type
 p1g <- ggplot(strokeclean, aes(x = Residence_type, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +
+  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
   labs(title = "(g) Residence Type", x = "Residence_type", y = "Frequency")
 
 # (h) Histogram of avg_gloucose_level
@@ -350,34 +356,74 @@ p1i <- ggplot(strokeclean, aes(x = bmi, fill = stroke)) +
 # (j) smoking_status
 p1j <- ggplot(strokeclean, aes(y = smoking_status, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +
+  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
   labs(title = "(j) Smoking Status", y = "smoking_status", x = "Frequency")
 ```
 
+We can observe from the histograms (a), (b), (c) and (d) the following: 
+
+The data appears to be slightly imbalanced towards **female** gender and the proportion of stroke cases relative to the total number of individuals in each gender appears similar for both genders, even if it looks slightly higher in the male doesnt seem to be significant difference. 
+
+The number of stroke cases increases dramatically after the **age** of $\approx 50$ and peaks in the 60 to 80 age range. This strongly suggests **age is a critical risk factor for stroke**.
+
+The majority of patients do not have **hypertension** and the proportion of stroke cases (blue bar) is visibly much higher in the group with **hypertension**. This indicates that **hypertension is a strong risk factor for stroke**.
+
+Similar to hypertension, the majority of patients do not have **heart disease** and the proportion of stroke cases (blue bar) is visibly much higher in the group with **heart disease**. This indicates that **heart disease is a very strong risk factor** for stroke, even stronger than hypertension when based alone on the observed proportions.
 
 ```{r}
-# 4 plots per Figure
+#| code-fold: true
+
 # p1a, p1b, p1c, p1d
+# (a) Histogram of gender 
+# (b) Histogram of Age
+# (c) Histogram of hypertension
+# (d) Histogram of heart_disease
 ggarrange(p1a, p1b, p1c, p1d, 
           ncol = 2, nrow = 2, 
           common.legend = TRUE, legend = "bottom")
 ```
 
+We can observe from the histograms (e), (f), (g) and (h) the following: 
 
+The stroke rate appears higher for those who have ever been married which is a fascinating plot that catches our attention, this must be correlated with another variable. Our guess is that having been married being associated with a higher stroke risk in this dataset, is possibly due to the married group skewing toward older ages
+
+Across the four work types encoded, "Govt_job" = 1, "Private" = 2  "Self-employed" = 3, "Never Worked" = 4. **Self-employed** individuals appear to have the highest risk proportion among the working groups. Followed by the **Private** which is the largest group (total $\approx 2200$) and naturally accounts for the highest raw count of stroke cases (109) with a proportion of stoke incidence sligthly higher than **Govt_job**.
+
+The stroke outcomes based on the patient's **residence type** has a very similar raw count their proportions seems to be similar as well. This suggests that **residence type** does not appear to be a significant factor for stroke risk.
+
+From the distribution of **average glucose** (HbA1c) we can visually spot that the stroke cases are more frequent for high-glucose relative to the total population at those high levels. This higher propportion indicates that **high average glucose (HbA1c) level is a significant risk factor** for stroke.
 
 ```{r}
+#| code-fold: true
+
 # p1e p1f p1g p1h
+# (e) Histogram of ever_married
+# (f) Histogram of work_type
+# (g) Histogram of Residence_type
+# (h) Histogram of avg_gloucose_level
 ggarrange(p1e, p1f, p1g, p1h,
           ncol = 2, nrow = 2, 
           common.legend = TRUE, legend = "bottom")
 ```
 
+We can observe from the histograms (i) and (j) the following: 
 
+For the BMI distribution we can observe that the majority of the patient population (pink bars) falls within the overweight to obese range (BMI $\approx 25$ to $35$). So as a consequence we can expect that the frequency of stroke cases (blue bars) will follow the distribution of the overall population, meaning most strokes occur where the largest number of people are located which are the BMI values between $25$ and $35$.
+
+However, we can visually spot that the stroke occurence is drops significantly closer to a healthy BMI of 20. So although the risk of stroke does seem to be generally higher than average once BMI exceeds the ideal range and moves into the overweight and obese categories because there is a larger distribution within the overweight to obese range, we can conclude that because the skewed distributin that **BMI is a significant risk factor predictor for stroke**.
+
+The stroke outcomes are compared across the three smoking status categories encoded: **smokes = 3**, **formerly smoked = 2**, and **never smoked = 1**.
+
+This plot is highlights a particularly interesting aspect of this dataset. The highest proportional risk of stroke appears to be in the **formerly smoked** group. This finding is common in medical literature @oshunbade2020cigarette, as individuals who have a history of smoking may have accrued vascular damage that persists, but their stroke risk is still lower than the risk for current smokers if they continue to smoke. 
+
+This information is importante, because the **formerly smoked** group shows the highest rate, suggesting that **a history of smoking is a significant indicator of risk.**
 
 ```{r}
 # p1i p1j
+# (i) Histogram of bmi
+# (j) smoking_status
 ggarrange(p1i, p1j,
-          ncol = 2, nrow = 2, 
+          ncol = 2, nrow = 1, 
           common.legend = TRUE, legend = "bottom")
 ```
 

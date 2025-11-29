@@ -443,10 +443,6 @@ Overall, these distributions show that the dataset includes a diverse mix of dem
 
 **Correlation among key numeric prediators**
 
-
-
-
-
 ```{r}
 #| warning: false
 #| message: false
@@ -463,10 +459,6 @@ ggcorrplot::ggcorrplot(
   colors = c("purple", "gold", "grey"),
   title = "Correlation Heatmap of Key Predictors"
 )
-
-
-
-
 ```
 
 **Interpretation**
@@ -499,11 +491,13 @@ scale_fill_manual(values = c("No" = "yellow", "Yes" = "red")) +
 theme_minimal()
 
 ```
+
 **Interpretation**
 
 Hypertensive individuals have a noticeably higher percentage of stroke events compared with non-hypertensive individuals, reinforcing hypertension as a major modifiable risk factor.
 
 **Heart disease and stroke**
+
 ```{r}
 ggplot(strokeclean, aes(x = heart_disease, fill = stroke)) +
 geom_bar(position = "fill") +
