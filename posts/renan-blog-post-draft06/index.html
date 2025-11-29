@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Renan Monteiro Barbosa">
+<meta name="author" content="Shree Krishna M.S Basnet">
+<meta name="author" content="Supervisor: Dr.&nbsp;Cohen">
+<meta name="description" content="Shree sent back draft with changes">
+
+<title>Draft v06 — Predicting stroke risk from common health indicators: a binary logistic regression analysis – IDC-6940 - Capstone Project Fall-2025</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-1773efb2f7ab98e3656670b7729847ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-cef3429e03e90a75e86301dc8df8cee2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-1773efb2f7ab98e3656670b7729847ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">IDC-6940 - Capstone Project Fall-2025</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../report.html"> 
+<span class="menu-text">Report</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Literature Review</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../people/index.html"> 
+<span class="menu-text">About Us</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/renanmb/IDC-6940---Capstone-Project-Fall-2025" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Draft v06 — Predicting stroke risk from common health indicators: a binary logistic regression analysis</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">draft</div>
+    <div class="quarto-category">renan</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Shree sent back draft with changes
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://github.com/renanmb">Renan Monteiro Barbosa</a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Master of Data Science Program @ The University of West Florida (UWF)
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Shree Krishna M.S Basnet </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Supervisor: Dr.&nbsp;Cohen </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- "Predicting stroke risk from common health indicators: a binary logistic regression analysis"
+- "Shree Krishna M.S Basnet"
+- "Renan"
+- "Supervisor: Dr. Cohen" -->
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Stroke affects people all around the world, resulting in numerous deaths and disabilities.<span class="citation" data-cites="WHO2025"><sup>[<a href="#ref-WHO2025" role="doc-biblioref">1</a>]</sup></span>. If we are able to detection stroke early for those at increased risk is will be amazing for prevention and prompt intervention because stroke frequently happens quickly and can cause long-term neurological disability. Clinicians and public health experts can measure individual-level risk and target high-risk populations for clinical management and lifestyle counseling by using data-driven risk prediction models.</p>
+<p>Logistic Regression (LR) is one of the most widely used approaches for modelling binary outcomes such as disease is present in human or not<span class="citation" data-cites="sperandei2014understanding"><sup>[<a href="#ref-sperandei2014understanding" role="doc-biblioref">2</a>]</sup></span>. It extends linear regression to cases where the outcome is categorical and provides interpretable coefficients and odds ratios that describe how each predictor is associated with the probability of the event. LR has been applied across a wide range of domains, including child undernutrition and anaemia<span class="citation" data-cites="asmare2024determinants"><sup>[<a href="#ref-asmare2024determinants" role="doc-biblioref">3</a>]</sup></span>, road traffic safety<span class="citation" data-cites="rahman2021identification chen2024binary chen2020modeling"><sup>[<a href="#ref-rahman2021identification" role="doc-biblioref">4</a>–<a href="#ref-chen2020modeling" role="doc-biblioref">6</a>]</sup></span>, health-care utilisation and clinical admission decisions<span class="citation" data-cites="hutchinson2023predictors"><sup>[<a href="#ref-hutchinson2023predictors" role="doc-biblioref">7</a>]</sup></span>, and fraud detection<span class="citation" data-cites="samara2024using"><sup>[<a href="#ref-samara2024using" role="doc-biblioref">8</a>]</sup></span>. These applications highlight both the flexibility of LR and its suitability for real-world decision-making problems.</p>
+<p>In this project, we analyse a publicly available stroke dataset that includes key demographic, behavioural, and clinical predictors such as age, gender, hypertension status, heart disease, marital status, work type, residence type, smoking status, body mass index (BMI), and average glucose level. These variables are commonly reported in the stroke and cardiovascular literature as important determinants of risk. Using this dataset, we first clean and recode the variables into appropriate numeric formats and then develop a series of supervised learning models for stroke prediction.</p>
+<p>Logistic Regression is used as the primary, interpretable baseline model, but its performance is compared against several more complex machine-learning techniques, including Decision Tree, Random Forest, Gradient Boosted Machine, k-Nearest Neighbours, and Support Vector Machine (radial). Model performance is evaluated using accuracy, sensitivity, specificity, ROC curves, AUC, and confusion matrices. The main objectives are to identify the most influential predictors of stroke and to determine whether advanced machine-learning models offer meaningful improvements over Logistic Regression for classification of stroke risk in this dataset.</p>
+</section>
+<section id="methodology" class="level1">
+<h1>Methodology</h1>
+<p>This part explains about our stoke dataset, variables, preprocessing steps, logistic regression formulation, and the machine-learning modelling framework used to compare classifiers.</p>
+<p>Our datset contains 5,110 observations and 11 predictors commonly associated with cerebrovascular risk. After cleaning missing and inconsistent entries (e.g., “Unknown”, “N/A”, or rare textual categories such as “children” and “other”), a final dataset of 3,357 individuals remained for analysis. The cleaned dataset is stored in the object <strong>strokeclean</strong>.</p>
+<p>Respose we get is in binary so logestic regression is the best approach to observe whether the patient has had <strong>stroke=1</strong> or not <strong>stroke=0</strong><span class="citation" data-cites="hosmer2013applied james2021isl"><sup>[<a href="#ref-hosmer2013applied" role="doc-biblioref"><strong>hosmer2013applied?</strong></a>,<a href="#ref-james2021isl" role="doc-biblioref"><strong>james2021isl?</strong></a>]</sup></span></p>
+<p><strong>Variables</strong></p>
+<p>The key predictors are listed below.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 37%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>age</strong></td>
+<td>Numeric</td>
+<td>Age of the individual (years)</td>
+</tr>
+<tr class="even">
+<td><strong>gender</strong></td>
+<td>Categorical (1=Male, 2=Female)</td>
+<td>Biological sex</td>
+</tr>
+<tr class="odd">
+<td><strong>hypertension</strong></td>
+<td>Binary (0/1)</td>
+<td>Prior hypertension diagnosis</td>
+</tr>
+<tr class="even">
+<td><strong>heart_disease</strong></td>
+<td>Binary (0/1)</td>
+<td>Presence of heart disease</td>
+</tr>
+<tr class="odd">
+<td><strong>ever_married</strong></td>
+<td>Binary</td>
+<td>Marital status</td>
+</tr>
+<tr class="even">
+<td><strong>work_type</strong></td>
+<td>Categorical (1–4)</td>
+<td>Employment category</td>
+</tr>
+<tr class="odd">
+<td><strong>Residence_type</strong></td>
+<td>Binary (1=Urban, 2=Rural)</td>
+<td>Place of residence</td>
+</tr>
+<tr class="even">
+<td><strong>smoking_status</strong></td>
+<td>Categorical</td>
+<td>Never/Former/Smokes</td>
+</tr>
+<tr class="odd">
+<td><strong>bmi</strong></td>
+<td>Numeric</td>
+<td>Body Mass Index</td>
+</tr>
+<tr class="even">
+<td><strong>avg_glucose_level</strong></td>
+<td>Numeric</td>
+<td>Average glucose level</td>
+</tr>
+<tr class="odd">
+<td><strong>stroke</strong></td>
+<td>Binary outcome (0=No, 1=Yes)</td>
+<td>Stroke occurrence</td>
+</tr>
+</tbody>
+</table>
+<p>Stroke is a highly unbalanced outcome variable: - Yes (stroke): about 5% - No (no stroke): around 95%</p>
+<p>Because it is possible to achieve high overall accuracy by merely forecasting the majority class, this class imbalance directly affects model evaluation. Because of this, in addition to accuracy, we also concentrate on sensitivity, specificity, ROC curves, AUC, and Youden’s J statistic.</p>
+<p><strong>Dataset Prepration</strong> To guarantee model validity and stop data leakage, data preprocessing is performed.<span class="citation" data-cites="wang2014"><sup>[<a href="#ref-wang2014" role="doc-biblioref">9</a>]</sup></span>.</p>
+<p>Among the steps were:</p>
+<ul>
+<li><p>Elimination of non-predictive identifiers (patient ID)</p></li>
+<li><p>Transforming categorical variables into dummy numerical representations</p></li>
+<li><p>Managing uncommon or irregular categories (e.g., “Other” gender values handled as absent)</p></li>
+<li><p>BMI, glucose, and age conversion to numerical</p></li>
+<li><p>Rows with unintelligible labels (“Unknown,” “N/A”) are removed.</p></li>
+<li><p>Valid range and consistency verification</p></li>
+<li><p>After recoding, missing values might be imputed or removed.</p></li>
+<li><p>During splitting, stratified sampling is used to maintain the stroke/no-stroke ratio<span class="citation" data-cites="chen2020modeling"><sup>[<a href="#ref-chen2020modeling" role="doc-biblioref">6</a>]</sup></span>.</p></li>
+<li><p>The outcome stroke was defined as a factor with levels “No” and “Yes” in the cleaned dataset strokeclean.</p></li>
+</ul>
+<p>To check sample performance, the data were split into training and test sets. For the baseline logistic regression model, a simple random 70/30 split was used. For the full machine-learning comparison, a stratified partition (via caret::createDataPartition) was applied to preserve the stroke/no-stroke ratio in both sets.</p>
+<p><strong>Logistic regression model </strong></p>
+<p>Let <span class="math inline">\(Y_i\)</span> denote the stroke status for patient <span class="math inline">\(i\)</span>, where</p>
+<ul>
+<li><span class="math inline">\(Y_i = 1\)</span> if patient <span class="math inline">\(i\)</span> experienced a stroke<br>
+</li>
+<li><span class="math inline">\(Y_i = 0\)</span> otherwise.</li>
+</ul>
+<p>Let the predictor vector for patient <span class="math inline">\(i\)</span> be</p>
+<p><span class="math display">\[
+\mathbf{x}_i = (x_{i1}, x_{i2}, \ldots, x_{ip})^\top,
+\]</span></p>
+<p>where the <span class="math inline">\(p\)</span> predictors such as age, hypertension, heart disease, average glucose level, BMI, and smoking status.</p>
+<p>The logistic regression model specifies the conditional probability of stroke as</p>
+<p><span class="math display">\[
+P(Y_i = 1 \mid \mathbf{x}_i)
+= \pi(\mathbf{x}_i)
+= \frac{\exp\big(\beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}\big)}
+       {1 + \exp\big(\beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}\big)}.
+\]</span></p>
+<p>Equivalently, the logit (log-odds) of stroke is modeled as a linear combination of the predictors:</p>
+<p><span class="math display">\[
+\log\left(\frac{\pi(\mathbf{x}_i)}{1 - \pi(\mathbf{x}_i)}\right)
+  = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}.
+\]</span></p>
+<p>Here, <span class="math inline">\(\beta_0\)</span> is the intercept, <span class="math inline">\(\beta_j\)</span> is the change in log-odds of stroke for a one-unit increase in predictor <span class="math inline">\(x_j\)</span>, holding other variables constant.</p>
+<p>Exponentiating <span class="math inline">\(\beta_j\)</span> gives the odds ratio (OR): <span class="math display">\[
+\text{OR}_j = e^{\beta_j},
+\]</span></p>
+<p>which represents the multiplicative change in the odds of stroke for a one-unit increase in <span class="math inline">\(x_j\)</span>.</p>
+<p><strong>Model Estimation</strong></p>
+<p>Let <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \beta_1, \ldots, \beta_p)^\top\)</span> denote the vector of regression coefficients. For independent observations, the likelihood of the data is <span class="math display">\[
+L(\boldsymbol{\beta})
+= \prod_{i=1}^{n}
+  \pi(\mathbf{x}_i)^{\,y_i}
+  \left[1 - \pi(\mathbf{x}_i)\right]^{\,1-y_i},
+\]</span></p>
+<p>where <span class="math inline">\(\pi(\mathbf{x}_i) = P(Y_i = 1 \mid \mathbf{x}_i)\)</span>.</p>
+<p>The <strong>log-likelihood</strong> is</p>
+<p><span class="math display">\[
+\ell(\boldsymbol{\beta})
+= \sum_{i=1}^{n}
+\left[
+  y_i \log\big(\pi(\mathbf{x}_i)\big)
+  +
+  (1 - y_i)\log\big(1 - \pi(\mathbf{x}_i)\big)
+\right].
+\]</span></p>
+<p>The maximum likelihood estimate <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> is the value of <span class="math inline">\(\boldsymbol{\beta}\)</span> that maximizes <span class="math inline">\(\ell(\boldsymbol{\beta})\)</span>. In R, this optimization is carried out automatically using <code>glm(..., family = binomial)</code></p>
+<p><strong>Machine learning models and evaluation</strong></p>
+<p>Six supervised models were fitted using the caret framework in order to determine whether more sophisticated methods may significantly enhance stroke classification:</p>
+<ul>
+<li><p>Logistic Regression (LR)</p></li>
+<li><p>Decision Tree (rpart)</p></li>
+<li><p>Random Forest (RF)</p></li>
+<li><p>Gradient Boosted Machine (GBM)</p></li>
+<li><p>k-Nearest Neighbours (k-NN)</p></li>
+<li><p>Support Vector Machine with radial kernel (SVM-Radial)</p></li>
+</ul>
+<p>All models used the same 70% training / 30% test split and a consistent cross-validation procedure to ensure fair comparison. To guarantee a fair comparison, all models employed the same cross-validation process and a 70% training/30% test split.</p>
+<p><strong>Data Splitting and Model Fitting in R</strong></p>
+<p>The cleaned dataset is stored in the object <code>strokeclean</code>, where the outcome variable is <code>stroke</code> (0 = No stroke, 1 = Stroke), and predictors include <code>age</code>, <code>hypertension</code>, <code>heart_disease</code>, <code>avg_glucose_level</code>, <code>bmi</code>, <code>smoking_status</code>, and others.</p>
+<p>First, the dataset is randomly divided into a training set (70%) and a test set (30%) to evaluate out-of-sample performance, logistic regression model is then fitted on the training data:</p>
+<p>From this model, estimated odds ratios and 95% confidence intervals are computed as:</p>
+<p><strong>Model Predictions and Performance Measures</strong></p>
+<p>Predicted probabilities on the test set are obtained as:</p>
+<p>Using a classification threshold <span class="math inline">\(c = 0.5\)</span>, the predicted class for patient <span class="math inline">\(i\)</span> is</p>
+<p><span class="math display">\[
+\hat{y}_i =
+\begin{cases}
+1, &amp; \text{if } \hat{\pi}_i \ge c, \\\\
+0, &amp; \text{if } \hat{\pi}_i &lt; c.
+\end{cases}
+\]</span></p>
+<p>where <span class="math inline">\(\hat{\pi}_i\)</span> is the predicted probability of stroke for patient <span class="math inline">\(i\)</span>.</p>
+<p><strong>Evaluation Metrics</strong></p>
+<p>Models were evaluated using standard clinical classification metrics:</p>
+<ul>
+<li><p>Accuracy</p></li>
+<li><p>Sensitivity (Recall)</p></li>
+<li><p>Specificity</p></li>
+<li><p>Precision</p></li>
+<li><p>F1-Score</p></li>
+<li><p>Receiver Operating Characteristic (ROC) curve</p></li>
+<li><p>Area Under the Curve (AUC)</p></li>
+</ul>
+<p>Youden’s J Statistic, Used to determine optimal classification threshold:</p>
+<p><span class="math inline">\(J = \text{Sensitivity} + \text{Specificity} - 1\)</span></p>
+<p>These metrics are widely used in stroke-risk modeling literature and as per article it is often used to find optimial classidfication threshhold.<span class="citation" data-cites="chen2020modeling"><sup>[<a href="#ref-chen2020modeling" role="doc-biblioref">6</a>]</sup></span>.</p>
+</section>
+<section id="analysis" class="level1">
+<h1>Analysis</h1>
+<p>Before starting to generate predictive models, an exploratory analysis was conducted to understand the distribution, structure, and relationships within the cleaned dataset (N = 3,357). This step is crucial in rare-event medical modeling because data imbalance, skewed predictors, or correlated variables can directly influence model behavior and classification performance.</p>
+<p><strong>Distribution of Key Continuous Variables</strong></p>
+<p>Histograms were used to assess the spread of the primary numeric predictors (Age, BMI, and Average Glucose Level). These variables demonstrate clinically expected right-skewness, particularly glucose and BMI, consistent with published literature on metabolic and cardiovascular risk distributions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histograms for key numeric variables</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>p_age  <span class="ot">=</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(age)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">5</span>, <span class="at">fill=</span><span class="st">"green"</span>) <span class="sc">+</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Age Distribution"</span>, <span class="at">x=</span><span class="st">"Age"</span>, <span class="at">y=</span><span class="st">"Count"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>p_bmi  <span class="ot">=</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(bmi)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">2</span>, <span class="at">fill=</span><span class="st">"pink"</span>) <span class="sc">+</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"BMI Distribution"</span>, <span class="at">x=</span><span class="st">"BMI"</span>, <span class="at">y=</span><span class="st">"Count"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>p_gluc <span class="ot">=</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(avg_glucose_level)) <span class="sc">+</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">10</span>, <span class="at">fill=</span><span class="st">"yellow"</span>) <span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Average Glucose Level"</span>, <span class="at">x=</span><span class="st">"Glucose Level"</span>, <span class="at">y=</span><span class="st">"Count"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggarrange</span>(p_age, p_bmi, p_gluc, <span class="at">ncol=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>Our histograms is generating valuable variation of primary numerical predictors.</p>
+<ul>
+<li><p>Age is distributed with phase of life mainly from teenage till old age, with most individuals concentrated between 40–70 years, reflecting a typical mid-to-older population where stroke risk naturally increases.</p></li>
+<li><p>BMI displays a moderately right-skewed pattern, with most values falling between 22–35, consistent with a population where overweight status is common but extreme obesity is rare.</p></li>
+<li><p>The average glucose level is substantially skewed to the right, with many people having glucose levels below 120 but a large tail that extends beyond 200, suggesting the presence of people with metabolic problems or possibly diabetes, which is a significant clinical risk factor for stroke.</p></li>
+</ul>
+<p>When combined, these distributions show common clinical trends and offer a strong basis for predictive modeling.</p>
+<p><strong>Distribution of Key Categorical Variables</strong></p>
+<p>Bar charts help visualize population composition. The dataset shows more females than males, a balanced rural–urban distribution, and substantial variation in work type and smoking behavior.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar charts for categorical variables</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix labels for plotting only</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Gender: 1 = Male, 2 = Female</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>strokeclean<span class="sc">$</span>gender <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  strokeclean<span class="sc">$</span>gender,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Smoking status: 1 = Never, 2 = Formerly, 3 = Smokes</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>strokeclean<span class="sc">$</span>smoking_status <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  strokeclean<span class="sc">$</span>smoking_status,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Nsmoked"</span>, <span class="st">"Fsmoked"</span>, <span class="st">"Smokes"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Residence type: 1 = Urban, 2 = Rural</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>strokeclean<span class="sc">$</span>Residence_type <span class="ot">=</span> <span class="fu">factor</span>(</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  strokeclean<span class="sc">$</span>Residence_type,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Urban"</span>, <span class="st">"Rural"</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>p_gender <span class="ot">=</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(gender)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Gender Distribution"</span>, <span class="at">x=</span><span class="st">"G"</span>, <span class="at">y=</span><span class="st">"Count"</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>p_smoke <span class="ot">=</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(smoking_status)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Smoking Status"</span>, <span class="at">x=</span><span class="st">"S"</span>, <span class="at">y=</span><span class="st">"Count"</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>p_res <span class="ot">=</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(Residence_type)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">"green"</span>) <span class="sc">+</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Residence Type"</span>, <span class="at">x=</span><span class="st">"R"</span>, <span class="at">y=</span><span class="st">"Count"</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggarrange</span>(p_gender, p_smoke, p_res, <span class="at">ncol=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>Bar plots were created to visualize demographic and behavioral attributes.</p>
+<ul>
+<li><p>Gender: Females account for a significantly bigger proportion of the sample than males, which may influence overall stroke estimates and must be addressed when interpreting model results.</p></li>
+<li><p>Smoking status shows a large “never smoked” group</p></li>
+<li><p>Residence Type: Urban and rural residents are almost evenly represented, suggesting a balanced dataset with respect to geographical living conditions</p></li>
+</ul>
+<p>Overall, these distributions show that the dataset includes a diverse mix of demographic and lifestyle categories, helping ensure that the predictive models capture variation across different subpopulations.</p>
+<p><strong>Correlation among key numeric prediators</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>numeric_vars <span class="ot">=</span> strokeclean[, <span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"bmi"</span>, <span class="st">"avg_glucose_level"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">"hypertension"</span>, <span class="st">"heart_disease"</span>)]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="ot">=</span> <span class="fu">cor</span>(numeric_vars)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ggcorrplot<span class="sc">::</span><span class="fu">ggcorrplot</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  corr_matrix,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">lab =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"purple"</span>, <span class="st">"gold"</span>, <span class="st">"grey"</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Correlation Heatmap of Key Predictors"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>The correlation heatmap shows that relationships among the key predictors are generally weak to moderate, indicating low multicollinearity and confirming that these variables can be safely used together in a logistic regression model.</p>
+<ul>
+<li><p>Age, hypertension, and heart disease all have small positive connections (about 0.24-0.26), which is to be expected given that cardiovascular problems tend to worsen as people age.</p></li>
+<li><p>The average glucose level displays minor positive associations with age and hypertension, indicating known metabolic risk patterns.</p></li>
+<li><p>BMI shows almost no correlation with the other predictors, suggesting it contributes unique information.</p></li>
+<li><p>No correlation values approach levels that would threaten model stability (e.g., &gt; 0.7).</p></li>
+</ul>
+<p>Overall, the predictors are reasonably independent, supporting their combined use in further statistical and machine-learning models.</p>
+<p><strong>Stroke rates for key risk factors</strong></p>
+<p>Hypertension and stroke</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> hypertension, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">title =</span> <span class="st">"Stroke Rate by Hypertension Status"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">x     =</span> <span class="st">"Hypertension (0 = No, 1 = Yes)"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">y     =</span> <span class="st">"Percentage"</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"No"</span> <span class="ot">=</span> <span class="st">"yellow"</span>, <span class="st">"Yes"</span> <span class="ot">=</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>Hypertensive individuals have a noticeably higher percentage of stroke events compared with non-hypertensive individuals, reinforcing hypertension as a major modifiable risk factor.</p>
+<p><strong>Heart disease and stroke</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> heart_disease, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="at">title =</span> <span class="st">"Stroke Rate by Heart Disease"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="at">x     =</span> <span class="st">"Heart Disease (0 = No, 1 = Yes)"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="at">y     =</span> <span class="st">"Percentage"</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"No"</span> <span class="ot">=</span> <span class="st">"pink"</span>, <span class="st">"Yes"</span> <span class="ot">=</span> <span class="st">"green"</span>)) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>Individuals with heart disease show substantially higher stroke rates than those without heart disease, consistent with clinical understanding that cardiovascular disease and stroke share many underlying mechanisms.</p>
+<p><strong>Smoking status and stroke</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> smoking_status, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="at">title =</span> <span class="st">"Stroke Rate by Smoking Behavior"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="at">x     =</span> <span class="st">"1 = Never, 2 = Former, 3 = Smokes"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="at">y     =</span> <span class="st">"Percentage"</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"No"</span> <span class="ot">=</span> <span class="st">"grey70"</span>, <span class="st">"Yes"</span> <span class="ot">=</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>Both former and current smokers exhibit higher stroke percentages than never-smokers, illustrating the lasting impact of smoking on vascular risk. This supports public health messages around smoking cessation and risk reduction.</p>
+<p>. <strong>Baseline logistic regression model</strong></p>
+<ul>
+<li>Train/test split and model fitting</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(strokeclean)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(n), <span class="at">size =</span> <span class="fl">0.7</span> <span class="sc">*</span> n)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>stroke_train <span class="ot">&lt;-</span> strokeclean[train_index, ]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>stroke_test  <span class="ot">&lt;-</span> strokeclean[<span class="sc">-</span>train_index, ]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>fit_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>stroke <span class="sc">~</span> age <span class="sc">+</span> hypertension <span class="sc">+</span> heart_disease <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>avg_glucose_level <span class="sc">+</span> bmi <span class="sc">+</span> smoking_status <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>gender <span class="sc">+</span> ever_married,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="at">data   =</span> stroke_train,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = stroke ~ age + hypertension + heart_disease + avg_glucose_level + 
+    bmi + smoking_status + gender + ever_married, family = binomial(link = "logit"), 
+    data = stroke_train)
+
+Coefficients:
+                       Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)           -8.459296   0.898462  -9.415   &lt;2e-16 ***
+age                    0.072640   0.008172   8.889   &lt;2e-16 ***
+hypertension           0.455371   0.229016   1.988   0.0468 *  
+heart_disease          0.487364   0.270854   1.799   0.0720 .  
+avg_glucose_level      0.003777   0.001707   2.213   0.0269 *  
+bmi                    0.006537   0.015715   0.416   0.6774    
+smoking_statusFsmoked  0.233821   0.227332   1.029   0.3037    
+smoking_statusSmokes   0.468664   0.266313   1.760   0.0784 .  
+genderFemale           0.230554   0.207568   1.111   0.2667    
+ever_married           0.118482   0.311089   0.381   0.7033    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 953.42  on 2348  degrees of freedom
+Residual deviance: 776.77  on 2339  degrees of freedom
+AIC: 796.77
+
+Number of Fisher Scoring iterations: 7</code></pre>
+</div>
+</div>
+<p>The model includes age, hypertension, heart disease, average glucose level, BMI, smoking status, gender, and marital status as predictors.</p>
+<p><strong>Odds ratios and confidence intervals</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Odds ratios and 95% confidence intervals</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>coef_est <span class="ot">&lt;-</span> <span class="fu">coef</span>(fit_glm)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>OR       <span class="ot">&lt;-</span> <span class="fu">exp</span>(coef_est)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>conf_int <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">confint</span>(fit_glm))  <span class="co"># confidence intervals on OR scale</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Waiting for profiling to be done...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>odds_table <span class="ot">&lt;-</span> <span class="fu">cbind</span>(OR, conf_int)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(odds_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"OR"</span>, <span class="st">"2.5 %"</span>, <span class="st">"97.5 %"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(odds_table, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         OR 2.5 % 97.5 %
+(Intercept)           0.000 0.000  0.001
+age                   1.075 1.059  1.093
+hypertension          1.577 0.996  2.450
+heart_disease         1.628 0.942  2.733
+avg_glucose_level     1.004 1.000  1.007
+bmi                   1.007 0.975  1.037
+smoking_statusFsmoked 1.263 0.806  1.969
+smoking_statusSmokes  1.598 0.938  2.674
+genderFemale          1.259 0.842  1.903
+ever_married          1.126 0.590  2.013</code></pre>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>The logistic regression findings demonstrate how each predictor impacts the likelihood of having a stroke, while keeping other variables constant:</p>
+<ul>
+<li><p>Age (OR = 1.075, CI: 1.059–1.093) Age is the strongest continuous predictor. Each additional year of age increases the odds of stroke by about 7.5%, and the confidence interval does not include 1, indicating strong statistical significance.</p></li>
+<li><p>Hypertension (OR = 1.577, CI: 0.996–2.450) Individuals with hypertension have roughly 58% higher odds of stroke compared to those without hypertension, although the lower CI bound is just below 1. This suggests a borderline significant effect, but clinically important.</p></li>
+<li><p>Heart disease (OR = 1.628, CI: 0.942–2.733) Heart disease increases stroke odds by about 63%, but the CI includes 1, implying the association is positive but not statistically strong in this dataset.</p></li>
+<li><p>Average glucose level (OR = 1.004, CI: 1.000–1.007) Higher glucose levels are associated with slightly increased stroke risk. Though the effect is small, the CI indicates marginal significance, aligning with known metabolic risk patterns.</p></li>
+<li><p>BMI (OR = 1.007, CI: 0.975–1.037) BMI shows almost no meaningful effect on stroke risk, and the CI overlaps 1. This predictor does not significantly influence stroke likelihood in this dataset.</p></li>
+<li><p>Smoking (Fsmoked OR = 1.263; Smokes OR = 1.598)</p></li>
+<li><p>Former smokers have 26% higher odds, but CI crosses 1 → weak evidence.</p></li>
+<li><p>Current smokers have ~60% higher odds, but CI still overlaps 1 → suggests increased risk but not statistically conclusive here.</p></li>
+<li><p>Gender (Female) (OR = 1.259; CI: 0.842–1.903) Females show slightly higher odds, but this effect is not statistically significant.</p></li>
+<li><p>Ever married (OR = 1.126; CI: 0.590–2.013) Marital status has no clear effect on stroke odds in this sample.</p></li>
+</ul>
+<p><strong>Model predictions and performance on the test set</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) Predicted probabilities from logistic regression</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>stroke_test<span class="sc">$</span>pred_prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  fit_glm,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> stroke_test,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">type    =</span> <span class="st">"response"</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) Make sure the TRUE outcome is a factor with levels No / Yes</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>stroke_test<span class="sc">$</span>stroke <span class="ot">&lt;-</span> <span class="fu">factor</span>(stroke_test<span class="sc">$</span>stroke,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                             <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) Class predictions at threshold c = 0.5</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>stroke_test<span class="sc">$</span>pred_class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(stroke_test<span class="sc">$</span>pred_prob <span class="sc">&gt;=</span> <span class="fl">0.5</span>, <span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>stroke_test<span class="sc">$</span>pred_class <span class="ot">&lt;-</span> <span class="fu">factor</span>(stroke_test<span class="sc">$</span>pred_class,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 4) Confusion matrix: positive = "Yes"</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">data      =</span> stroke_test<span class="sc">$</span>pred_class,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> stroke_test<span class="sc">$</span>stroke,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">positive  =</span> <span class="st">"Yes"</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>cm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  No Yes
+       No  949  58
+       Yes   0   1
+                                         
+               Accuracy : 0.9425         
+                 95% CI : (0.9262, 0.956)
+    No Information Rate : 0.9415         
+    P-Value [Acc &gt; NIR] : 0.4811         
+                                         
+                  Kappa : 0.0314         
+                                         
+ Mcnemar's Test P-Value : 7.184e-14      
+                                         
+            Sensitivity : 0.0169492      
+            Specificity : 1.0000000      
+         Pos Pred Value : 1.0000000      
+         Neg Pred Value : 0.9424032      
+             Prevalence : 0.0585317      
+         Detection Rate : 0.0009921      
+   Detection Prevalence : 0.0009921      
+      Balanced Accuracy : 0.5084746      
+                                         
+       'Positive' Class : Yes            
+                                         </code></pre>
+</div>
+</div>
+<p>From the confusion matrix, the following performance metrics are defined:</p>
+<p><strong>Accuracy</strong> <span class="math display">\[
+\text{Accuracy} =
+\frac{TP + TN}{TP + TN + FP + FN}.
+\]</span> <strong>Sensitivity (Recall / True Positive Rate)</strong></p>
+<p><span class="math display">\[
+\text{Sensitivity} =
+\frac{TP}{TP + FN}.
+\]</span> <strong>Specificity (True Negative Rate)</strong></p>
+<p><span class="math display">\[
+\text{Specificity} =
+\frac{TN}{TN + FP}.
+\]</span></p>
+<p><strong>Positive Predictive Value (Precision)</strong> <span class="math display">\[
+\text{PPV} =
+\frac{TP}{TP + FP}.
+\]</span> <strong>Negative Predictive Value (NPV)</strong></p>
+<p><span class="math display">\[
+\text{NPV} =
+\frac{TN}{TN + FN}.
+\]</span></p>
+<p><strong>Interpretation of Logistic Regression Performance (Test Set)</strong></p>
+<ul>
+<li><p>Accuracy = 94.25% The model correctly classified most cases, mainly because the dataset is highly imbalanced (only ~6% stroke cases). High accuracy here does not mean good stroke detection.</p></li>
+<li><p>Sensitivity (True Positive Rate) = 0.017 The model correctly identified only 1 out of 59 actual stroke cases (≈1.7%). → This shows the model fails to detect stroke cases, which is common in rare-event medical datasets.</p></li>
+<li><p>Specificity (True Negative Rate) = 1.00 The model correctly classified all non-stroke cases. → It is extremely good at predicting “No stroke,” which dominates the dataset.</p></li>
+<li><p>Positive Predictive Value (Precision) = 1.00 When the model predicts “Yes,” it is always correct — but it predicted “Yes” only once. High precision is misleading because the model rarely predicts a positive case.</p></li>
+<li><p>Negative Predictive Value = 0.942 Most “No” predictions are correct, matching the overall class imbalance.</p></li>
+<li><p>Kappa = 0.031 Kappa measures agreement beyond chance. A value near zero shows the model performs only slightly better than random when considering class imbalance.</p></li>
+<li><p>Balanced Accuracy = 0.508 When weighting sensitivity and specificity equally, the model performs at chance level (~50%). → Confirms that stroke detection is weak.</p></li>
+<li><p>McNemar’s Test p &lt; 0.0001 Strong evidence that the model’s errors are systematically skewed—it overwhelmingly predicts “No stroke.”</p></li>
+</ul>
+<p>The logistic regression model achieves high accuracy only because the negative class dominates.It detects almost no true stroke cases, giving extremely poor sensitivity. It performs well for the majority class (non-stroke), but fails for the minority class (stroke).</p>
+<p>These results highlight the challenge of severe class imbalance, which requires additional techniques (e.g., SMOTE, class weights, resampling) to improve medical-event prediction.</p>
+<p><strong>ROC curve and AUC for the logistic model</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sanity check</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(stroke_test<span class="sc">$</span>stroke)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ No Yes 
+949  59 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC and AUC using factor outcome directly</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>roc_glm <span class="ot">&lt;-</span> <span class="fu">roc</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">response  =</span> stroke_test<span class="sc">$</span>stroke,    <span class="co"># factor: No / Yes</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">predictor =</span> stroke_test<span class="sc">$</span>pred_prob, <span class="co"># predicted probabilities from glm</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels    =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>),        <span class="co"># "No" = control, "Yes" = case</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">direction =</span> <span class="st">"&lt;"</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">auc</span>(roc_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Area under the curve: 0.8154</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_glm, <span class="at">main =</span> <span class="st">"ROC Curve – Logistic Regression (Test Set)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A higher AUC (closer to 1) indicates better discrimination between stroke and non-stroke cases. Values substantially above 0.5 indicate that the model performs better than random classification.</p>
+<p><strong>Interpretation of ROC Curve and AUC (Test Set)</strong></p>
+<p>The ROC curve evaluates the model’s ability to distinguish between stroke and non-stroke cases across all possible classification thresholds, not just the default 0.5 cutoff.</p>
+<p>The AUC = 0.815, which indicates good discriminative performance.</p>
+<p>AUC = 0.5 is no discrimination (random guessing)</p>
+<p>AUC = 0.7–0.8 is acceptable</p>
+<p>AUC = 0.8–0.9 is good</p>
+<p>AUC &gt; 0.9 is excellent</p>
+<ul>
+<li><p>Even though the confusion matrix showed poor sensitivity at threshold 0.5, the AUC reveals that the model can separate the two classes reasonably well if a better threshold is chosen.</p></li>
+<li><p>The strong AUC compared to weak sensitivity highlights the impact of severe class imbalance and the importance of customizing the probability cutoff for medical prediction tasks.</p></li>
+</ul>
+<p>Overall, the ROC analysis suggests that the logistic model contains useful predictive signal, but performance for detecting stroke can be improved with:</p>
+<ul>
+<li><p>threshold tuning,</p></li>
+<li><p>cost-sensitive training,</p></li>
+<li><p>resampling techniques (SMOTE / oversampling).</p></li>
+</ul>
+<p><strong>Machine-learning model comparison</strong></p>
+<p><strong>Data Splitting and prepration</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model_df <span class="ot">&lt;-</span> strokeclean</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>model_df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(model_df)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>model_df<span class="sc">$</span>stroke <span class="ot">&lt;-</span> <span class="fu">factor</span>(model_df<span class="sc">$</span>stroke)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(model_df<span class="sc">$</span>stroke) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(model_df<span class="sc">$</span>stroke)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  No  Yes 
+3177  180 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(model_df<span class="sc">$</span>stroke, <span class="at">p =</span> <span class="fl">0.70</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> model_df[index, ]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> model_df[<span class="sc">-</span>index, ]</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>train_data<span class="sc">$</span>stroke <span class="ot">&lt;-</span> <span class="fu">factor</span>(train_data<span class="sc">$</span>stroke, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>,<span class="st">"Yes"</span>))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>test_data<span class="sc">$</span>stroke  <span class="ot">&lt;-</span> <span class="fu">factor</span>(test_data<span class="sc">$</span>stroke,  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>,<span class="st">"Yes"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Train control settings</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="at">method =</span> <span class="st">"repeatedcv"</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="at">number =</span> <span class="dv">5</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="at">repeats =</span> <span class="dv">3</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="at">classProbs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="at">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="at">verboseIter =</span> <span class="cn">FALSE</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Logistic Regression (caret)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>model_lr <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="sc">~</span> .,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="at">data =</span> train_data,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="at">method =</span> <span class="st">"glm"</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="at">family =</span> <span class="st">"binomial"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="at">trControl =</span> ctrl</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Decision Tree</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>model_tree <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="sc">~</span> .,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="at">data =</span> train_data,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="at">method =</span> <span class="st">"rpart"</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="at">trControl =</span> ctrl,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="at">tuneLength =</span> <span class="dv">10</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Random Forest</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>model_rf <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="sc">~</span> .,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="at">data =</span> train_data,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="at">trControl =</span> ctrl,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="at">tuneLength =</span> <span class="dv">5</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Gradient Boosted Machine (GBM)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>model_gbm <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="sc">~</span> .,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="at">data =</span> train_data,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">method =</span> <span class="st">"gbm"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="at">trControl =</span> ctrl,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="at">verbose =</span> <span class="cn">FALSE</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>k-Nearest Neighbours (k-NN)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>model_knn <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="sc">~</span> .,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="at">data =</span> train_data,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="at">method =</span> <span class="st">"knn"</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="at">trControl =</span> ctrl</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Support Vector Machine (Radial)</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>model_svm <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="sc">~</span> .,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="at">data =</span> train_data,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="at">method =</span> <span class="st">"svmRadial"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="at">trControl =</span> ctrl</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Model evaluation on the test set</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>models_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="at">LR   =</span> model_lr,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="at">TREE =</span> model_tree,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="at">RF   =</span> model_rf,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="at">GBM  =</span> model_gbm,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="at">KNN  =</span> model_knn,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="at">SVM  =</span> model_svm</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="at">Model       =</span> <span class="fu">character</span>(),</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="at">AUC         =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="at">Accuracy    =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="at">Sensitivity =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="at">Specificity =</span> <span class="fu">numeric</span>()</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="fu">names</span>(models_list)) {</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>mdl <span class="ot">&lt;-</span> models_list[[m]]</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilities for the "Yes" class</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>preds_prob  <span class="ot">&lt;-</span> <span class="fu">predict</span>(mdl, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"Yes"</span>]</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Class predictions</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>preds_class <span class="ot">&lt;-</span> <span class="fu">predict</span>(mdl, test_data)</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC &amp; AUC</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>roc_obj <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>stroke, preds_prob,</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a><span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>), <span class="at">direction =</span> <span class="st">"&lt;"</span>)</span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>auc_val <span class="ot">&lt;-</span> <span class="fu">auc</span>(roc_obj)</span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion matrix – positive = "Yes"</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>cm_m <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(preds_class, test_data<span class="sc">$</span>stroke, <span class="at">positive =</span> <span class="st">"Yes"</span>)</span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>results,</span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a><span class="at">Model       =</span> m,</span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a><span class="at">AUC         =</span> <span class="fu">as.numeric</span>(auc_val),</span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a><span class="at">Accuracy    =</span> cm_m<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>],</span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a><span class="at">Sensitivity =</span> cm_m<span class="sc">$</span>byClass[<span class="st">"Sensitivity"</span>],</span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a><span class="at">Specificity =</span> cm_m<span class="sc">$</span>byClass[<span class="st">"Specificity"</span>]</span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Model       AUC  Accuracy Sensitivity Specificity
+Accuracy     LR 0.7788854 0.9433962  0.00000000   0.9968520
+Accuracy1  TREE 0.6475263 0.9414101  0.01851852   0.9937041
+Accuracy2    RF 0.7275465 0.9433962  0.01851852   0.9958027
+Accuracy3   GBM 0.7636994 0.9453823  0.01851852   0.9979014
+Accuracy4   KNN 0.6633730 0.9463754  0.00000000   1.0000000
+Accuracy5   SVM 0.6256655 0.9453823  0.00000000   0.9989507</code></pre>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>Across all six models, overall accuracy and specificity are very high, mainly because the dataset is highly imbalanced (only ~6% stroke cases). However, sensitivity is extremely low across every model, meaning that almost none of the models correctly identify stroke cases.</p>
+<p>Logistic Regression (AUC = 0.78) and GBM (AUC = 0.76) show the best overall discrimination, indicated by the highest AUC values. These models are better at ranking high-risk vs.&nbsp;low-risk individuals, even though they still fail at detecting positives under the default 0.5 threshold.</p>
+<p>Tree-based models (Decision Tree, Random Forest, GBM) achieve slightly higher sensitivity than LR, but only marginally (still around 1–2%). KNN and SVM detect 0 stroke cases at this threshold, despite high accuracy.</p>
+<p>All models appear to perform well based on accuracy and specificity, but this is misleading—they are failing at the most important task: detecting stroke cases. This confirms that class imbalance severely affects performance and requires threshold tuning, resampling, or cost-sensitive learning to achieve meaningful sensitivity.</p>
+<p><strong>ROC curve comparison across models</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ROC objects for each model</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>roc_lr   <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>stroke,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_lr,   test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"Yes"</span>],</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>), <span class="at">direction =</span> <span class="st">"&lt;"</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>roc_tree <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>stroke,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_tree, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"Yes"</span>],</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>), <span class="at">direction =</span> <span class="st">"&lt;"</span>)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>roc_rf   <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>stroke,</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_rf,   test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"Yes"</span>],</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>), <span class="at">direction =</span> <span class="st">"&lt;"</span>)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>roc_gbm  <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>stroke,</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_gbm,  test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"Yes"</span>],</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>), <span class="at">direction =</span> <span class="st">"&lt;"</span>)</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>roc_knn  <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>stroke,</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_knn,  test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"Yes"</span>],</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>), <span class="at">direction =</span> <span class="st">"&lt;"</span>)</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>roc_svm  <span class="ot">&lt;-</span> <span class="fu">roc</span>(test_data<span class="sc">$</span>stroke,</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_svm,  test_data, <span class="at">type =</span> <span class="st">"prob"</span>)[, <span class="st">"Yes"</span>],</span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a><span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>), <span class="at">direction =</span> <span class="st">"&lt;"</span>)</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot ROC curves</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_lr,   <span class="at">col =</span> <span class="st">"red"</span>,       <span class="at">main =</span> <span class="st">"ROC Comparison for Six Models"</span>)</span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_tree, <span class="at">col =</span> <span class="st">"blue"</span>,      <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_rf,   <span class="at">col =</span> <span class="st">"darkgreen"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_gbm,  <span class="at">col =</span> <span class="st">"purple"</span>,    <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_knn,  <span class="at">col =</span> <span class="st">"orange"</span>,    <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roc_svm,  <span class="at">col =</span> <span class="st">"black"</span>,     <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a><span class="st">"bottomright"</span>,</span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a><span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"LR"</span>, <span class="st">"Tree"</span>, <span class="st">"RF"</span>, <span class="st">"GBM"</span>, <span class="st">"KNN"</span>, <span class="st">"SVM"</span>),</span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a><span class="at">col    =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"darkgreen"</span>, <span class="st">"purple"</span>, <span class="st">"orange"</span>, <span class="st">"black"</span>),</span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a><span class="at">lwd    =</span> <span class="dv">2</span></span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>The ROC curves show how well each of the six models distinguishes between stroke and non-stroke cases at all probability thresholds. All models outperform random guessing (the diagonal line), indicating that they include useful predictive information.</p>
+<ul>
+<li><p>Logistic Regression (red) and Gradient Boosted Machine (purple) have the most robust ROC curves, consistently outperforming the others across the majority of the sensitivity-specificity range. This is consistent with their higher AUC values, implying that these models provide the most accurate ranking of individuals by stroke risk. Random Forest (green) also performs well, trailing just LR and GBM, demonstrating its capacity to capture nonlinear interactions.</p></li>
+<li><p>The Decision Tree, k-NN, and SVM models have weaker curves, indicating lower discriminative capacity than the ensemble-based and logistic models. SVM (black) performs the worst, remaining closest to the diagonal, implying little distinction between classes.</p></li>
+</ul>
+<p>Overall, the ROC comparison reveals that, while all models outperform chance, Logistic Regression, GBM, and Random Forest provide the best trade-off between sensitivity and specificity, despite the fact that sensitivity remains low at the default threshold due to severe class imbalance.</p>
+<p><strong>Odds ratios and risk stratification</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>glm_lr <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>stroke <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> hypertension <span class="sc">+</span> heart_disease <span class="sc">+</span> ever_married <span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>work_type <span class="sc">+</span> Residence_type <span class="sc">+</span> avg_glucose_level <span class="sc">+</span> bmi <span class="sc">+</span> smoking_status,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="at">data   =</span> train_data,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="at">family =</span> binomial</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>lr_coef <span class="ot">&lt;-</span> <span class="fu">summary</span>(glm_lr)<span class="sc">$</span>coefficients</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Odds ratios and 95% CI</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>or_vals <span class="ot">&lt;-</span> <span class="fu">exp</span>(lr_coef[, <span class="st">"Estimate"</span>])</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>ci_raw  <span class="ot">&lt;-</span> <span class="fu">suppressMessages</span>(<span class="fu">confint</span>(glm_lr)) <span class="co"># CI on log-odds scale</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>ci_or   <span class="ot">&lt;-</span> <span class="fu">exp</span>(ci_raw)                       <span class="co"># convert to OR scale</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="at">Predictor =</span> <span class="fu">rownames</span>(lr_coef),</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a><span class="at">OR        =</span> or_vals,</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="at">CI_lower  =</span> ci_or[, <span class="dv">1</span>],</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a><span class="at">CI_upper  =</span> ci_or[, <span class="dv">2</span>]</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">subset</span>(plot_df, Predictor <span class="sc">!=</span> <span class="st">"(Intercept)"</span>)</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Predictor, OR), <span class="at">y =</span> OR)) <span class="sc">+</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> CI_lower, <span class="at">ymax =</span> CI_upper), <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(</span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a><span class="at">title =</span> <span class="st">"Odds Ratios for Stroke Predictors (Logistic Regression)"</span>,</span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a><span class="at">y     =</span> <span class="st">"Odds Ratio (log scale)"</span>,</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a><span class="at">x     =</span> <span class="st">""</span></span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plot_df[<span class="fu">order</span>(<span class="sc">-</span>plot_df<span class="sc">$</span>OR), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                  Predictor        OR  CI_lower CI_upper
+hypertension                   hypertension 2.5159353 1.6453888 3.810548
+ever_married                   ever_married 1.7023436 0.9357451 2.967095
+heart_disease                 heart_disease 1.4392416 0.8218664 2.439382
+smoking_statusSmokes   smoking_statusSmokes 1.4246818 0.8360264 2.380571
+smoking_statusFsmoked smoking_statusFsmoked 1.2340439 0.7883483 1.920422
+genderFemale                   genderFemale 1.1132391 0.7481511 1.670149
+age                                     age 1.0804344 1.0630608 1.099392
+avg_glucose_level         avg_glucose_level 1.0054691 1.0021701 1.008745
+bmi                                     bmi 1.0025648 0.9719311 1.032772
+Residence_typeRural     Residence_typeRural 0.9325388 0.6311308 1.374361
+work_type                         work_type 0.8371811 0.6210602 1.130333</code></pre>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>The odds-ratio graphic illustrates how each predictor affects the risk of having a stroke while keeping all other variables constant. Values greater than 1 imply higher odds, whereas values less than 1 indicate lower odds. Confidence intervals that do not cross 1 indicate statistically significant evidence.</p>
+<ul>
+<li><p>Hypertension (OR ≈ 2.52, CI: 1.65–3.81) Hypertension is one of the strongest predictors of stroke. Individuals with hypertension have more than 2.5 times higher odds of stroke compared to non-hypertensive individuals. The confidence interval does not cross 1, indicating strong statistical significance.</p></li>
+<li><p>Age (OR ≈ 1.08 per year, CI: 1.06–1.10) Each additional year of age increases stroke odds by about 8%, making age a consistent and significant risk factor.</p></li>
+<li><p>Average glucose level (OR ≈ 1.005, CI: 1.002–1.009) Higher glucose levels slightly increase stroke odds. Although the effect size is small, the very tight CI above 1 suggests a reliable association linked to metabolic risk.</p></li>
+<li><p>Heart disease (OR ≈ 1.44, CI: 0.82–2.44) People with heart disease show elevated stroke odds (≈44% higher), but the CI crosses 1, meaning evidence is suggestive but not statistically conclusive in this dataset.</p></li>
+<li><p>Smoking behavior:</p></li>
+<li><p>Current smokers (OR ≈ 1.42)</p></li>
+<li><p>Former smokers (OR ≈ 1.23) Both groups show increased stroke odds compared to never-smokers, though their confidence intervals cross 1. This indicates a positive trend consistent with clinical knowledge, but weaker statistical support here.</p></li>
+<li><p>Ever married (OR ≈ 1.70, CI: 0.94–2.97) Shows higher odds of stroke, but the wide CI overlapping 1 indicates uncertainty.</p></li>
+<li><p>Gender (Female) (OR ≈ 1.11, CI: 0.75–1.67) Minimal effect, not statistically significant.</p></li>
+<li><p>BMI (OR ≈ 1.00) Virtually no effect on stroke odds.</p></li>
+<li><p>Residence type (Rural vs Urban) (OR ≈ 0.93) No meaningful association with stroke.</p></li>
+<li><p>Work type (OR ≈ 0.84) Slightly lower odds of stroke, but not statistically meaningful.</p></li>
+</ul>
+<p><strong>Threshold tuning to 0.2 from 0.5</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Threshold tuning: use 0.2 instead of 0.5</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>new_threshold <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>stroke_test<span class="sc">$</span>pred_class_02 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(stroke_test<span class="sc">$</span>pred_prob <span class="sc">&gt;=</span> new_threshold,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>stroke_test<span class="sc">$</span>pred_class_02 <span class="ot">&lt;-</span> <span class="fu">factor</span>(stroke_test<span class="sc">$</span>pred_class_02,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>))</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion matrix for threshold = 0.2</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>cm_02 <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">data      =</span> stroke_test<span class="sc">$</span>pred_class_02,</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> stroke_test<span class="sc">$</span>stroke,</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">positive  =</span> <span class="st">"Yes"</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>cm_02</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  No Yes
+       No  903  46
+       Yes  46  13
+                                          
+               Accuracy : 0.9087          
+                 95% CI : (0.8892, 0.9258)
+    No Information Rate : 0.9415          
+    P-Value [Acc &gt; NIR] : 1               
+                                          
+                  Kappa : 0.1719          
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.22034         
+            Specificity : 0.95153         
+         Pos Pred Value : 0.22034         
+         Neg Pred Value : 0.95153         
+             Prevalence : 0.05853         
+         Detection Rate : 0.01290         
+   Detection Prevalence : 0.05853         
+      Balanced Accuracy : 0.58593         
+                                          
+       'Positive' Class : Yes             
+                                          </code></pre>
+</div>
+</div>
+<p><strong>Interpretation (threshold = 0.2)</strong></p>
+<ul>
+<li><p>With a lower decision criterion of 0.2, the model successfully identifies 13 out of 59 stroke cases (sensitivity = 22%), compared to only one case with the default 0.5 threshold.</p></li>
+<li><p>Specificity remains high at almost 95%, indicating that the majority of non-stroke patients are still properly categorized as “no stroke” (903 out of 949).</p></li>
+<li><p>While overall accuracy declines from 94% to 91%, balanced accuracy improves (from ≈0.51 to ≈0.59), indicating a greater balance of sensitivity and specificity.</p></li>
+</ul>
+<p>This change indicates a therapeutically reasonable compromise: the model detects more possible stroke patients (fewer missed cases) at the expense of a moderate rise in false positives.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>conclusion</h1>
+<p>This experiment compared a conventional logistic regression model with several machine-learning algorithms and examined whether common demographic, behavioral, and clinical characteristics may be used to predict stroke risk using a stroke dataset. Stroke was a rare outcome (about 5% of cases) in the final sample of 3,357 people that was analyzed after the data was cleaned and inconsistent or missing values were eliminated. In addition to reflecting actual epidemiology, this significant class disparity complicates classification, particularly when it comes to identifying the minority (stroke) class.</p>
+<p>Age, hypertension, cardiac disease, and raised average glucose levels are among the best predictors of stroke, according to the baseline logistic regression model. Smoking status substantially increased risk. These variables were identified as significant risk factors by odds ratios significantly greater than 1 and confidence intervals that did not cross 1. These results support the use of logistic regression as an interpretable tool for comprehending the relationship between particular risk variables and the likelihood of stroke and are in line with the clinical literature on cerebrovascular illness.</p>
+<p>The logistic regression model performed reasonably well overall in terms of prediction; however, sensitivity for stroke cases was more constrained at the default 0.5 probability threshold, as would be expected with an imbalanced outcome. The model clearly outperformed random guessing, according to the ROC curve and AUC values, but there was still space for improvement in terms of differentiating between stroke and non-stroke patients. Youden’s J statistic offers a method for selecting a different categorization threshold that enhances the ratio of sensitivity to specificity, which may be crucial in a screening setting when it is expensive to miss actual stroke cases.</p>
+<p>More sophisticated models, such Random Forest and Gradient Boosted Machine, were able to attain somewhat higher AUC values than logistic regression in the machine-learning comparison, showing superior discrimination across a range of thresholds. However, these increases in AUC came at the expense of decreased interpretability and were not always accompanied by significant increases in sensitivity at fixed cut-offs. Logistic regression, on the other hand, offers precise odds ratios and confidence intervals that are simpler for public health professionals and doctors to understand when discussing risk and developing interventions.</p>
+<p>Because of the severe class imbalance, sensitivity for stroke cases was extremely low (around 2%), meaning that the model almost never predicted “stroke = Yes” and therefore missed most true stroke cases.</p>
+<p>To address this, the decision threshold was lowered from 0.5 to 0.2. At this cut-off, sensitivity increased from roughly 2% to about 22%, while specificity remained high at around 95%. Overall accuracy dropped slightly to about 91%, but balanced accuracy improved, indicating a more reasonable trade-off between detecting stroke cases and avoiding false positives. This threshold experiment illustrates a key practical point: for rare but serious outcomes such as stroke, it can be preferable to sacrifice some overall accuracy in order to reduce the number of missed high-risk individuals. In this setting, the logistic model is more appropriately viewed as a screening or risk-flagging tool rather than a definitive diagnostic rule.</p>
+<p>Overall, the findings show that relatively simple models built from routinely collected health indicators can meaningfully distinguish between individuals with and without stroke, even in the presence of substantial class imbalance. Logistic regression emerges as a strong, interpretable baseline, while tree-based ensemble methods provide incremental performance improvements at the cost of transparency. Future work could focus on external validation, calibration assessment, more sophisticated imbalance-handling techniques, and the inclusion of additional clinical or longitudinal information. These extensions would help move from proof-of-concept modelling toward robust, clinically usable tools for stroke risk stratification and targeted prevention.</p>
+<p>#References</p>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-WHO2025" class="csl-entry" role="listitem">
+1. World Health Organization. (2025). <em>The top 10 causes of death</em>. <a href="https://www.who.int/news-room/fact-sheets/detail/the-top-10-causes-of-death" class="uri">https://www.who.int/news-room/fact-sheets/detail/the-top-10-causes-of-death</a>.
+</div>
+<div id="ref-sperandei2014understanding" class="csl-entry" role="listitem">
+2. Sperandei, S. (2014). Understanding logistic regression analysis. <em>Biochemia Medica</em>, <em>24</em>(1), 12–18.
+</div>
+<div id="ref-asmare2024determinants" class="csl-entry" role="listitem">
+3. Asmare, A. A., &amp; Agmas, Y. A. (2024). Determinants of coexistence of undernutrition and anemia among under-five children in rwanda; evidence from 2019/20 demographic health survey: Application of bivariate binary logistic regression model. <em>Plos One</em>, <em>19</em>(4), e0290111.
+</div>
+<div id="ref-rahman2021identification" class="csl-entry" role="listitem">
+4. Rahman, M. H., Zafri, N. M., Akter, T., &amp; Pervaz, S. (2021). Identification of factors influencing severity of motorcycle crashes in dhaka, bangladesh using binary logistic regression model. <em>International Journal of Injury Control and Safety Promotion</em>, <em>28</em>(2), 141–152.
+</div>
+<div id="ref-chen2024binary" class="csl-entry" role="listitem">
+5. Chen, Y., You, P., &amp; Chang, Z. (2024). Binary logistic regression analysis of factors affecting urban road traffic safety. <em>Advances in Transportation Studies</em>, <em>3</em>.
+</div>
+<div id="ref-chen2020modeling" class="csl-entry" role="listitem">
+6. Chen, M.-M., &amp; Chen, M.-C. (2020). Modeling road accident severity with comparisons of logistic regression, decision tree and random forest. <em>Information</em>, <em>11</em>(5), 270.
+</div>
+<div id="ref-hutchinson2023predictors" class="csl-entry" role="listitem">
+7. Hutchinson, A., Pickering, A., Williams, P., &amp; Johnson, M. (2023). Predictors of hospital admission when presenting with acute-on-chronic breathlessness: Binary logistic regression. <em>PLoS One</em>, <em>18</em>(8), e0289263.
+</div>
+<div id="ref-samara2024using" class="csl-entry" role="listitem">
+8. Samara, B. (2024). Using binary logistic regression to detect health insurance fraud. <em>Pakistan Journal of Life &amp; Social Sciences</em>, <em>22</em>(2).
+</div>
+<div id="ref-wang2014" class="csl-entry" role="listitem">
+9. Wang, M. (2014). Generalized estimating equations in longitudinal data analysis: A review and recent developments. <em>Advances in Statistics</em>, <em>2014</em>.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/renanmb\.github\.io\/IDC-6940---Capstone-Project-Fall-2025\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
