@@ -459,7 +459,7 @@ ggcorrplot::ggcorrplot(
 )
 ```
 
-```{r}
+```{{r}}
 # 1. Prepare data for correlation: Convert factor target variable to numeric
 num_vars = strokeclean[, c("gender", "age", "hypertension", "heart_disease", "ever_married", "work_type", "Residence_type", "avg_glucose_level", "bmi", "smoking_status", "stroke")]
 
