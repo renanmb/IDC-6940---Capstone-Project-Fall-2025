@@ -384,6 +384,7 @@ window.Quarto = {
   <li><a href="#interpretation-of-key-continuous-predictors" id="toc-interpretation-of-key-continuous-predictors" class="nav-link" data-scroll-target="#interpretation-of-key-continuous-predictors">Interpretation of Key Continuous Predictors</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -530,7 +531,8 @@ window.Quarto = {
 </table>
 <p>Stroke is a highly unbalanced outcome variable: - Yes (stroke): about 5% - No (no stroke): around 95%</p>
 <p>Because it is possible to achieve high overall accuracy by merely forecasting the majority class, this class imbalance directly affects model evaluation. Because of this, in addition to accuracy, we also concentrate on sensitivity, specificity, ROC curves, AUC, and Youden’s J statistic.</p>
-<p><strong>Dataset Prepration</strong> To guarantee model validity and stop data leakage, data preprocessing is performed.<span class="citation" data-cites="wang2014"><sup>[<a href="#ref-wang2014" role="doc-biblioref">9</a>]</sup></span>.</p>
+<p><strong>Dataset Prepration</strong></p>
+<p>To guarantee model validity and stop data leakage, data preprocessing is performed.<span class="citation" data-cites="wang2014"><sup>[<a href="#ref-wang2014" role="doc-biblioref">9</a>]</sup></span>.</p>
 <p>Among the steps were:</p>
 <ul>
 <li><p>Elimination of non-predictive identifiers (patient ID)</p></li>
@@ -544,7 +546,7 @@ window.Quarto = {
 <li><p>The outcome stroke was defined as a factor with levels “No” and “Yes” in the cleaned dataset strokeclean.</p></li>
 </ul>
 <p>To check sample performance, the data were split into training and test sets. For the baseline logistic regression model, a simple random 70/30 split was used. For the full machine-learning comparison, a stratified partition (via caret::createDataPartition) was applied to preserve the stroke/no-stroke ratio in both sets.</p>
-<p><strong>Logistic regression model </strong></p>
+<p><strong>Logistic regression model</strong></p>
 <p>Let <span class="math inline">\(Y_i\)</span> denote the stroke status for patient <span class="math inline">\(i\)</span>, where</p>
 <ul>
 <li><span class="math inline">\(Y_i = 1\)</span> if patient <span class="math inline">\(i\)</span> experienced a stroke<br>
@@ -974,14 +976,12 @@ vascular risks (hypertension, heart disease) and behavioural risks (smoking) are
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>stroke_test  <span class="ot">&lt;-</span> strokeclean[<span class="sc">-</span>train_index, ]</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>fit_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  stroke <span class="sc">~</span> age <span class="sc">+</span> hypertension <span class="sc">+</span> heart_disease <span class="sc">+</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    avg_glucose_level <span class="sc">+</span> bmi <span class="sc">+</span> smoking_status <span class="sc">+</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    gender <span class="sc">+</span> ever_married,</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">data   =</span> stroke_train,</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  stroke <span class="sc">~</span> age <span class="sc">+</span> hypertension <span class="sc">+</span> heart_disease <span class="sc">+</span> avg_glucose_level <span class="sc">+</span> bmi <span class="sc">+</span> smoking_status <span class="sc">+</span> gender <span class="sc">+</span> ever_married,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">data   =</span> stroke_train,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1648,7 +1648,7 @@ Prediction  No Yes
                                           </code></pre>
 </div>
 </div>
-<p><strong>Interpretation (threshold = 0.2</strong></p>
+<p><strong>Interpretation (threshold = 0.2)</strong></p>
 <ul>
 <li><p>With a lower decision criterion of 0.2, the model successfully identifies 13 out of 59 stroke cases (sensitivity = 22%), compared to only one case with the default 0.5 threshold.</p></li>
 <li><p>Specificity remains high at almost 95%, indicating that the majority of non-stroke patients are still properly categorized as “no stroke” (903 out of 949).</p></li>
@@ -1666,7 +1666,9 @@ Prediction  No Yes
 <p>Because of the severe class imbalance, sensitivity for stroke cases was extremely low (around 2%), meaning that the model almost never predicted “stroke = Yes” and therefore missed most true stroke cases.</p>
 <p>To address this, the decision threshold was lowered from 0.5 to 0.2. At this cut-off, sensitivity increased from roughly 2% to about 22%, while specificity remained high at around 95%. Overall accuracy dropped slightly to about 91%, but balanced accuracy improved, indicating a more reasonable trade-off between detecting stroke cases and avoiding false positives. This threshold experiment illustrates a key practical point: for rare but serious outcomes such as stroke, it can be preferable to sacrifice some overall accuracy in order to reduce the number of missed high-risk individuals. In this setting, the logistic model is more appropriately viewed as a screening or risk-flagging tool rather than a definitive diagnostic rule.</p>
 <p>Overall, the findings show that relatively simple models built from routinely collected health indicators can meaningfully distinguish between individuals with and without stroke, even in the presence of substantial class imbalance. Logistic regression emerges as a strong, interpretable baseline, while tree-based ensemble methods provide incremental performance improvements at the cost of transparency. Future work could focus on external validation, calibration assessment, more sophisticated imbalance-handling techniques, and the inclusion of additional clinical or longitudinal information. These extensions would help move from proof-of-concept modelling toward robust, clinically usable tools for stroke risk stratification and targeted prevention.</p>
-<p>#References</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-WHO2025" class="csl-entry" role="listitem">
 1. World Health Organization. (2025). <em>The top 10 causes of death</em>. <a href="https://www.who.int/news-room/fact-sheets/detail/the-top-10-causes-of-death" class="uri">https://www.who.int/news-room/fact-sheets/detail/the-top-10-causes-of-death</a>.
