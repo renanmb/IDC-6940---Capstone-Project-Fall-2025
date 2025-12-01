@@ -1,0 +1,1394 @@
+---
+title-slide: false
+format:
+  revealjs:
+
+    theme: white
+    slide-number: true
+    transition: fade
+    center: true
+---
+
+## Predicting Stroke Risk from Common Health Indicators {data-background-image="logo.png" data-background-size="370px" data-background-position="top 20px right 20px"}
+
+<span style="font-size:40px; color: #444;">A Binary Logistic Regression and Machine Learning Comparison</span>
+<br><br><br>
+<span style="font-size:24px; font-weight:600;">Author:</span>
+<span style="font-size:22px;">
+Shree Krishna M.S Basnet, Renan
+
+<span style="font-size:24px; font-weight:600;">Supervisor: </span>
+<span style="font-size:22px;"> 
+Dr.Cohen 
+
+</span>
+
+
+
+```{r}
+#| include: false
+#| message: false
+#| warning: false
+
+# Load libraries explicitly (simpler than lapply)
+
+library(ggplot2)
+library(dplyr)
+library(car)
+library(ResourceSelection)
+library(caret)
+library(logistf)
+library(Hmisc)
+library(rcompanion)
+library(summarytools)
+library(tidyverse)
+library(knitr)
+library(ggpubr)
+library(pROC)
+
+
+# Set seed
+
+set.seed(123)
+
+# Load data
+find_git_root <- function(start = getwd()) {
+  path <- normalizePath(start, winslash = "/", mustWork = TRUE)
+  while (path != dirname(path)) {
+    if (dir.exists(file.path(path, ".git"))) return(path)
+    path <- dirname(path)
+  }
+  stop("No .git directory found — are you inside a Git repository?")
+}
+
+repo_root <- find_git_root()
+datasets_path <- file.path(repo_root, "datasets")
+
+# Reading the datafile healthcare-dataset-stroke-data
+stroke_path <- file.path(datasets_path, "kaggle-healthcare-dataset-stroke-data/healthcare-dataset-stroke-data.csv")
+stroke1 = read_csv(stroke_path, show_col_types = FALSE)
+# stroke1 <- read.csv("C:/Users/LaptopUser/Downloads/stroke.csv")
+
+# Handle dataset features
+
+stroke1[stroke1 == "N/A" | stroke1 == "Unknown" | stroke1 == "children" | stroke1 == "other"] <- NA
+stroke1$bmi <- round(as.numeric(stroke1$bmi), 2)
+stroke1$gender[stroke1$gender == "Male"] <- 1
+stroke1$gender[stroke1$gender == "Female"] <- 2
+stroke1$gender <- as.numeric(stroke1$gender)
+stroke1$ever_married[stroke1$ever_married == "Yes"] <- 1
+stroke1$ever_married[stroke1$ever_married == "No"] <- 2
+stroke1$ever_married <- as.numeric(stroke1$ever_married)
+stroke1$work_type[stroke1$work_type == "Govt_job"] <- 1
+stroke1$work_type[stroke1$work_type == "Private"] <- 2
+stroke1$work_type[stroke1$work_type == "Self-employed"] <- 3
+stroke1$work_type[stroke1$work_type == "Never_worked"] <- 4
+stroke1$work_type <- as.numeric(stroke1$work_type)
+stroke1$Residence_type[stroke1$Residence_type == "Urban"] <- 1
+stroke1$Residence_type[stroke1$Residence_type == "Rural"] <- 2
+stroke1$Residence_type <- as.numeric(stroke1$Residence_type)
+stroke1$avg_glucose_level <- as.numeric(stroke1$avg_glucose_level)
+stroke1$heart_disease <- as.numeric(stroke1$heart_disease)
+stroke1$hypertension <- as.numeric(stroke1$hypertension)
+stroke1$age <- round(as.numeric(stroke1$age), 2)
+stroke1$stroke <- as.numeric(stroke1$stroke)
+stroke1$smoking_status[stroke1$smoking_status == "never smoked"] <- 1
+stroke1$smoking_status[stroke1$smoking_status == "formerly smoked"] <- 2
+stroke1$smoking_status[stroke1$smoking_status == "smokes"] <- 3
+stroke1$smoking_status <- as.numeric(stroke1$smoking_status)
+stroke1 <- stroke1[, !(names(stroke1) %in% "id")]
+
+# Remove NAs and clean dataset
+
+stroke1$stroke = as.factor(stroke1$stroke)
+stroke1_clean = na.omit(stroke1)
+strokeclean = stroke1_clean
+fourassume = stroke1_clean
+
+strokeclean$stroke = factor(
+  strokeclean$stroke,
+  levels = c("0", "1"),
+  labels = c("No", "Yes")
+)
+
+fourassume$stroke = factor(
+  fourassume$stroke,
+  levels = c("0", "1"),
+  labels = c("No", "Yes")
+)
+
+
+```
+
+
+## Stroke analysis and early prediction
+
+<ul style="font-size:28px; color:#444; line-height:1.35; margin-left:20px;">
+  <li>
+    <b>Stroke comes without warning ,fatal , and can be partly prevented.</b>
+    Known to be  major cause of death and long-term disability; a single event can even make humanbeing paralysis for life long.
+  </li>
+
+  <li>
+    <b>Factors that can be catalyst possess more risk</b> such as hypertension,
+    high glucose / diabetes, heart disease, smoking, and obesity (BMI).
+  </li>
+
+  <li>
+    <b>These factors are already recorded in routine care</b> 
+    (age, blood-pressure history, glucose, BMI, smoking status) but are always overlooked without quality analysis till depth.
+  </li>
+
+  <li>
+    <b>Motivation for analysis :</b> use these routine measurements to build an interpretable logistic regression model, and compare it with machine-learning methods, to help us find high risk patient for prevention and counselling.
+  </li>
+</ul>
+
+
+## Research motivation & Objectives
+
+<ul style="font-size:30px; color:#444; line-height:1.32; margin-left:15px; margin-bottom:12px;">
+  <li>Which is common, most vital health indicator connected with <b>stroke risk</b>?</li>
+
+  <li>How well can a <b>binary logistic regression</b> model separate stroke cases from non-stroke?</li>
+
+  <li>Do more complex <b>machine learning models</b> (Decision Tree, Random Forest, GBM, kNN, SVM)
+      provide <b>upgrade or liable, relevant result</b> over logistic regression?</li>
+
+  <li>How does <b>class imbalance</b> (rare stroke outcome) affect model performance and
+      <b>choice of probability threshold</b>?</li>
+</ul>
+
+<span style="font-size:30px; font-weight:700; color:#444; margin-top:0px; display:block;">
+  Objectives
+</span>
+
+<ul style="font-size:28px; color:#444; line-height:1.32; margin-left:15px; margin-top:6px;">
+  <li>Build an interpretable logistic regression model for stroke prediction.</li>
+  <li>Compare performance with several ML classifiers on the same train/test split.</li>
+  <li>Evaluate using Accuracy, Sensitivity, Specificity, ROC, AUC, and Youden’s J.</li>
+  <li>Explore threshold tuning to improve detection of stroke cases.</li>
+</ul>
+
+## Data & Key Variables
+
+<span style="font-size:32px; color:#444;">
+1. Dataset
+</span>
+
+<ul style="font-size:30px; color:#444; line-height:1.4; margin-left:40px;">
+  <li>Public stroke dataset (Kaggle).</li>
+  <li><b>N = 3,357</b> patients after cleaning and removing missing values.</li>
+  <li>Binary outcome: <b>Stroke</b> (Yes / No).</li>
+</ul>
+
+<br>
+
+<span style="font-size:32px; color:#444;">
+2. Main predictors
+</span>
+
+<ul style="font-size:30px; color:#444; line-height:1.4; margin-left:40px;">
+  <li><b>Demographic:</b> Age, Gender, Ever_married, Work_type, Residence_type.</li>
+  <li><b>Clinical:</b> Hypertension, Heart_disease.</li>
+  <li><b>Behavioural / metabolic:</b> Smoking_status, BMI, Average glucose level.</li>
+</ul>
+
+<br>
+
+<span style="font-size:32px; color:#444;">
+3. Coding
+</span>
+
+<ul style="font-size:30px; color:#444; line-height:1.4; margin-left:40px;">
+  <li>Categorical variables recoded to numeric levels (1, 2, 3, ...).</li>
+  <li>Outcome <code>stroke</code> coded as factor with levels <b>No</b> and <b>Yes</b>.</li>
+  <li>Non-predictive ID column removed.</li>
+</ul>
+
+
+
+## Class Imbalance in Stroke Outcome
+
+<span style="font-size:30px; font-weight:600;">1. Outcome distribution</span>
+
+<ul style="font-size:26px; color:#444; margin-top:2px; line-height:1.22;">
+  <li>Stroke (Yes): <b>≈ 5–6%</b> of patients</li>
+  <li>No stroke (No): <b>≈ 94–95%</b> of patients</li>
+</ul>
+
+<span style="font-size:30px; font-weight:600;">2. Why this matters</span>
+
+<ul style="font-size:26px; color:#444; margin-top:2px; line-height:1.22;">
+  <li>A model can reach <b>> 90% accuracy</b> by predicting “No stroke.”</li>
+  <li>High accuracy does <b>not</b> mean good stroke detection.</li>
+  <li>Must evaluate using <b>Sensitivity</b>, <b>Specificity</b>, and <b>AUC</b>.</li>
+</ul>
+
+<span style="font-size:30px; font-weight:600;">3. Evaluation focus</span>
+
+<ul style="font-size:26px; color:#444; margin-top:2px; line-height:1.22;">
+  <li><b>Sensitivity:</b> detects stroke cases (true positives)</li>
+  <li><b>Specificity:</b> detects non-stroke cases</li>
+  <li><b>Precision:</b> correctness of predicted stroke cases</li>
+  <li><b>AUC:</b> overall ranking ability</li>
+</ul>
+
+## Data Preparation
+
+<ul style="font-size:30px; color:#444; line-height:1.4; margin-left:40px;">
+  <li>**Removed rows** with missing or **inconsistent values**(e.g., “Unknown”, “N/A”).</li>
+  <li>**Converted variables to numeric** / factor formats appropriate for modelling.</li>
+  <li>**Checked ranges of Age, BMI, and Glucose** for obvious **data errors or outliers**.</li>
+  <li>Defined <code>strokeclean</code> as the final cleaned dataset used in modelling.</li>
+  <li>Used a <b>**70% training / 30% test split**</b> to assess out-of-sample performance.</li>
+</ul>
+
+## Exploratory Data Analysis (Overview)
+
+<span style="font-size:32px; color:#444;">
+Our goal is to understand how key health indicators changes between
+patients with and without stroke.
+</span>
+
+<br>
+
+<span style="font-size:32px; color:#444;">
+We first examine:
+</span>
+
+<ul style="font-size:30px; color:#444; line-height:1.4; margin-left:40px;">
+  <li>1. Distributions of <b>Age</b>, <b>BMI</b>, and <b>Average Glucose</b></li>
+  <li> Stroke rates across <b>Hypertension</b>, <b>Heart Disease</b>, <b>Smoking</b></li>
+  <li> Correlations among numeric predictors</li>
+</ul>
+
+<br>
+
+<span style="font-size:32px; color:#444;">
+These insights help identify which predictors may have the strongest
+relationship with stroke risk.
+</span>
+
+
+## Density Plots for Age, BMI, and Glucose
+
+```{r}
+#| label: fig-continuous-density
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 9
+#| fig-height: 4
+#| out-width: 80%
+
+cont_long <- strokeclean %>% 
+  dplyr::select(
+    Age = age,
+    BMI = bmi,
+    `Average Glucose` = avg_glucose_level
+  ) %>% 
+  tidyr::pivot_longer(
+    dplyr::everything(),
+    names_to  = "Variable",
+    values_to = "Value"
+  )
+
+ggplot(cont_long, aes(Value, fill = Variable, colour = Variable)) +
+  geom_density(alpha = 0.25, linewidth = 1) +
+  facet_wrap(~ Variable, scales = "free", nrow = 1) +
+  labs(x = NULL, y = "Density") +
+  scale_colour_brewer(palette = "Dark2") +
+  theme_minimal(base_size = 12) +
+  theme(
+    strip.text       = element_text(face = "bold"),
+    legend.position  = "none",
+    panel.grid.minor = element_blank()
+  )
+
+
+
+
+
+
+
+
+
+```
+## Interpretation of Key Continuous Predictors
+
+<ul style="font-size:28px; color:#444; line-height:1.3; margin-left:10px;">
+
+  <li>
+    <b>Age</b>
+    <ul style="font-size:26px; line-height:1.25; margin-left:20px;">
+      <li>Smooth distribution from late teens.</li>
+      <li>Majority in <b>40–70</b> = highest-risk band.</li>
+      <li>No sharp clusters = good continuous predictor.</li>
+    </ul>
+  </li>
+
+  <li>
+    <b>Average Glucose Level</b>
+    <ul style="font-size:26px; line-height:1.25; margin-left:20px;">
+      <li>Clear right-skew; tail extends beyond <b>200 mg/dL</b>.</li>
+      <li>Small subgroup with metabolic issues (likely diabetic).</li>
+      <li>Strong link to cardiovascular and stroke risk.</li>
+    </ul>
+  </li>
+
+  <li>
+    <b>BMI</b>
+    <ul style="font-size:26px; line-height:1.25; margin-left:20px;">
+      <li>Compact range (~22–35) with few outliers.</li>
+      <li>Less variation = weaker predictive power.</li>
+      <li>Consistent with medical evidence and our model.</li>
+    </ul>
+  </li>
+
+</ul>
+
+
+# <span style="font-size:48px;">Stroke Prevalence by Categorical Predictors</span>
+
+
+
+```{r}
+
+#| label: fig-cat-distribution
+#| message: false
+#| warning: false
+#| fig.cap: "Sample composition by gender, residence type, and smoking status."
+#| fig.width: 9
+#| fig.height: 3.2
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+
+cat_df = strokeclean %>%
+mutate(
+gender = factor(gender, levels = c(1, 2),
+labels = c("Male", "Female")),
+Residence_type = factor(Residence_type, levels = c(1, 2),
+labels = c("Urban", "Rural")),
+smoking_status = factor(smoking_status,
+levels = c(1, 2, 3),
+labels = c("Never", "Former", "Current"))
+) %>%
+select(
+Gender    = gender,
+Residence = Residence_type,
+Smoking   = smoking_status
+) %>%
+pivot_longer(
+everything(),
+names_to  = "Variable",
+values_to = "Category"
+) %>%
+filter(!is.na(Category)) %>%
+count(Variable, Category) %>%
+group_by(Variable) %>%
+mutate(prop = n / sum(n))
+
+ggplot(cat_df, aes(x = Category, y = prop, fill = Category)) +
+geom_col(width = 0.7, colour = "white") +
+geom_text(aes(label = percent(prop, accuracy = 1)),
+vjust = -0.3, size = 3) +
+facet_wrap(~ Variable, scales = "free_x") +
+scale_y_continuous(
+labels = percent_format(accuracy = 1),
+expand = expansion(mult = c(0, 0.10))
+) +
+labs(x = NULL, y = "Percentage of patients") +
+theme_minimal(base_size = 12) +
+theme(
+legend.position  = "none",
+strip.text       = element_text(face = "bold"),
+panel.grid.minor = element_blank()
+)
+
+
+
+```
+## Interpretation of Key Categorical Predictors
+
+<ul style="font-size:28px; color:#444; line-height:1.3; margin-left:10px;">
+
+  <li>
+    <b>Gender</b>
+    <ul style="font-size:26px; line-height:1.25; margin-left:20px;">
+      <li>More females (**61%**) than males (**39%**).</li>
+      <li>Imbalance may influence how gender appears in the model.</li>
+    </ul>
+  </li>
+
+  <li>
+    <b>Residence Type</b>
+    <ul style="font-size:26px; line-height:1.25; margin-left:20px;">
+      <li>Nearly equal Urban (**51%**) and Rural (**49%**) split.</li>
+      <li>No major geographic bias in the sample.</li>
+    </ul>
+  </li>
+
+  <li>
+    <b>Smoking Status</b>
+    <ul style="font-size:26px; line-height:1.25; margin-left:20px;">
+      <li>Never smokers (**54%**) form the majority.</li>
+      <li>Former (**25%**) and current (**22%**) smokers well represented.</li>
+      <li>Enough variation to assess smoking as a stroke risk factor.</li>
+    </ul>
+  </li>
+
+</ul>
+
+
+## Stroke Risk for Clinical and  Behavioral Predictors 
+
+```{r}
+#| label: fig-stroke-binary-risk
+#| message: false
+#| warning: false
+#| fig.cap: "Stroke percentages (95% CI) by hypertension, heart disease, and smoking status."
+#| fig.width: 12
+#| fig.height: 4.2
+
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(scales)
+
+stopifnot(exists("strokeclean"))
+
+# 1. Prepare a plotting data copy
+strokeclean_plot = strokeclean %>%
+  mutate(
+    stroke = factor(stroke, levels = c("No", "Yes")),
+
+    hypertension = factor(
+      as.numeric(as.character(hypertension)),
+      levels = c(0, 1),
+      labels = c("No", "Yes")
+    ),
+
+    heart_disease = factor(
+      as.numeric(as.character(heart_disease)),
+      levels = c(0, 1),
+      labels = c("No", "Yes")
+    ),
+
+    smoking_status = factor(
+      as.numeric(as.character(smoking_status)),
+      levels = c(1, 2, 3),
+      labels = c("Never", "Former", "Current")
+    )
+  )
+
+# 2. Helper: stroke proportion + 95% CI
+prop_ci = function(data, group) {
+  data %>%
+    group_by({{ group }}) %>%
+    summarise(
+      stroke_rate = mean(stroke == "Yes"),
+      n = n(),
+      se = sqrt(stroke_rate * (1 - stroke_rate) / n),
+      lower = pmax(0, stroke_rate - 1.96 * se),
+      upper = pmin(1, stroke_rate + 1.96 * se),
+      .groups = "drop"
+    )
+}
+
+# 3. Summary tables
+df_hyp   = prop_ci(strokeclean_plot, hypertension)
+df_hd    = prop_ci(strokeclean_plot, heart_disease)
+df_smoke = prop_ci(strokeclean_plot, smoking_status)
+
+# 4. Professional theme
+theme_stroke =
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold", size = 13, hjust = 0.5),
+    axis.title.x = element_blank()
+  )
+
+# 5. Distinct colors for internal comparisons
+cols_hyp   = c("No" = "#FDE725FF", "Yes" = "#440154FF")      # yellow–purple
+cols_hd    = c("No" = "#20A387FF", "Yes" = "#F98400FF")      # teal–orange
+cols_smoke = c("Never" = "#1F78B4", "Former" = "#33A02C", "Current" = "#E31A1C")  # blue–green–red
+
+# 6. Individual panels
+p1 =
+  ggplot(df_hyp, aes(x = hypertension, y = stroke_rate, fill = hypertension)) +
+  geom_col(width = 0.7) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_fill_manual(values = cols_hyp) +
+  scale_y_continuous(
+    labels = percent_format(accuracy = 1),
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  labs(title = "Hypertension", y = "Stroke (%)") +
+  theme_stroke +
+  theme(legend.position = "none")
+
+p2 =
+  ggplot(df_hd, aes(x = heart_disease, y = stroke_rate, fill = heart_disease)) +
+  geom_col(width = 0.7) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_fill_manual(values = cols_hd) +
+  scale_y_continuous(
+    labels = percent_format(accuracy = 1),
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  labs(title = "Heart Disease", y = "Stroke (%)") +
+  theme_stroke +
+  theme(legend.position = "none")
+
+p3 =
+  ggplot(df_smoke, aes(x = smoking_status, y = stroke_rate, fill = smoking_status)) +
+  geom_col(width = 0.7) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  scale_fill_manual(values = cols_smoke) +
+  scale_y_continuous(
+    labels = percent_format(accuracy = 1),
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  labs(title = "Smoking Status", y = "Stroke (%)") +
+  theme_stroke +
+  theme(legend.position = "none")
+
+# 7. Final combined figure
+ggarrange(p1, p2, p3, ncol = 3, align = "hv")
+
+
+
+```
+
+## Interpretation of stroke risk vs prediators
+
+<ul style="font-size:28px; color:#444; line-height:1.3; margin-left:10px;">
+
+  <li>
+    <b>Hypertension</b>
+    <ul style="font-size:26px; margin-left:20px; line-height:1.25;">
+      <li>Higher stroke risk in hypertensive patients.</li>
+      <li>Clear CI separation → strong association.</li>
+    </ul>
+  </li>
+
+  <li>
+    <b>Heart Disease</b>
+    <ul style="font-size:26px; margin-left:20px; line-height:1.25;">
+      <li>Higher stroke percentages among those with heart disease.</li>
+      <li>Consistent with known cardiovascular risk patterns.</li>
+    </ul>
+  </li>
+
+  <li>
+    <b>Smoking Status</b>
+    <ul style="font-size:26px; margin-left:20px; line-height:1.25;">
+      <li>Former and current smokers show higher stroke risk.</li>
+      <li>Reflects long-term vascular impact of tobacco exposure.</li>
+    </ul>
+  </li>
+
+  <li>
+    <b>Overall</b>
+    <ul style="font-size:26px; margin-left:20px; line-height:1.25;">
+      <li>Vascular risks (hypertension, heart disease) and behavioural risk (smoking)</li>
+      <li>all show elevated stroke likelihood. Clinically consistent.</li>
+    </ul>
+  </li>
+
+</ul>
+
+
+## Correlation among key numeric prediators
+
+```{r}
+library(ggcorrplot)
+library(RColorBrewer)
+
+# Select numeric predictors
+numeric_vars = strokeclean[, c(
+  "age", "bmi", "avg_glucose_level", "hypertension", "heart_disease"
+)]
+
+# Correlation matrix
+corr_matrix = cor(numeric_vars)
+
+# High-contrast heatmap
+ggcorrplot(
+  corr_matrix,
+  method = "square",
+  type = "lower",
+  lab = TRUE,
+  lab_size = 4.5,
+  tl.cex = 12,
+  tl.srt = 45,
+  outline.col = NA,
+  colors = c("#B2182B", "white", "#2166AC"),   
+  ggtheme = theme_minimal(base_size = 14)
+) +
+  ggtitle("Correlation Heatmap of Key Numeric Predictors") +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    axis.text  = element_text(color = "black", size = 11)
+  )
+
+
+
+
+
+```
+
+
+
+## Interpretation — Correlation Heatmap
+
+<ul style="font-size:24px; color:#444; line-height:1.25; margin-left:10px;">
+
+  <li><b>Overall</b>
+    <ul style="font-size:22px; margin-left:18px; line-height:1.2;">
+      <li>Correlations are weak–moderate (0.00–0.26).</li>
+      <li>No multicollinearity concerns.</li>
+    </ul>
+  </li>
+
+  <li><b>Age</b>
+    <ul style="font-size:22px; margin-left:18px; line-height:1.2;">
+      <li>Positive links with glucose (0.24), hypertension (0.26), heart disease (0.26).</li>
+      <li>Matches aging-related cardiovascular risk trends.</li>
+    </ul>
+  </li>
+
+  <li><b>BMI</b>
+    <ul style="font-size:22px; margin-left:18px; line-height:1.2;">
+      <li>Very weak correlations (0.04–0.16).</li>
+      <li>Acts independently in this dataset.</li>
+    </ul>
+  </li>
+
+  <li><b>Average Glucose</b>
+    <ul style="font-size:22px; margin-left:18px; line-height:1.2;">
+      <li>Moderate links with hypertension (0.17) and heart disease (0.14).</li>
+      <li>Consistent with metabolic–vascular patterns.</li>
+    </ul>
+  </li>
+
+  <li><b>Hypertension & Heart Disease</b>
+    <ul style="font-size:22px; margin-left:18px; line-height:1.2;">
+      <li>Weak correlation (0.11) → related but not redundant.</li>
+    </ul>
+  </li>
+
+</ul>
+
+
+
+## Odds ratios and confidence intervals##
+
+```{r}
+#1st lets fit glm 
+library(caret)
+
+#| label: logit_fit
+#| echo: true
+#| warning: false
+#| message: false
+
+set.seed(123)
+
+n <- nrow(strokeclean)
+train_index <- sample(seq_len(n), size = 0.7 * n)
+
+stroke_train <- strokeclean[train_index, ]
+stroke_test  <- strokeclean[-train_index, ]
+
+fit_glm <- glm(
+  stroke ~ age + hypertension + heart_disease +
+    avg_glucose_level + bmi + smoking_status +
+    gender + ever_married,
+  data   = stroke_train,
+  family = binomial(link = "logit")
+)
+
+summary(fit_glm)
+
+
+```
+## Odds ratios and confidence intervals
+
+```{r}
+# Odds ratios and 95% confidence intervals
+
+coef_est <- coef(fit_glm)
+OR       <- exp(coef_est)
+
+conf_int <- exp(confint(fit_glm))  # confidence intervals on OR scale
+
+odds_table <- cbind(OR, conf_int)
+colnames(odds_table) <- c("OR", "2.5 %", "97.5 %")
+round(odds_table, 3)
+
+```
+
+
+
+
+## <span style="font-size:34px;">Interpretation — Odds Ratios (Logistic Regression)</span>
+
+<div style="font-size:28px;">
+
+- **Age (OR 1.075, CI 1.059–1.093)**  
+  Strongest predictor; each year ↑ stroke odds ~7.5%.
+
+- **Hypertension (OR 1.577, CI 0.996–2.450)**  
+  ~58% higher odds; borderline but clinically meaningful.
+
+- **Heart disease (OR 1.628, CI 0.942–2.733)**  
+  ~63% higher odds; CI includes 1 → not statistically strong.
+
+- **Avg glucose (OR 1.004, CI 1.000–1.007)**  
+  Slight ↑ in odds; marginal significance; aligns with metabolic risk.
+
+- **BMI (OR 1.007, CI 0.975–1.037)**  
+  No meaningful effect; CI overlaps 1.
+
+- **Smoking**  
+  Former: OR 1.263 (weak).  
+  Current: OR 1.598 (suggestive ↑ risk).
+
+- **Gender (Female) (OR 1.259, CI 0.842–1.903)**  
+  Slight ↑ odds; not significant.
+
+- **Ever married (OR 1.126, CI 0.590–2.013)**  
+  No clear effect.
+
+</div>
+
+
+## Logistic Regression performance (Test Set)
+
+```{r}
+
+
+library(caret)
+
+# 1) Predicted probabilities from logistic regression
+stroke_test$pred_prob <- predict(
+  fit_glm,
+  newdata = stroke_test,
+  type    = "response"
+)
+
+# 2) Make sure the TRUE outcome is a factor with levels No / Yes
+stroke_test$stroke <- factor(stroke_test$stroke,
+                             levels = c("No", "Yes"))
+
+# 3) Class predictions at threshold c = 0.5
+stroke_test$pred_class <- ifelse(stroke_test$pred_prob >= 0.5, "Yes", "No")
+stroke_test$pred_class <- factor(stroke_test$pred_class,
+                                 levels = c("No", "Yes"))
+
+# 4) Confusion matrix: positive = "Yes"
+cm <- confusionMatrix(
+  data      = stroke_test$pred_class,
+  reference = stroke_test$stroke,
+  positive  = "Yes"
+)
+
+cm
+```
+
+
+
+## <span style="font-size:34px;">Interpretation — Logistic Regression Performance (Test Set)</span>
+
+<div style="font-size:26px;">
+
+- **Accuracy: 94.25%**  
+  High due to **class imbalance** (only ~6% stroke cases); not meaningful for detection.
+
+- **Sensitivity: 0.017**  
+  Detected **1 of 59** stroke cases → model **fails to identify strokes**.
+
+- **Specificity: 1.00**  
+  Perfect for non-stroke cases; predicts “No stroke” extremely well.
+
+- **Precision (PPV): 1.00**  
+  When predicting “Yes,” it was correct — but it **predicted yes only once** → misleadingly high.
+
+- **NPV: 0.942**  
+  Most “No” predictions are correct, consistent with majority class.
+
+- **Kappa: 0.031**  
+  Near zero → model performs only slightly better than random for imbalanced data.
+
+- **Balanced Accuracy: 0.508**  
+  Equivalent to **chance level** when sensitivity and specificity are weighted equally.
+
+- **McNemar’s Test: p < 0.0001**  
+  Errors are **systematically biased** toward predicting “No stroke.”
+
+**Overall:**  
+Model performs well for **non-stroke** patients but **fails severely** for stroke detection.  
+Class imbalance dominates performance → requires resampling, class weights, or other imbalance-handling methods.
+
+</div>
+
+
+
+## ROC curve and AUC for the logistic model
+
+```{r}
+library(pROC)
+library(ggplot2)
+library(scales)
+
+# Compute ROC
+roc_glm <- roc(
+  response  = stroke_test$stroke,
+  predictor = stroke_test$pred_prob,
+  levels    = c("No","Yes"),
+  direction = "<"
+)
+
+auc_val <- auc(roc_glm)
+
+# Extract data for ggplot
+roc_df <- data.frame(
+  fpr = rev(1 - roc_glm$specificities),
+  tpr = rev(roc_glm$sensitivities)
+)
+
+# Plot
+ggplot(roc_df, aes(x = fpr, y = tpr)) +
+  geom_line(color = "#0072B2", linewidth = 1.2) +
+  geom_abline(linetype = "dashed", color = "gray60", linewidth = 0.9) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    x = "1 – Specificity (False Positive Rate)",
+    y = "Sensitivity (True Positive Rate)"
+  ) +
+  annotate("text",
+           x = 0.70, y = 0.20,
+           label = paste0("AUC = ", round(auc_val, 3)),
+           size = 5) +
+  theme_bw(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+```
+
+
+
+## <span style="font-size:34px;">Interpretation — ROC Curve & AUC</span>
+
+<div style="font-size:26px;">
+
+- **AUC = 0.815** → indicates **good** discriminative ability.  
+  (0.5 = none, 0.7–0.8 = acceptable, 0.8–0.9 = good, >0.9 = excellent)
+
+- ROC evaluates performance across **all thresholds**, not just 0.5.
+
+- Despite poor sensitivity at the 0.5 cutoff,  
+  the AUC shows the model can **separate stroke vs non-stroke** reasonably well if a better threshold is chosen.
+
+- The gap between **strong AUC** and **weak sensitivity** reflects:  
+  • severe class imbalance  
+  • the need for customized probability cutoffs in medical prediction
+
+**Implications for improvement:**
+- Threshold tuning  
+- Cost-sensitive / class-weighted training  
+- Resampling (e.g., SMOTE, oversampling)
+
+</div>
+
+
+```{r}
+model_df <- strokeclean
+model_df <- na.omit(model_df)
+model_df$stroke <- factor(model_df$stroke)
+levels(model_df$stroke) <- c("No", "Yes")
+table(model_df$stroke)
+
+set.seed(123)
+index <- createDataPartition(model_df$stroke, p = 0.70, list = FALSE)
+train_data <- model_df[index, ]
+test_data  <- model_df[-index, ]
+
+train_data$stroke <- factor(train_data$stroke, levels = c("No","Yes"))
+test_data$stroke  <- factor(test_data$stroke,  levels = c("No","Yes"))
+
+#train control setting
+
+library(caret)   # 
+
+ctrl <- trainControl(
+  method = "repeatedcv",
+  number = 5,
+  repeats = 3,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary,
+  verboseIter = FALSE
+)
+
+```
+## Machine-learning model comparison
+
+```{r}
+#Logistic Regression (caret
+model_lr <- train(
+stroke ~ .,
+data = train_data,
+method = "glm",
+family = "binomial",
+metric = "ROC",
+trControl = ctrl
+)
+
+#Decision Tree
+
+model_tree <- train(
+stroke ~ .,
+data = train_data,
+method = "rpart",
+metric = "ROC",
+trControl = ctrl,
+tuneLength = 10
+)
+
+#Random Forest
+model_rf <- train(
+stroke ~ .,
+data = train_data,
+method = "rf",
+metric = "ROC",
+trControl = ctrl,
+tuneLength = 5
+)
+
+#Gradient Boosted Machine (GBM)
+model_gbm <- train(
+stroke ~ .,
+data = train_data,
+method = "gbm",
+metric = "ROC",
+trControl = ctrl,
+verbose = FALSE
+)
+
+#k-Nearest Neighbours (k-NN)
+
+model_knn <- train(
+stroke ~ .,
+data = train_data,
+method = "knn",
+metric = "ROC",
+trControl = ctrl
+)
+
+#Support Vector Machine (Radial)
+
+model_svm <- train(
+stroke ~ .,
+data = train_data,
+method = "svmRadial",
+metric = "ROC",
+trControl = ctrl
+)
+
+
+```
+
+
+
+```{r}
+library(pROC)   
+library(caret)  
+
+
+models_list <- list(
+LR   = model_lr,
+TREE = model_tree,
+RF   = model_rf,
+GBM  = model_gbm,
+KNN  = model_knn,
+SVM  = model_svm
+)
+
+results <- data.frame(
+Model       = character(),
+AUC         = numeric(),
+Accuracy    = numeric(),
+Sensitivity = numeric(),
+Specificity = numeric()
+)
+
+for (m in names(models_list)) {
+mdl <- models_list[[m]]
+
+# Probabilities for the "Yes" class
+
+preds_prob  <- predict(mdl, test_data, type = "prob")[, "Yes"]
+
+# Class predictions
+
+preds_class <- predict(mdl, test_data)
+
+# ROC & AUC
+
+roc_obj <- roc(test_data$stroke, preds_prob,
+levels = c("No", "Yes"), direction = "<")
+auc_val <- auc(roc_obj)
+
+# Confusion matrix – positive = "Yes"
+
+cm_m <- confusionMatrix(preds_class, test_data$stroke, positive = "Yes")
+
+results <- rbind(
+results,
+data.frame(
+Model       = m,
+AUC         = as.numeric(auc_val),
+Accuracy    = cm_m$overall["Accuracy"],
+Sensitivity = cm_m$byClass["Sensitivity"],
+Specificity = cm_m$byClass["Specificity"]
+)
+)
+}
+
+results
+
+```
+
+
+
+## <span style="font-size:34px;">Interpretation — Model Comparison</span>
+
+<div style="font-size:26px;">
+
+- All six models show **very high accuracy & specificity**, driven by the dataset’s **~6% stroke rate** (strong class imbalance).
+
+- **Sensitivity is extremely low** for every model → almost none correctly identify stroke cases.
+
+- **Best AUC values:**  
+  • Logistic Regression: **0.78**  
+  • GBM: **0.76**  
+  → These models discriminate high- vs low-risk patients better than others, despite poor sensitivity at the 0.5 threshold.
+
+- **Tree-based models** (DT, RF, GBM) show slightly higher sensitivity than LR, but still only **~1–2%**.
+
+- **KNN and SVM** detect **0 stroke cases** at the default threshold, despite high accuracy.
+
+- Overall: **Accuracy is misleading**; all models excel at predicting “No stroke” but **fail at detecting positives**.
+
+- Confirms severe **class imbalance** → meaningful improvement requires:  
+  • threshold tuning,  
+  • resampling (SMOTE/oversampling),  
+  • cost-sensitive learning.
+
+</div>
+
+
+## ROC comaprision for all 6 model
+
+```{r}
+library(scales)
+
+# 1. Create ROC objects for each model
+roc_list <- list(
+  LR   = roc(test_data$stroke,
+             predict(model_lr,   test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  Tree = roc(test_data$stroke,
+             predict(model_tree, test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  RF   = roc(test_data$stroke,
+             predict(model_rf,   test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  GBM  = roc(test_data$stroke,
+             predict(model_gbm,  test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  KNN  = roc(test_data$stroke,
+             predict(model_knn,  test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  SVM  = roc(test_data$stroke,
+             predict(model_svm,  test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<")
+)
+
+# 2. AUC values
+auc_vals <- sapply(roc_list, auc)
+
+# 3. Long data frame of ROC coordinates
+roc_df <- do.call(rbind, lapply(names(roc_list), function(m) {
+  r <- roc_list[[m]]
+  data.frame(
+    model       = m,
+    specificity = rev(r$specificities),
+    sensitivity = rev(r$sensitivities)
+  )
+}))
+
+# Treat model as factor in a consistent order
+roc_df$model <- factor(roc_df$model, levels = names(roc_list))
+
+# 4. Legend labels with AUC
+label_map <- paste0(names(auc_vals), " (AUC = ", sprintf("%.3f", auc_vals), ")")
+names(label_map) <- names(auc_vals)
+
+# 5. Color palette by short model name
+model_cols <- c(
+  LR   = "#E69F00",
+  Tree = "#0072B2",
+  RF   = "#009E73",
+  GBM  = "#CC79A7",
+  KNN  = "#F0E442",
+  SVM  = "#000000"
+)
+
+# 6. Plot
+ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity,
+                   colour = model, group = model)) +
+  geom_abline(intercept = 0, slope = 1,
+              linetype = "dashed", colour = "grey70", linewidth = 0.6) +
+  geom_line(linewidth = 1) +
+  scale_color_manual(
+    values = model_cols,
+    breaks = names(label_map),
+    labels = label_map,
+    name   = "Model"
+  ) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    x = "1 – Specificity (False Positive Rate)",
+    y = "Sensitivity (True Positive Rate)"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(
+    legend.position   = c(0.65, 0.25),
+    legend.background = element_rect(fill = "white", colour = "grey80"),
+    legend.title      = element_text(face = "bold"),
+    panel.grid.minor  = element_blank()
+  )
+
+
+
+```
+
+
+
+## <span style="font-size:34px;">Interpretation — ROC Comparison Across Models</span>
+
+<div style="font-size:26px;">
+
+- **Logistic Regression (AUC = 0.779)** shows the best overall discrimination between stroke vs non-stroke.
+
+- **GBM (AUC = 0.759)** and **Random Forest (AUC = 0.725)** also perform well, close to LR.
+
+- **KNN (AUC = 0.667)** performs moderately — better than chance, but weaker than LR and tree ensembles.
+
+- **Decision Tree (AUC = 0.648)** and **SVM (AUC = 0.639)** have the lowest AUC values → weakest discrimination.
+
+- All models score **above 0.5**, meaning they perform better than random guessing, but with clear differences in quality.
+
+- ROC curves show that **LR, RF, and GBM** extract the strongest predictive patterns, outperforming simpler tree models and distance-based/SVM methods.
+
+**Overall:** Logistic Regression is the most stable and best-performing model for this dataset, despite class imbalance.
+
+</div>
+
+
+
+# Odds ratios and risk stratification
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(scales)
+
+# Fit logistic regression on the same train_data used in the ML comparison
+
+glm_lr <- glm(
+stroke ~ age + gender + hypertension + heart_disease + ever_married +
+work_type + Residence_type + avg_glucose_level + bmi + smoking_status,
+data   = train_data,
+family = binomial
+)
+
+# Coefficients, CIs, p-values
+
+lr_coef <- summary(glm_lr)$coefficients           # estimates + p-values
+ci_raw  <- suppressMessages(confint(glm_lr))      # CI on log-odds scale
+
+or_df <- data.frame(
+Predictor = rownames(lr_coef),
+logOR     = lr_coef[, "Estimate"],
+OR        = exp(lr_coef[, "Estimate"]),
+CI_lower  = exp(ci_raw[, 1]),
+CI_upper  = exp(ci_raw[, 2]),
+p_value   = lr_coef[, "Pr(>|z|)"]
+) %>%
+
+# remove intercept
+
+filter(Predictor != "(Intercept)") %>%
+
+# nicer labels for the plot
+
+mutate(
+Label = dplyr::recode(
+Predictor,
+age               = "Age (per year)",
+gender            = "Female vs Male",
+hypertension      = "Hypertension (Yes vs No)",
+heart_disease     = "Heart disease (Yes vs No)",
+ever_married      = "Ever married (Yes vs No)",
+work_type         = "Work type (higher level)",
+Residence_type    = "Residence: Rural vs Urban",
+avg_glucose_level = "Average glucose level",
+bmi               = "BMI",
+smoking_status    = "Smoking status (higher level)"
+),
+# significance flag for colour
+Sig = ifelse(p_value < 0.05, "p < 0.05", "NS")
+) %>%
+
+# order from lower to higher OR so the plot reads nicely
+
+arrange(OR) %>%
+mutate(Label = factor(Label, levels = Label))
+
+# Forest plot
+
+ggplot(or_df, aes(x = Label, y = OR, colour = Sig)) +
+geom_hline(yintercept = 1, linetype = "dashed", colour = "grey40") +
+geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper),
+width = 0.15, linewidth = 0.6) +
+geom_point(size = 3) +
+coord_flip() +
+scale_y_log10(
+breaks = c(0.5, 0.75, 1, 1.5, 2, 3, 4),
+labels = c("0.5", "0.75", "1", "1.5", "2", "3", "4")
+) +
+scale_colour_manual(
+values = c("p < 0.05" = "#D55E00", "NS" = "#999999")
+) +
+labs(
+title  = "Odds Ratios for Stroke Predictors (Logistic Regression)",
+x      = NULL,
+y      = "Odds Ratio (log scale)",
+colour = NULL
+) +
+theme_minimal(base_size = 13) +
+theme(
+panel.grid.minor = element_blank(),
+plot.title       = element_text(face = "bold", hjust = 0.5, size = 15),
+axis.text.y      = element_text(size = 11),
+legend.position  = "bottom"
+)
+
+```
+
+
+## <span style="font-size:34px;">Interpretation — Forest Plot (Odds Ratios)</span>
+
+<div style="font-size:26px; line-height:1.25;">
+
+- **Hypertension**  
+  Strongest predictor. OR > 2 with CI fully above 1 → hypertensive patients have **more than double** the odds of stroke.
+
+- **Age (per year)**  
+  OR slightly > 1 with a narrow CI above 1 → each year adds a **consistent increase** in stroke risk.
+
+- **Average glucose level**  
+  OR just above 1 with CI above 1 → higher glucose gives a **modest but reliable** rise in stroke risk.
+
+- **Other predictors** (ever married, heart disease, smoking, gender, BMI, residence, work type)  
+  CIs cross 1 → **not statistically significant** after adjustment.  
+  Some ORs are > 1 (e.g., heart disease, smoking), suggesting possible risk, but evidence is weak in this dataset.
+
+**Overall:**  
+Hypertension, older age, and higher glucose are the **clearest independent predictors** of stroke.  
+Other factors show smaller or uncertain effects.  
+This pattern aligns with known clinical risk factors and supports the logistic model’s value for risk stratification.
+
+</div>
+
+
+## Threshold tuning to 0.2 from 0.5
+
+```{r}
+# Threshold tuning: use 0.2 instead of 0.5
+new_threshold <- 0.2
+
+stroke_test$pred_class_02 <- ifelse(stroke_test$pred_prob >= new_threshold,
+                                    "Yes", "No")
+
+stroke_test$pred_class_02 <- factor(stroke_test$pred_class_02,
+                                    levels = c("No", "Yes"))
+
+# Confusion matrix for threshold = 0.2
+cm_02 <- confusionMatrix(
+  data      = stroke_test$pred_class_02,
+  reference = stroke_test$stroke,
+  positive  = "Yes"
+)
+
+cm_02
+
+```
+
+
+## <span style="font-size:34px;">Interpretation — Threshold = 0.2</span>
+
+<div style="font-size:26px; line-height:1.25;">
+
+- Sensitivity improves from **1 stroke detected → 13/59 detected**  
+  (**22%**, up from 1.7%) when lowering the cutoff to 0.2.
+
+- **Specificity stays high (≈95%)**, correctly classifying most non-stroke patients  
+  (**903 out of 949** remain correctly labeled).
+
+- Overall accuracy drops slightly (**94% → 91%**), but **balanced accuracy improves**  
+  (**≈0.51 → ≈0.59**), reflecting better sensitivity–specificity trade-off.
+
+**Overall:**  
+Lowering the threshold captures **more true stroke cases** with only a moderate increase in false positives — a clinically reasonable trade-off for early risk detection.
+
+</div>
+
+
+
+## <span style="font-size:34px;">Conclusion</span>
+
+<div style="font-size:26px; line-height:1.25;">
+
+- Stroke was a **rare outcome (~5%)**, creating strong class imbalance and making detection of positive cases difficult.
+
+- Key predictors across models were **age**, **hypertension**, **heart disease**, **average glucose**, and **smoking** — consistent with established clinical risk factors.
+
+- Logistic Regression showed **good discrimination** (AUC ≈ 0.78) and remains a strong **interpretable baseline model**.
+
+- Despite good AUC, sensitivity at the default **0.5 threshold** was extremely low due to class imbalance.
+
+- Lowering the threshold to **0.2** improved sensitivity (**~22%**) while maintaining high specificity (~95%), offering a more clinically reasonable trade-off.
+
+- Tree-based ensembles (RF, GBM) achieved **slightly higher AUC** but did not dramatically improve sensitivity and were **less interpretable**.
+
+- Accuracy and specificity were high for all models, but **misleading**, as they mainly reflected the dominance of the non-stroke class.
+
+- Results show that routine health indicators can meaningfully separate higher- vs lower-risk individuals, but **handling class imbalance is critical**.
+
+
+</div>
+
+

@@ -22,19 +22,6 @@ Jane is a data scientist with over 10 years of experience...
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-### Kristina Kusem
-#### Software Engineer
-
-![Kristina Kusem](images/spongebob-imagination.jpg){.about-image}
-
-John is a software engineer specializing in web development...
-
-**Contact**
-* Email: `john@example.com`
-* Twitter: [@john_smith](https://twitter.com/john_smith)
-:::
-
-::: {.g-col-12 .g-col-md-6}
 ### Shree Krishna Basnet
 #### Research Analyst
 
