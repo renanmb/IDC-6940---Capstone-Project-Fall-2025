@@ -83,9 +83,10 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      page: 25,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -346,7 +347,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(25)</span></div><div class="category" data-category="Y29kZQ==">code <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29kaW5n">coding <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ZGF0YXNldCUyMGV4cGxvcmF0aW9u">dataset exploration <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZHJhZnQ=">draft <span class="quarto-category-count">(8)</span></div><div class="category" data-category="Z2V0dGluZyUyMHN0YXJ0ZWQ=">getting started <span class="quarto-category-count">(1)</span></div><div class="category" data-category="a3Jpc3RpbmE=">kristina <span class="quarto-category-count">(4)</span></div><div class="category" data-category="bGl0ZXJhdHVyZSUyMHJldmlldw==">literature review <span class="quarto-category-count">(11)</span></div><div class="category" data-category="cmVuYW4=">renan <span class="quarto-category-count">(17)</span></div><div class="category" data-category="cmVwb3J0">report <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c2hyZWU=">shree <span class="quarto-category-count">(9)</span></div><div class="category" data-category="d2VlayUyMDEx">week 11 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2VlayUyMDEy">week 12 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2VlayUyMDI=">week 2 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="d2VlayUyMDM=">week 3 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="d2VlayUyMDQ=">week 4 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="d2VlayUyMDU=">week 5 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="d2VlayUyMDY=">week 6 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2VlayUyMDc=">week 7 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2VlayUyMDg=">week 8 <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(27)</span></div><div class="category" data-category="Y29kZQ==">code <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29kaW5n">coding <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ZGF0YXNldCUyMGV4cGxvcmF0aW9u">dataset exploration <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZHJhZnQ=">draft <span class="quarto-category-count">(10)</span></div><div class="category" data-category="Z2V0dGluZyUyMHN0YXJ0ZWQ=">getting started <span class="quarto-category-count">(1)</span></div><div class="category" data-category="a3Jpc3RpbmE=">kristina <span class="quarto-category-count">(4)</span></div><div class="category" data-category="bGl0ZXJhdHVyZSUyMHJldmlldw==">literature review <span class="quarto-category-count">(11)</span></div><div class="category" data-category="cmVuYW4=">renan <span class="quarto-category-count">(19)</span></div><div class="category" data-category="cmVwb3J0">report <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c2hyZWU=">shree <span class="quarto-category-count">(11)</span></div><div class="category" data-category="d2VlayUyMDEx">week 11 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2VlayUyMDEy">week 12 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2VlayUyMDI=">week 2 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="d2VlayUyMDM=">week 3 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="d2VlayUyMDQ=">week 4 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="d2VlayUyMDU=">week 5 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="d2VlayUyMDY=">week 6 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2VlayUyMDc=">week 7 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2VlayUyMDg=">week 8 <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -439,7 +440,7 @@ Renan Monteiro Barbosa
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="ZHJhZnQlMkNyZW5hbg==" data-listing-file-modified-sort="1764592378796" data-listing-reading-time-sort="54" data-listing-word-count-sort="10670">
+<div class="quarto-post image-right" data-index="2" data-categories="ZHJhZnQlMkNyZW5hbg==" data-listing-file-modified-sort="1764662638473" data-listing-reading-time-sort="55" data-listing-word-count-sort="10908">
 <div class="thumbnail"><a href="./posts/renan-blog-post-draft05/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/renan-blog-post-draft05/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -619,7 +620,75 @@ Renan Monteiro Barbosa, Shree Krishna M.S Basnet, Supervisor: Dr.&nbsp;Cohen
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAyJTJDa3Jpc3RpbmE=" data-listing-file-modified-sort="1759432658342" data-listing-reading-time-sort="5" data-listing-word-count-sort="919">
+<div class="quarto-post image-right" data-index="8" data-categories="ZHJhZnQlMkNyZW5hbiUyQ3NocmVl" data-listing-date-sort="1764655200000" data-listing-file-modified-sort="1764702938129" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="34" data-listing-word-count-sort="6793">
+<div class="thumbnail"><a href="./posts/renan-blog-post-draft08/index.html" class="no-external">
+
+<img loading="lazy" src="./posts/renan-blog-post-draft08/images/spongebob-imagination.jpg" class="thumbnail-image">
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/renan-blog-post-draft08/index.html" class="no-external">Draft v08 — Predicting stroke risk from common health indicators: a binary logistic regression analysis</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZHJhZnQ='); return false;">draft</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVuYW4='); return false;">renan</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('c2hyZWU='); return false;">shree</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/renan-blog-post-draft08/index.html" class="no-external">
+<p>Shree sent back draft with changes</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/renan-blog-post-draft08/index.html" class="no-external">
+<div class="listing-date">
+Dec 2, 2025
+</div>
+<div class="listing-author">
+Renan Monteiro Barbosa, Shree Krishna M.S Basnet, Supervisor: Dr.&nbsp;Cohen
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="9" data-categories="ZHJhZnQlMkNyZW5hbiUyQ3NocmVl" data-listing-date-sort="1764655200000" data-listing-file-modified-sort="1764704337392" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="61" data-listing-word-count-sort="12164">
+<div class="thumbnail"><a href="./posts/renan-blog-post-draft09/index.html" class="no-external">
+
+<img loading="lazy" src="./posts/renan-blog-post-draft09/images/spongebob-imagination.jpg" class="thumbnail-image">
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/renan-blog-post-draft09/index.html" class="no-external">Draft v09 — Predicting stroke risk from common health indicators: a binary logistic regression analysis</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZHJhZnQ='); return false;">draft</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('cmVuYW4='); return false;">renan</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('c2hyZWU='); return false;">shree</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/renan-blog-post-draft09/index.html" class="no-external">
+<p>Draft of report containing changes from Draft 08</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/renan-blog-post-draft09/index.html" class="no-external">
+<div class="listing-date">
+Dec 2, 2025
+</div>
+<div class="listing-author">
+Renan Monteiro Barbosa, Shree Krishna M.S Basnet, Supervisor: Dr.&nbsp;Cohen
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="10" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAyJTJDa3Jpc3RpbmE=" data-listing-file-modified-sort="1759432658342" data-listing-reading-time-sort="5" data-listing-word-count-sort="919">
 <div class="thumbnail"><a href="./posts/kristina-blog-post-week2/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/kristina-blog-post-week2/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -650,7 +719,7 @@ Kristina Kusem
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAyJTJDcmVuYW4=" data-listing-file-modified-sort="1759432582446" data-listing-reading-time-sort="1" data-listing-word-count-sort="186">
+<div class="quarto-post image-right" data-index="11" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAyJTJDcmVuYW4=" data-listing-file-modified-sort="1759432582446" data-listing-reading-time-sort="1" data-listing-word-count-sort="186">
 <div class="thumbnail"><a href="./posts/renan-blog-post-week2/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/renan-blog-post-week2/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -681,7 +750,7 @@ Renan monteiro barbosa
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAyJTJDc2hyZWU=" data-listing-file-modified-sort="1759432700845" data-listing-reading-time-sort="2" data-listing-word-count-sort="381">
+<div class="quarto-post image-right" data-index="12" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAyJTJDc2hyZWU=" data-listing-file-modified-sort="1759432700845" data-listing-reading-time-sort="2" data-listing-word-count-sort="381">
 <div class="thumbnail"><a href="./posts/shree-blog-post-week2/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/shree-blog-post-week2/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -712,7 +781,7 @@ Shree Krishna Basnet
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAzJTJDa3Jpc3RpbmE=" data-listing-file-modified-sort="1759432666995" data-listing-reading-time-sort="8" data-listing-word-count-sort="1412">
+<div class="quarto-post image-right" data-index="13" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAzJTJDa3Jpc3RpbmE=" data-listing-file-modified-sort="1759432666995" data-listing-reading-time-sort="8" data-listing-word-count-sort="1412">
 <div class="thumbnail"><a href="./posts/kristina-blog-post-week3/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/kristina-blog-post-week3/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -743,7 +812,7 @@ Kristina Kusem
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAzJTJDcmVuYW4=" data-listing-file-modified-sort="1759432634550" data-listing-reading-time-sort="5" data-listing-word-count-sort="895">
+<div class="quarto-post image-right" data-index="14" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAzJTJDcmVuYW4=" data-listing-file-modified-sort="1759432634550" data-listing-reading-time-sort="5" data-listing-word-count-sort="895">
 <div class="thumbnail"><a href="./posts/renan-blog-post-week3/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/renan-blog-post-week3/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -774,7 +843,7 @@ Renan monteiro barbosa
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAzJTJDc2hyZWU=" data-listing-file-modified-sort="1759432709618" data-listing-reading-time-sort="3" data-listing-word-count-sort="541">
+<div class="quarto-post image-right" data-index="15" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjAzJTJDc2hyZWU=" data-listing-file-modified-sort="1759432709618" data-listing-reading-time-sort="3" data-listing-word-count-sort="541">
 <div class="thumbnail"><a href="./posts/shree-blog-post-week3/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/shree-blog-post-week3/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -805,7 +874,7 @@ Shree Krishna Basnet
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA0JTJDa3Jpc3RpbmE=" data-listing-file-modified-sort="1759432674783" data-listing-reading-time-sort="6" data-listing-word-count-sort="1175">
+<div class="quarto-post image-right" data-index="16" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA0JTJDa3Jpc3RpbmE=" data-listing-file-modified-sort="1759432674783" data-listing-reading-time-sort="6" data-listing-word-count-sort="1175">
 <div class="thumbnail"><a href="./posts/kristina-blog-post-week4/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/kristina-blog-post-week4/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -836,7 +905,7 @@ Kristina Kusem
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="15" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA0JTJDcmVuYW4=" data-listing-file-modified-sort="1759432646570" data-listing-reading-time-sort="3" data-listing-word-count-sort="524">
+<div class="quarto-post image-right" data-index="17" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA0JTJDcmVuYW4=" data-listing-file-modified-sort="1759432646570" data-listing-reading-time-sort="3" data-listing-word-count-sort="524">
 <div class="thumbnail"><a href="./posts/renan-blog-post-week4/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/renan-blog-post-week4/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -867,7 +936,7 @@ Renan monteiro barbosa
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="16" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA0JTJDc2hyZWU=" data-listing-file-modified-sort="1759432716725" data-listing-reading-time-sort="3" data-listing-word-count-sort="427">
+<div class="quarto-post image-right" data-index="18" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA0JTJDc2hyZWU=" data-listing-file-modified-sort="1759432716725" data-listing-reading-time-sort="3" data-listing-word-count-sort="427">
 <div class="thumbnail"><a href="./posts/shree-blog-post-week4/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/shree-blog-post-week4/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -898,7 +967,7 @@ Shree Krishna Basnet
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="17" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA1JTJDa3Jpc3RpbmE=" data-listing-file-modified-sort="1759432690522" data-listing-reading-time-sort="7" data-listing-word-count-sort="1388">
+<div class="quarto-post image-right" data-index="19" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA1JTJDa3Jpc3RpbmE=" data-listing-file-modified-sort="1759432690522" data-listing-reading-time-sort="7" data-listing-word-count-sort="1388">
 <div class="thumbnail"><a href="./posts/kristina-blog-post-week5/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/kristina-blog-post-week5/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -929,7 +998,7 @@ Kristina Kusem
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="18" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA1JTJDc2hyZWU=" data-listing-file-modified-sort="1759432723805" data-listing-reading-time-sort="3" data-listing-word-count-sort="451">
+<div class="quarto-post image-right" data-index="20" data-categories="bGl0ZXJhdHVyZSUyMHJldmlldyUyQ3dlZWslMjA1JTJDc2hyZWU=" data-listing-file-modified-sort="1759432723805" data-listing-reading-time-sort="3" data-listing-word-count-sort="451">
 <div class="thumbnail"><a href="./posts/shree-blog-post-week5/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/shree-blog-post-week5/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -960,7 +1029,7 @@ Shree Krishna Basnet
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="19" data-categories="ZHJhZnQlMkNyZW5hbiUyQ3NocmVl" data-listing-file-modified-sort="1764326000811" data-listing-reading-time-sort="16" data-listing-word-count-sort="3183">
+<div class="quarto-post image-right" data-index="21" data-categories="ZHJhZnQlMkNyZW5hbiUyQ3NocmVl" data-listing-file-modified-sort="1764326000811" data-listing-reading-time-sort="16" data-listing-word-count-sort="3183">
 <div class="thumbnail"><a href="./posts/renan-blog-post-draft04/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/renan-blog-post-draft04/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -991,7 +1060,7 @@ Renan Monteiro Barbosa, Shree Krishna M.S Basnet, Supervisor: Dr.&nbsp;Cohen
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="20" data-categories="Z2V0dGluZyUyMHN0YXJ0ZWQlMkN3ZWVrJTIwNSUyQ3JlbmFu" data-listing-file-modified-sort="1760548446514" data-listing-reading-time-sort="5" data-listing-word-count-sort="966">
+<div class="quarto-post image-right" data-index="22" data-categories="Z2V0dGluZyUyMHN0YXJ0ZWQlMkN3ZWVrJTIwNSUyQ3JlbmFu" data-listing-file-modified-sort="1760548446514" data-listing-reading-time-sort="5" data-listing-word-count-sort="966">
 <div class="thumbnail"><a href="./posts/renan-blog-post-week5/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/renan-blog-post-week5/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -1022,7 +1091,7 @@ Renan Monteiro Barbosa
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="21" data-categories="Y29kZSUyQ2RyYWZ0JTJDcmVuYW4lMkNzaHJlZQ==" data-listing-file-modified-sort="1763643030093" data-listing-reading-time-sort="3" data-listing-word-count-sort="544">
+<div class="quarto-post image-right" data-index="23" data-categories="Y29kZSUyQ2RyYWZ0JTJDcmVuYW4lMkNzaHJlZQ==" data-listing-file-modified-sort="1763643030093" data-listing-reading-time-sort="3" data-listing-word-count-sort="544">
 <div class="thumbnail"><a href="./posts/renan-blog-post-code01/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/renan-blog-post-code01/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -1055,7 +1124,7 @@ Renan Monteiro Barbosa
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="22" data-categories="Y29kaW5nJTJDd2VlayUyMDclMkNyZW5hbg==" data-listing-file-modified-sort="1763630103572" data-listing-reading-time-sort="11" data-listing-word-count-sort="2034">
+<div class="quarto-post image-right" data-index="24" data-categories="Y29kaW5nJTJDd2VlayUyMDclMkNyZW5hbg==" data-listing-file-modified-sort="1763630103572" data-listing-reading-time-sort="11" data-listing-word-count-sort="2034">
 <div class="thumbnail"><a href="./posts/renan-blog-post-week7/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/renan-blog-post-week7/images/spongebob-imagination.jpg" class="thumbnail-image">
@@ -1086,10 +1155,10 @@ Renan Monteiro Barbosa
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="23" data-categories="Y29kaW5nJTJDd2VlayUyMDglMkNyZW5hbg==" data-listing-file-modified-sort="1761241095658" data-listing-reading-time-sort="10" data-listing-word-count-sort="1975">
+<div class="quarto-post image-right" data-index="25" data-categories="Y29kaW5nJTJDd2VlayUyMDglMkNyZW5hbg==" data-listing-file-modified-sort="1761241095658" data-listing-reading-time-sort="10" data-listing-word-count-sort="1975">
 <div class="thumbnail"><a href="./posts/renan-blog-post-week8/index.html" class="no-external">
 
-<img loading="lazy" src="./posts/renan-blog-post-week8/images/spongebob-imagination.jpg" class="thumbnail-image">
+<img loading="lazy" data-src="./posts/renan-blog-post-week8/images/spongebob-imagination.jpg" class="thumbnail-image">
 
 </a></div>
 <div class="body">
@@ -1117,10 +1186,10 @@ Renan Monteiro Barbosa
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="24" data-categories="cmVwb3J0JTJDd2VlayUyMDExJTJDcmVuYW4=" data-listing-file-modified-sort="1763630105870" data-listing-reading-time-sort="2" data-listing-word-count-sort="238">
+<div class="quarto-post image-right" data-index="26" data-categories="cmVwb3J0JTJDd2VlayUyMDExJTJDcmVuYW4=" data-listing-file-modified-sort="1763630105870" data-listing-reading-time-sort="2" data-listing-word-count-sort="238">
 <div class="thumbnail"><a href="./posts/renan-blog-post-week11/index.html" class="no-external">
 
-<img loading="lazy" src="./posts/renan-blog-post-week11/images/spongebob-imagination.jpg" class="thumbnail-image">
+<img loading="lazy" data-src="./posts/renan-blog-post-week11/images/spongebob-imagination.jpg" class="thumbnail-image">
 
 </a></div>
 <div class="body">
@@ -1150,6 +1219,9 @@ Renan Monteiro Barbosa
 </div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
