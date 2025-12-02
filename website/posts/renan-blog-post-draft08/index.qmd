@@ -1,5 +1,5 @@
 ---
-title: "Draft v07 --- Predicting stroke risk from common health indicators: a binary logistic regression analysis"
+title: "Draft v08 --- Predicting stroke risk from common health indicators: a binary logistic regression analysis"
 description: "Shree sent back draft with changes"
 author:
   - name: Renan Monteiro Barbosa
@@ -7,8 +7,8 @@ author:
     affiliation: Master of Data Science Program @ The University of West Florida (UWF)
   - name: "Shree Krishna M.S Basnet"
   - name: "Supervisor: Dr. Cohen"
-# date: 10-24-2022
-categories: [draft, renan, shree]
+date: "December 2 2025"
+categories: [draft, renan]
 # citation:
 #   url: https://samanthacsik.github.io/posts/2022-10-24-my-blog-post/
 image: images/spongebob-imagination.jpg
@@ -108,78 +108,70 @@ fourassume$stroke <- factor(
   levels = c("0", "1"),
   labels = c("No", "Yes")
 )
+
+
 ```
 
 
+
 # Introduction
+Stroke is a global health crisis, causing widespread mortality and disability [@WHO2025]. Because strokes occur suddenly and often lead to long-term neurological damage, early detection in high-risk individuals is critical for prevention and prompt intervention. By using data-driven risk prediction models, clinicians and public health experts can better identify high-risk populations, allowing for targeted clinical management and lifestyle counseling.
 
-Stroke affects people all around the world, resulting in numerous deaths and disabilities.  [@WHO2025]. If we are able to detection stroke early for those at increased risk is will be amazing for prevention and prompt intervention because stroke frequently happens quickly and can cause long-term neurological disability.  Clinicians and public health experts can measure individual-level risk and target high-risk populations for clinical management and lifestyle counseling by using data-driven risk prediction models.
+Logistic Regression (LR) is one of the most widely used methods for modeling binary outcomes, such as the presence or absence of a disease [@sperandei2014understanding]. It extends linear regression to categorical outcomes, providing interpretable coefficients that explain how specific factors influence the probability of an event. LR has been applied across diverse fields, including child health [@asmare2024determinants], road safety [@rahman2021identification; @chen2024binary; @chen2020modeling], healthcare resource management [@hutchinson2023predictors], and fraud detection [@samara2024using]. These varied applications demonstrate LR’s flexibility and suitability for real-world decision-making.
 
-Logistic Regression (LR) is one of the most widely used approaches for modelling binary outcomes such as disease is present in human or not  [@sperandei2014understanding]. It extends linear regression to cases where the outcome is categorical and provides interpretable coefficients and odds ratios that describe how each predictor is associated with the probability of the event. LR has been applied across a wide range of domains, including child undernutrition and anaemia [@asmare2024determinants], road traffic safety [@rahman2021identification; @chen2024binary; @chen2020modeling], health-care utilisation and clinical admission decisions [@hutchinson2023predictors], and fraud detection [@samara2024using]. These applications highlight both the flexibility of LR and its suitability for real-world decision-making problems.
+In this project, we analyze a publicly available stroke dataset containing key demographic, behavioral, and clinical predictors—such as age, gender, hypertension, heart disease, marital status, work type, residence, smoking status, Body Mass Index (BMI), and average glucose level. These variables are well-documented in cardiovascular literature as significant risk determinants. We cleaned and recoded this data into appropriate numeric formats to develop a series of supervised learning models.
 
-In this project, we analyse a publicly available stroke dataset that includes key demographic, behavioural, and clinical predictors such as age, gender, hypertension status, heart disease, marital status, work type, residence type, smoking status, body mass index (BMI), and average glucose level. These variables are commonly reported in the stroke and cardiovascular literature as important determinants of risk. Using this dataset, we first clean and recode the variables into appropriate numeric formats and then develop a series of supervised learning models for stroke prediction.
-
-Logistic Regression is used as the primary, interpretable baseline model, but its performance is compared against several more complex machine-learning techniques, including Decision Tree, Random Forest, Gradient Boosted Machine, k-Nearest Neighbours, and Support Vector Machine (radial). Model performance is evaluated using accuracy, sensitivity, specificity, ROC curves, AUC, and confusion matrices. The main objectives are to identify the most influential predictors of stroke and to determine whether advanced machine-learning models offer meaningful improvements over Logistic Regression for classification of stroke risk in this dataset.
+We establish Logistic Regression as our primary, interpretable baseline model and compare its performance against more complex machine learning techniques, including Decision Tree, Random Forest, Gradient Boosted Machine, $k$-Nearest Neighbours, and Support Vector Machine (radial).
 
 # Methodology
 
-This part explains about our stoke dataset, variables, preprocessing steps, logistic regression formulation, and the machine-learning modelling framework used to compare classifiers.
+This section outlines our data, how we prepared it, and the modeling framework we used to compare different classifiers.
 
-Our datset contains 5,110 observations and 11 predictors commonly associated with cerebrovascular risk. After cleaning missing and inconsistent entries (e.g., “Unknown”, “N/A”, or rare textual categories such as “children” and “other”), a final dataset of 3,357 individuals remained for analysis. The cleaned dataset is stored in the object **strokeclean**.
+We started with a dataset of 5,110 observations and 11 predictors commonly linked to stroke risk. We filtered out missing data and inconsistent entries—such as "Unknown," "N/A," or rare labels like "children"—which left us with a final group of 3,357 individuals. This clean dataset is stored in the object **`strokeclean`**.
 
-Respose we get is in binary so logestic regression is the best approach to observe whether the patient has had **stroke=1** or not **stroke=0** [@hosmer2013applied; @james2021isl]
+Because our goal is to predict a binary outcome (Yes/No), Logistic Regression is our primary approach for determining if a patient has had a stroke ($Y=1$) or not ($Y=0$) [@hosmer2013applied; @james2021isl].
 
 **Variables**
 
-The key predictors are listed below.
+The key predictors used in our analysis are listed below:
 
-| Variable              | Type                           | Description                   |
-| --------------------- | ------------------------------ | ----------------------------- |
-| **age**               | Numeric                        | Age of the individual (years) |
-| **gender**            | Categorical (1=Male, 2=Female) | Biological sex                |
-| **hypertension**      | Binary (0/1)                   | Prior hypertension diagnosis  |
-| **heart_disease**     | Binary (0/1)                   | Presence of heart disease     |
-| **ever_married**      | Binary                         | Marital status                |
-| **work_type**         | Categorical (1–4)              | Employment category           |
-| **Residence_type**    | Binary (1=Urban, 2=Rural)      | Place of residence            |
-| **smoking_status**    | Categorical                    | Never/Former/Smokes           |
-| **bmi**               | Numeric                        | Body Mass Index               |
-| **avg_glucose_level** | Numeric                        | Average glucose level         |
-| **stroke**            | Binary outcome (0=No, 1=Yes)   | Stroke occurrence             |
+| Variable | Type | Description |
+| :--- | :--- | :--- |
+| **age** | Numeric | Age of the individual (years) |
+| **gender** | Categorical | Biological sex (Male/Female) |
+| **hypertension** | Binary (0/1) | Prior hypertension diagnosis |
+| **heart_disease** | Binary (0/1) | Presence of heart disease |
+| **ever_married** | Binary | Marital status |
+| **work_type** | Categorical | Employment category |
+| **Residence_type** | Binary | Urban vs. Rural |
+| **smoking_status** | Categorical | Never / Former / Smokes |
+| **bmi** | Numeric | Body Mass Index |
+| **avg_glucose_level**| Numeric | Average glucose level |
+| **stroke** | Binary | Outcome (0=No, 1=Yes) |
 
-Stroke is a highly unbalanced outcome variable:
-- Yes (stroke): about 5%
-- No (no stroke): around 95%
+**Addressing Class Imbalance**
 
-Because it is possible to achieve high overall accuracy by merely forecasting the majority class, this class imbalance directly affects model evaluation. Because of this, in addition to accuracy, we also concentrate on sensitivity, specificity, ROC curves, AUC, and Youden's J statistic.
+Our dataset is highly unbalanced:
 
-**Dataset Prepration**
+* **Yes (Stroke):** ~5%
+* **No (No Stroke):** ~95%
 
-To guarantee model validity and stop data leakage, data preprocessing is performed. [@wang2014].
+This imbalance makes model evaluation tricky. A model could simply guess "No Stroke" for everyone and still achieve 95% accuracy, despite being useless for medical diagnosis. To avoid this trap, we look beyond simple accuracy and focus on metrics like sensitivity, specificity, ROC curves, AUC, and Youden’s J statistic.
 
-Among the steps were:
+**Dataset Preparation**
 
-- Elimination of non-predictive identifiers (patient ID)
+To ensure our model is valid and to prevent "data leakage" (where the model accidentally sees data it shouldn't), we applied several preprocessing steps [@wang2014]:
 
-- Transforming categorical variables into dummy numerical representations
+* **Removed Identifiers:** We dropped columns like Patient ID since they don't predict medical risk.
+* **Cleaned Labels:** We removed rows with vague labels (e.g., "Unknown") and standardized rare categories.
+* **Numeric Conversion:** We converted age, BMI, and glucose levels into standard numeric formats and turned categorical variables (like gender) into dummy variables.
+* **Consistency Checks:** We verified that all values fell within realistic ranges.
 
-- Managing uncommon or irregular categories (e.g., "Other" gender values handled as absent)
+**Model Validation**
 
-- BMI, glucose, and age conversion to numerical
+Finally, we split the data into training and testing sets. For the machine-learning comparison, we used **stratified sampling** (via `caret::createDataPartition`). This ensures that the ratio of stroke to non-stroke patients remains consistent in both the training and testing data, preventing the model from learning from a skewed sample [@chen2020modeling].
 
-- Rows with unintelligible labels ("Unknown," "N/A") are removed.
-
-- Valid range and consistency verification
-
-- After recoding, missing values might be imputed or removed.
-
-- During splitting, stratified sampling is used to maintain the stroke/no-stroke ratio [@chen2020modeling].
-
-- The outcome stroke was defined as a factor with levels "No" and "Yes" in the cleaned dataset strokeclean.
-
-To check sample performance, the data were split into training and test sets. For the baseline logistic regression model, a simple random 70/30 split was used. For the full machine-learning comparison, a stratified partition (via caret::createDataPartition) was applied to preserve the stroke/no-stroke ratio in both sets.
-
-**Logistic regression model**
+**Logistic regression model **
 
 Let $Y_i$ denote the stroke status for patient $i$, where
 
@@ -195,6 +187,8 @@ $$
 where the $p$ predictors such as age, hypertension, heart disease, average glucose level, BMI, and smoking status. 
 
 The logistic regression model specifies the conditional probability of stroke as
+
+
 
 $$
 P(Y_i = 1 \mid \mathbf{x}_i)
@@ -252,24 +246,26 @@ is carried out automatically using `glm(..., family = binomial)`
 
 
 
-**Machine learning models and evaluation**
+**Machine Learning Models and Evaluation**
 
-Six supervised models were fitted using the caret framework in order to determine whether more sophisticated methods may significantly enhance stroke classification:
+To see if advanced technology could outperform standard methods, we built six different supervised learning models using the `caret` framework. We wanted to determine if sophisticated algorithms could improve our ability to classify stroke risk compared to the baseline.
 
-- Logistic Regression (LR)
+The six models were:
 
-- Decision Tree (rpart)
+* **Logistic Regression (LR)** – Our baseline.
+* **Decision Tree (rpart)** – A simple rule-based model.
+* **Random Forest (RF)** – An ensemble of many decision trees.
+* **Gradient Boosted Machine (GBM)** – A powerful, iterative learning model.
+* **k-Nearest Neighbours (k-NN)** – Classification based on similarity to other patients.
+* **Support Vector Machine (SVM-Radial)** – A model that finds complex boundaries between groups.
 
-- Random Forest (RF)
+To guarantee a fair fight, every model was treated exactly the same. We used the same 70% training / 30% testing split and applied a consistent cross-validation procedure across the board.Once the model was fitted, we calculated the Odds Ratios and 95% Confidence Intervals to interpret the effect of each predictor.
 
-- Gradient Boosted Machine (GBM)
+**Data Splitting and Model Fitting in R**
 
-- k-Nearest Neighbours (k-NN)
+We began with our processed dataset, `strokeclean`. As a reminder, our target outcome is `stroke` (0 = No, 1 = Yes), and we are using predictors such as `age`, `hypertension`, `heart_disease`, `avg_glucose_level`, and `bmi`.
 
-- Support Vector Machine with radial kernel (SVM-Radial)
-
-All models used the same 70% training / 30% test split and a consistent cross-validation procedure to ensure fair comparison.
-To guarantee a fair comparison, all models employed the same cross-validation process and a 70% training/30% test split.
+First, we randomly split the data to create a training set (70%) for building the models and a hold-out test set (30%) to evaluate how well they perform on new data.
 
 
 **Data Splitting and Model Fitting in R**
@@ -329,6 +325,8 @@ $J = \text{Sensitivity} + \text{Specificity} - 1$
 
 These metrics are widely used in stroke-risk modeling literature and as per article it is often used to find optimial classidfication threshhold. [@chen2020modeling].
 
+
+
 # Analysis
 
 Before starting to generate predictive models, an exploratory analysis was conducted to understand the distribution, structure, and relationships within the cleaned dataset (N = 3,357). This step is crucial in rare-event medical modeling because data imbalance, skewed predictors, or correlated variables can directly influence model behavior and classification performance.
@@ -362,24 +360,25 @@ ggplot(cont_long, aes(Value, fill = Variable, colour = Variable)) +
     legend.position = "none",
     panel.grid.minor = element_blank()
   )
+
+
+
+
+
 ```
 
-## Interpretation of Key Continuous Predictors
+**Interpretation of Key Continuous Predictors**
 
-- **Age**
-  - Smooth distribution from late teen.
-  - Majority between **40–70**, is at high-risk .
-  - No extreme clusters → good continuous predictor.
+We examined the distributions of our three main numeric variables to identify patterns and potential risk factors.
 
-- **Average Glucose Level**
-  - Clear **right-skew** with a long tail above **200 mg/dL**.
-  - Indicates a small group with poor metabolic problem (likely diabetic).
-  - Highly relevant for heart and stroke-related risk.
+* **Age**
+  The age distribution is smooth, starting from late adolescence. The majority of individuals fall between **40 and 70 years old**, which corresponds to the population at highest risk for stroke. Since there are no extreme clusters or gaps, Age serves as an excellent continuous predictor.
 
-- **BMI**
-  - Compact distribution (~22–35) with few outliers.
-  - Less variation → weaker contribution compared to vascular predictors.
-  - Pattern aligns with medical proven BMI as influence in our regression results.
+* **Average Glucose Level**
+This variable shows a clear **right-skew**, meaning most people have normal levels, but there is a long "tail" of data extending above **200 mg/dL**. This highlights a specific subgroup of patients with poor metabolic health (likely indicating diabetes), which is a critical driver for heart disease and stroke risk.
+
+* **BMI**
+BMI values are tightly grouped between **22 and 35**, with relatively few outliers. Because there is less variation here compared to Age or Glucose, it may play a slightly weaker role in distinguishing between stroke and non-stroke cases. This observation aligns with our regression results, where BMI showed a smaller contribution than vascular predictors.
 
 
 **Distribution of Key Categorical Variables**
@@ -440,18 +439,19 @@ legend.position  = "none",
 strip.text       = element_text(face = "bold"),
 panel.grid.minor = element_blank()
 )
+
 ```
 
 **Interpreatation**
-Gender:
-The dataset has more female patients (61%) than males (39%).
+
+- **Gender**:The dataset has more female patients (61%) than males (39%).
 This imbalance should be noted because gender-related model effects may partly reflect sample composition.
 
-Residence Type:
+- **Residence Type**:
 The population is nearly evenly split between urban (51%) and rural (49%) residents.
 This indicates no geographic bias and good representation of both environments.
 
-Smoking Status:
+- **Smoking Status**:
 Most participants never smoked (54%), while 25% are former smokers and 22% are current smokers.
 This provides enough variation to meaningfully examine smoking as a behavioral risk factor for stroke.
 
@@ -473,7 +473,7 @@ library(scales)
 
 stopifnot(exists("strokeclean"))
 
-# 1. Prepare a plotting data copy
+
 strokeclean_plot = strokeclean %>%
   mutate(
     stroke = factor(stroke, levels = c("No", "Yes")),
@@ -511,12 +511,12 @@ prop_ci = function(data, group) {
     )
 }
 
-# 3. Summary tables
+
 df_hyp   = prop_ci(strokeclean_plot, hypertension)
 df_hd    = prop_ci(strokeclean_plot, heart_disease)
 df_smoke = prop_ci(strokeclean_plot, smoking_status)
 
-# 4. Professional theme
+
 theme_stroke =
   theme_minimal(base_size = 12) +
   theme(
@@ -525,12 +525,12 @@ theme_stroke =
     axis.title.x = element_blank()
   )
 
-# 5. Distinct colors for internal comparisons
-cols_hyp   = c("No" = "#FDE725FF", "Yes" = "#440154FF")      # yellow–purple
-cols_hd    = c("No" = "#20A387FF", "Yes" = "#F98400FF")      # teal–orange
-cols_smoke = c("Never" = "#1F78B4", "Former" = "#33A02C", "Current" = "#E31A1C")  # blue–green–red
 
-# 6. Individual panels
+cols_hyp   = c("No" = "#FDE725FF", "Yes" = "#440154FF")      
+cols_hd    = c("No" = "#20A387FF", "Yes" = "#F98400FF")     
+cols_smoke = c("Never" = "#1F78B4", "Former" = "#33A02C", "Current" = "#E31A1C")  
+
+
 p1 =
   ggplot(df_hyp, aes(x = hypertension, y = stroke_rate, fill = hypertension)) +
   geom_col(width = 0.7) +
@@ -570,8 +570,13 @@ p3 =
   theme_stroke +
   theme(legend.position = "none")
 
-# 7. Final combined figure
+
 ggarrange(p1, p2, p3, ncol = 3, align = "hv")
+
+
+
+
+
 ```
 
 **Interpretation**
@@ -597,6 +602,10 @@ vascular risks (hypertension, heart disease) and behavioural risks (smoking) are
 
 **Correlation among key numeric prediators**
 
+
+
+
+
 ```{r}
 library(ggcorrplot)
 library(RColorBrewer)
@@ -619,7 +628,7 @@ ggcorrplot(
   tl.cex = 12,
   tl.srt = 45,
   outline.col = NA,
-  colors = c("#B2182B", "white", "#2166AC"),   # 🔥 high contrast red→white→blue
+  colors = c("#B2182B", "white", "#2166AC"),   
   ggtheme = theme_minimal(base_size = 14)
 ) +
   ggtitle("Correlation Heatmap of Key Numeric Predictors") +
@@ -627,32 +636,39 @@ ggcorrplot(
     plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
     axis.text  = element_text(color = "black", size = 11)
   )
+
+
+
+
+
+
+
+
 ```
 
 **Interpretation**
-Correlation Heatmap of Key Numeric Predictors
 
-All correlations are weak to moderate (0.00–0.26) → no multicollinearity concerns.
+- Correlation Heatmap of Key Numeric Predictors, all correlations are weak to moderate (0.00–0.26) = no multicollinearity concerns.
 
-Age shows small but meaningful positive correlations with:
+- Age shows small but meaningful positive correlations with:
 
-glucose (0.24)
+- glucose (0.24)
 
-hypertension (0.26)
+- hypertension (0.26)
 
-heart disease (0.26)
-→ consistent with known aging-related cardiovascular risk patterns.
+- heart disease (0.26)
+= consistent with known aging-related cardiovascular risk patterns.
 
-BMI has very weak correlations with all other predictors (0.04–0.16) → behaves independently in this dataset.
+- BMI has very weak correlations with all other predictors (0.04–0.16) = behaves independently in this dataset.
 
-Avg glucose moderately correlates with:
+- Avg glucose moderately correlates with:
 
-hypertension (0.17)
+- hypertension (0.17)
 
-heart disease (0.14)
-→ aligns with metabolic/vascular relationships.
+- heart disease (0.14)
+= aligns with metabolic/vascular relationships.
 
-Hypertension and heart disease are weakly correlated (0.11) → related but not redundant.
+- Hypertension and heart disease are weakly correlated (0.11) = related but not redundant.
 
 These correlations confirm that the predictors provide unique, non-overlapping information, and all can be safely included in the logistic regression model without multicollinearity issues.
 
@@ -675,7 +691,9 @@ stroke_train <- strokeclean[train_index, ]
 stroke_test  <- strokeclean[-train_index, ]
 
 fit_glm <- glm(
-  stroke ~ age + hypertension + heart_disease + avg_glucose_level + bmi + smoking_status + gender + ever_married,
+  stroke ~ age + hypertension + heart_disease +
+    avg_glucose_level + bmi + smoking_status +
+    gender + ever_married,
   data   = stroke_train,
   family = binomial(link = "logit")
 )
@@ -702,77 +720,76 @@ This suggests a potential effect, but not statistically explainable in this mode
 - BMI, gender, and marital status show no meaningful statistical association with stroke in this dataset (all p > 0.26). These variables did not contribute substantially to prediction after accounting for other factors.
 
 - Model fit improved substantially from the null model
-(deviance reduced from 953.4 → 776.8; AIC = 794.8), indicating a reasonable fit and useful predictive value.
+(deviance reduced from 953.4 to 776.8; AIC = 794.8), indicating a reasonable fit and useful predictive value.
 
 
 **Odds ratios and confidence intervals**
 ```{r}
-# Odds ratios and 95% confidence intervals
+
 
 coef_est <- coef(fit_glm)
 OR       <- exp(coef_est)
 
-conf_int <- exp(confint(fit_glm))  # confidence intervals on OR scale
+conf_int <- exp(confint(fit_glm))  
 
 odds_table <- cbind(OR, conf_int)
 colnames(odds_table) <- c("OR", "2.5 %", "97.5 %")
 round(odds_table, 3)
+
+
+
+
+
 ```
 
 **Interpretation**
 
-The logistic regression findings demonstrate how each predictor impacts the likelihood of having a stroke, while keeping other variables constant:
+The logistic regression results give us a clear picture of how each predictor influences the likelihood of having a stroke, assuming all other factors stay the same.
 
-- Age (OR = 1.075, CI: 1.059–1.093)
-Age is the strongest continuous predictor. Each additional year of age increases the odds of stroke by about 7.5%, and the confidence interval does not include 1, indicating strong statistical significance.
+* **Age (OR = 1.075, CI: 1.059–1.093)**
+  Age is by far the strongest continuous predictor. For every additional year of age, the odds of having a stroke increase by about **7.5%**. The confidence interval is tight and stays well above 1, confirming that this is a highly significant risk factor.
 
-- Hypertension (OR = 1.577, CI: 0.996–2.450)
-Individuals with hypertension have roughly 58% higher odds of stroke compared to those without hypertension, although the lower CI bound is just below 1. This suggests a borderline significant effect, but clinically important.
+* **Hypertension (OR = 1.577, CI: 0.996–2.450)**
+  Individuals with a history of hypertension have roughly **58% higher odds** of stroke compared to those without it. However, the confidence interval dips just below 1, meaning the effect is on the borderline of statistical significance. Despite this uncertainty, the large increase in odds suggests it is still clinically important.
 
-- Heart disease (OR = 1.628, CI: 0.942–2.733)
-Heart disease increases stroke odds by about 63%, but the CI includes 1, implying the association is positive but not statistically strong in this dataset.
+* **Heart Disease (OR = 1.628, CI: 0.942–2.733)**
+  Similar to hypertension, heart disease raises stroke odds by about **63%**. While the link is positive, the wide confidence interval (which crosses 1) indicates that the statistical evidence in this specific dataset is not definitive.
 
-- Average glucose level (OR = 1.004, CI: 1.000–1.007)
-Higher glucose levels are associated with slightly increased stroke risk. Though the effect is small, the CI indicates marginal significance, aligning with known metabolic risk patterns.
+* **Average Glucose Level (OR = 1.004, CI: 1.000–1.007)**
+  Higher glucose levels are linked to a slightly increased risk. Although the per-unit effect looks small, the confidence interval suggests marginal significance, which aligns with the known medical link between metabolic health and stroke.
 
-- BMI (OR = 1.007, CI: 0.975–1.037)
-BMI shows almost no meaningful effect on stroke risk, and the CI overlaps 1. This predictor does not significantly influence stroke likelihood in this dataset.
+* **BMI (OR = 1.007, CI: 0.975–1.037)**
+  Interestingly, BMI showed almost no meaningful effect on stroke risk in our model. The confidence interval overlaps 1, suggesting that once we account for other factors (like age and glucose), BMI itself is not a significant driver here.
 
-- Smoking (Fsmoked OR = 1.263; Smokes OR = 1.598)
+* **Smoking Status**
+  * **Former Smokers (OR = 1.263):** Show 26% higher odds, though the evidence is statistically weak.
+  * **Current Smokers (OR = 1.598):** Face nearly **60% higher odds** of stroke. While the confidence interval still overlaps 1 (likely due to sample size), the trend clearly points to increased risk for active smokers.
 
-- Former smokers have 26% higher odds, but CI crosses 1 → weak evidence.
-
-- Current smokers have ~60% higher odds, but CI still overlaps 1 → suggests increased risk but not statistically conclusive here.
-
-- Gender (Female) (OR = 1.259; CI: 0.842–1.903)
-Females show slightly higher odds, but this effect is not statistically significant.
-
-- Ever married (OR = 1.126; CI: 0.590–2.013)
-Marital status has no clear effect on stroke odds in this sample.
-
+* **Gender & Marital Status**
+  Females showed slightly higher odds (**OR = 1.259**), and Marital Status (**OR = 1.126**) showed a small positive association, but neither factor was statistically significant in this analysis.
 
 **Model predictions and performance on the test set**
 
 ```{r}
 library(caret)
 
-# 1) Predicted probabilities from logistic regression
+
 stroke_test$pred_prob <- predict(
   fit_glm,
   newdata = stroke_test,
   type    = "response"
 )
 
-# 2) Make sure the TRUE outcome is a factor with levels No / Yes
+
 stroke_test$stroke <- factor(stroke_test$stroke,
                              levels = c("No", "Yes"))
 
-# 3) Class predictions at threshold c = 0.5
+
 stroke_test$pred_class <- ifelse(stroke_test$pred_prob >= 0.5, "Yes", "No")
 stroke_test$pred_class <- factor(stroke_test$pred_class,
                                  levels = c("No", "Yes"))
 
-# 4) Confusion matrix: positive = "Yes"
+
 cm <- confusionMatrix(
   data      = stroke_test$pred_class,
   reference = stroke_test$stroke,
@@ -780,6 +797,8 @@ cm <- confusionMatrix(
 )
 
 cm
+
+
 ```
 
 From the confusion matrix, the following performance metrics are defined:
@@ -821,11 +840,11 @@ The model correctly classified most cases, mainly because the dataset is highly 
 
 - Sensitivity (True Positive Rate) = 0.017
 The model correctly identified only 1 out of 59 actual stroke cases (≈1.7%).
-→ This shows the model fails to detect stroke cases, which is common in rare-event medical datasets.
+= This shows the model fails to detect stroke cases, which is common in rare-event medical datasets.
 
 - Specificity (True Negative Rate) = 1.00
 The model correctly classified all non-stroke cases.
-→ It is extremely good at predicting “No stroke,” which dominates the dataset.
+= It is extremely good at predicting “No stroke,” which dominates the dataset.
 
 - Positive Predictive Value (Precision) = 1.00
 When the model predicts “Yes,” it is always correct — but it predicted “Yes” only once.
@@ -839,7 +858,7 @@ Kappa measures agreement beyond chance. A value near zero shows the model perfor
 
 - Balanced Accuracy = 0.508
 When weighting sensitivity and specificity equally, the model performs at chance level (~50%).
-→ Confirms that stroke detection is weak.
+= Confirms that stroke detection is weak.
 
 - McNemar’s Test p < 0.0001
 Strong evidence that the model’s errors are systematically skewed—it overwhelmingly predicts “No stroke.”
@@ -852,6 +871,8 @@ These results highlight the challenge of severe class imbalance, which requires 
 **ROC curve and AUC for the logistic model**
 
 ```{r}
+
+
 library(pROC)
 library(ggplot2)
 library(scales)
@@ -891,7 +912,12 @@ ggplot(roc_df, aes(x = fpr, y = tpr)) +
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank()
   )
+
+
+
+
 ```
+
 
 
 A higher AUC (closer to 1) indicates better discrimination between stroke and non-stroke cases. Values substantially above 0.5 indicate that the model performs better than random classification.
@@ -941,11 +967,13 @@ test_data  <- model_df[-index, ]
 
 train_data$stroke <- factor(train_data$stroke, levels = c("No","Yes"))
 test_data$stroke  <- factor(test_data$stroke,  levels = c("No","Yes"))
+
 ```
 
 **Train control settings**
 
 ```{r}
+
 library(caret)   # <- add this line to be safe
 
 ctrl <- trainControl(
@@ -956,11 +984,12 @@ ctrl <- trainControl(
   summaryFunction = twoClassSummary,
   verboseIter = FALSE
 )
+
+
 ```
 
 
 **Logistic Regression (caret)**
-
 ```{r}
 model_lr <- train(
 stroke ~ .,
@@ -970,11 +999,10 @@ family = "binomial",
 metric = "ROC",
 trControl = ctrl
 )
+
 ```
 
-
 **Decision Tree**
-
 ```{r}
 model_tree <- train(
 stroke ~ .,
@@ -984,10 +1012,10 @@ metric = "ROC",
 trControl = ctrl,
 tuneLength = 10
 )
+
 ```
 
 **Random Forest**
-
 ```{r}
 model_rf <- train(
 stroke ~ .,
@@ -997,6 +1025,7 @@ metric = "ROC",
 trControl = ctrl,
 tuneLength = 5
 )
+
 ```
 
 **Gradient Boosted Machine (GBM)**
@@ -1010,6 +1039,7 @@ metric = "ROC",
 trControl = ctrl,
 verbose = FALSE
 )
+
 ```
 
 **k-Nearest Neighbours (k-NN)**
@@ -1022,6 +1052,7 @@ method = "knn",
 metric = "ROC",
 trControl = ctrl
 )
+
 ```
 
 **Support Vector Machine (Radial)**
@@ -1034,6 +1065,7 @@ method = "svmRadial",
 metric = "ROC",
 trControl = ctrl
 )
+
 ```
 
 **Model evaluation on the test set**
@@ -1061,21 +1093,21 @@ Specificity = numeric()
 for (m in names(models_list)) {
 mdl <- models_list[[m]]
 
-# Probabilities for the "Yes" class
+
 
 preds_prob  <- predict(mdl, test_data, type = "prob")[, "Yes"]
 
-# Class predictions
+
 
 preds_class <- predict(mdl, test_data)
 
-# ROC & AUC
+
 
 roc_obj <- roc(test_data$stroke, preds_prob,
 levels = c("No", "Yes"), direction = "<")
 auc_val <- auc(roc_obj)
 
-# Confusion matrix – positive = "Yes"
+
 
 cm_m <- confusionMatrix(preds_class, test_data$stroke, positive = "Yes")
 
@@ -1092,6 +1124,7 @@ Specificity = cm_m$byClass["Specificity"]
 }
 
 results
+
 ```
 
 **Interpretation**
@@ -1110,7 +1143,7 @@ All models appear to perform well based on accuracy and specificity, but this is
 ```{r }
 library(scales)
 
-# 1. Create ROC objects for each model
+
 roc_list <- list(
   LR   = roc(test_data$stroke,
              predict(model_lr,   test_data, type = "prob")[, "Yes"],
@@ -1132,10 +1165,10 @@ roc_list <- list(
              levels = c("No","Yes"), direction = "<")
 )
 
-# 2. AUC values
+
 auc_vals <- sapply(roc_list, auc)
 
-# 3. Long data frame of ROC coordinates
+
 roc_df <- do.call(rbind, lapply(names(roc_list), function(m) {
   r <- roc_list[[m]]
   data.frame(
@@ -1145,14 +1178,14 @@ roc_df <- do.call(rbind, lapply(names(roc_list), function(m) {
   )
 }))
 
-# Treat model as factor in a consistent order
+
 roc_df$model <- factor(roc_df$model, levels = names(roc_list))
 
-# 4. Legend labels with AUC
+
 label_map <- paste0(names(auc_vals), " (AUC = ", sprintf("%.3f", auc_vals), ")")
 names(label_map) <- names(auc_vals)
 
-# 5. Color palette by short model name
+
 model_cols <- c(
   LR   = "#E69F00",
   Tree = "#0072B2",
@@ -1162,7 +1195,7 @@ model_cols <- c(
   SVM  = "#000000"
 )
 
-# 6. Plot
+
 ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity,
                    colour = model, group = model)) +
   geom_abline(intercept = 0, slope = 1,
@@ -1187,6 +1220,10 @@ ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity,
     legend.title      = element_text(face = "bold"),
     panel.grid.minor  = element_blank()
   )
+
+
+
+
 ```
 
 **Interpretation**
@@ -1208,13 +1245,14 @@ The ROC curves demonstrate that tree-based ensemble models (RF, GBM) and logisti
 Overall, logistic regression remains the most stable and best-performing model for this dataset, despite class imbalance challenges.
 
 **Odds ratios and risk stratification**
-
 ```{r}
+
+
 library(ggplot2)
 library(dplyr)
 library(scales)
 
-# Fit logistic regression on the same train_data used in the ML comparison
+
 
 glm_lr <- glm(
 stroke ~ age + gender + hypertension + heart_disease + ever_married +
@@ -1223,10 +1261,10 @@ data   = train_data,
 family = binomial
 )
 
-# Coefficients, CIs, p-values
 
-lr_coef <- summary(glm_lr)$coefficients           # estimates + p-values
-ci_raw  <- suppressMessages(confint(glm_lr))      # CI on log-odds scale
+
+lr_coef <- summary(glm_lr)$coefficients           
+ci_raw  <- suppressMessages(confint(glm_lr))      
 
 or_df <- data.frame(
 Predictor = rownames(lr_coef),
@@ -1237,11 +1275,11 @@ CI_upper  = exp(ci_raw[, 2]),
 p_value   = lr_coef[, "Pr(>|z|)"]
 ) %>%
 
-# remove intercept
+
 
 filter(Predictor != "(Intercept)") %>%
 
-# nicer labels for the plot
+
 
 mutate(
 Label = dplyr::recode(
@@ -1257,16 +1295,16 @@ avg_glucose_level = "Average glucose level",
 bmi               = "BMI",
 smoking_status    = "Smoking status (higher level)"
 ),
-# significance flag for colour
+
 Sig = ifelse(p_value < 0.05, "p < 0.05", "NS")
 ) %>%
 
-# order from lower to higher OR so the plot reads nicely
+
 
 arrange(OR) %>%
 mutate(Label = factor(Label, levels = Label))
 
-# Forest plot
+
 
 ggplot(or_df, aes(x = Label, y = OR, colour = Sig)) +
 geom_hline(yintercept = 1, linetype = "dashed", colour = "grey40") +
@@ -1294,31 +1332,30 @@ plot.title       = element_text(face = "bold", hjust = 0.5, size = 15),
 axis.text.y      = element_text(size = 11),
 legend.position  = "bottom"
 )
+
 ```
 
 **Interpretation**
 
-Hypertension (Yes vs No)
+- Hypertension (Yes vs No)
 
 This is the strongest predictor. Its OR is clearly > 2, and the whole 95% CI lies above 1 (orange point), meaning hypertensive patients have more than double the odds of stroke, with strong statistical evidence.
 
-Age (per year)
+- Age (per year)
 
 The OR is slightly above 1 with a narrow CI fully above 1 (orange).
 
 Each additional year of age increases stroke odds by a small but consistent amount, making age an important continuous risk factor.
 
-Average glucose level
+- Average glucose level
 
 OR is just above 1 with a tight CI above 1 (orange).
 
 Higher glucose is associated with a modest but statistically reliable increase in stroke risk, consistent with metabolic / diabetes-related vascular risk.
 
-Ever married, heart disease, smoking status, gender, BMI, residence, work type
+- Ever married, heart disease, smoking status, gender, BMI, residence, work type
 
-Their confidence intervals all cross 1 (grey points), so in this multivariable model they do not show statistically significant effects after adjusting for age, hypertension and glucose.
-
-Some (e.g., heart disease, smoking) still have ORs above 1, suggesting possible elevated risk, but the evidence is weaker in this dataset.
+Their confidence intervals all cross 1 (grey points), so in this multivariable model they do not show statistically significant effects after adjusting for age, hypertension and glucose.Some (e.g., heart disease, smoking) still have ORs above 1, suggesting possible elevated risk, but the evidence is weaker in this dataset.
 
 Overall message:
 The forest plot shows that, after adjusting for other variables, hypertension, older age, and higher average glucose level are the clearest independent predictors of stroke, while other factors have smaller or more uncertain effects. This aligns well with established clinical knowledge and supports your logistic regression model as a sensible risk-stratification tool.
@@ -1326,7 +1363,7 @@ The forest plot shows that, after adjusting for other variables, hypertension, o
 **Threshold tuning to 0.2 from 0.5**
 
 ```{r}
-# Threshold tuning: use 0.2 instead of 0.5
+
 new_threshold <- 0.2
 
 stroke_test$pred_class_02 <- ifelse(stroke_test$pred_prob >= new_threshold,
@@ -1335,7 +1372,7 @@ stroke_test$pred_class_02 <- ifelse(stroke_test$pred_prob >= new_threshold,
 stroke_test$pred_class_02 <- factor(stroke_test$pred_class_02,
                                     levels = c("No", "Yes"))
 
-# Confusion matrix for threshold = 0.2
+
 cm_02 <- confusionMatrix(
   data      = stroke_test$pred_class_02,
   reference = stroke_test$stroke,
@@ -1343,9 +1380,10 @@ cm_02 <- confusionMatrix(
 )
 
 cm_02
+
 ```
 
-**Interpretation (threshold = 0.2)**
+**Interpretation (threshold = 0.2**
 
 - With a lower decision criterion of 0.2, the model successfully identifies 13 out of 59 stroke cases (sensitivity = 22%), compared to only one case with the default 0.5 threshold.
 
@@ -1356,24 +1394,42 @@ cm_02
 This change indicates a therapeutically reasonable compromise: the model detects more possible stroke patients (fewer missed cases) at the expense of a moderate rise in false positives.
 
 
-# conclusion
+# Conclusion
 
-This experiment compared a conventional logistic regression model with several machine-learning algorithms and examined whether common demographic, behavioral, and clinical characteristics may be used to predict stroke risk using a stroke dataset. Stroke was a rare outcome (about 5% of cases) in the final sample of 3,357 people that was analyzed after the data was cleaned and inconsistent or missing values were eliminated. In addition to reflecting actual epidemiology, this significant class disparity complicates classification, particularly when it comes to identifying the minority (stroke) class.
+In this study, we set out to determine if standard demographic, behavioral, and clinical records could effectively predict stroke risk. We compared a traditional Logistic Regression model against several machine learning algorithms using a cleaned dataset of 3,357 individuals. Because strokes were rare in our sample (occurring in only about 5% of cases), we faced a classic "class imbalance" challenge, which made identifying high-risk patients particularly difficult.
 
-Age, hypertension, cardiac disease, and raised average glucose levels are among the best predictors of stroke, according to the baseline logistic regression model. Smoking status substantially increased risk.  These variables were identified as significant risk factors by odds ratios significantly greater than 1 and confidence intervals that did not cross 1.  These results support the use of logistic regression as an interpretable tool for comprehending the relationship between particular risk variables and the likelihood of stroke and are in line with the clinical literature on cerebrovascular illness.
+- **Key Risk Factors**
 
-The logistic regression model performed reasonably well overall in terms of prediction; however, sensitivity for stroke cases was more constrained at the default 0.5 probability threshold, as would be expected with an imbalanced outcome.  The model clearly outperformed random guessing, according to the ROC curve and AUC values, but there was still space for improvement in terms of differentiating between stroke and non-stroke patients.  Youden's J statistic offers a method for selecting a different categorization threshold that enhances the ratio of sensitivity to specificity, which may be crucial in a screening setting when it is expensive to miss actual stroke cases.
+Our baseline Logistic Regression model confirmed what we know from clinical literature: **Age, hypertension, heart disease, and high glucose levels** are the strongest predictors of stroke. Smoking also stood out as a substantial risk factor. The model produced odds ratios significantly greater than 1 for these variables (with confidence intervals that did not cross 1), confirming them as statistically significant drivers of risk. This validates Logistic Regression as a transparent tool for explaining *why* a specific patient is at risk.
 
-More sophisticated models, such Random Forest and Gradient Boosted Machine, were able to attain somewhat higher AUC values than logistic regression in the machine-learning comparison, showing superior discrimination across a range of thresholds.  However, these increases in AUC came at the expense of decreased interpretability and were not always accompanied by significant increases in sensitivity at fixed cut-offs.  Logistic regression, on the other hand, offers precise odds ratios and confidence intervals that are simpler for public health professionals and doctors to understand when discussing risk and developing interventions.
+- **Model Performance and the "Imbalance" Challenge**
 
-Because of the severe class imbalance, sensitivity for stroke cases was extremely low (around 2%), meaning that the model almost never predicted “stroke = Yes” and therefore missed most true stroke cases.
+When we first ran the Logistic Regression model using the standard decision threshold of **0.5**, the results were mixed. While the model performed better than random guessing (based on AUC scores), it struggled to actually find the stroke cases. Specifically, the **sensitivity was extremely low (around 2%)**, meaning the model missed almost every true stroke case because it was biased toward the majority "No Stroke" class.
 
-To address this, the decision threshold was lowered from 0.5 to 0.2. At this cut-off, sensitivity increased from roughly 2% to about 22%, while specificity remained high at around 95%. Overall accuracy dropped slightly to about 91%, but balanced accuracy improved, indicating a more reasonable trade-off between detecting stroke cases and avoiding false positives. This threshold experiment illustrates a key practical point: for rare but serious outcomes such as stroke, it can be preferable to sacrifice some overall accuracy in order to reduce the number of missed high-risk individuals. In this setting, the logistic model is more appropriately viewed as a screening or risk-flagging tool rather than a definitive diagnostic rule.
+To fix this, we adjusted the decision threshold down to **0.2**. This simple change had a dramatic effect:
+* **Sensitivity** jumped from ~2% to **~22%**.
+* **Specificity** remained high at around **95%**.
+* **Overall Accuracy** dipped slightly to **91%**, but the **Balanced Accuracy** improved.
 
-Overall, the findings show that relatively simple models built from routinely collected health indicators can meaningfully distinguish between individuals with and without stroke, even in the presence of substantial class imbalance. Logistic regression emerges as a strong, interpretable baseline, while tree-based ensemble methods provide incremental performance improvements at the cost of transparency. Future work could focus on external validation, calibration assessment, more sophisticated imbalance-handling techniques, and the inclusion of additional clinical or longitudinal information. These extensions would help move from proof-of-concept modelling toward robust, clinically usable tools for stroke risk stratification and targeted prevention.
+This experiment illustrates a critical lesson for medical screening: when dealing with dangerous but rare events like stroke, it is often better to accept a few false alarms (lower precision) in exchange for catching more true cases (higher sensitivity).
+
+- **Logistic Regression vs. Machine Learning**
+
+When we pitted Logistic Regression against advanced models like **Random Forest** and **Gradient Boosted Machines**, the advanced models did achieve slightly higher AUC scores. They were better at discriminating between groups across various thresholds.
+
+However, this extra power came at a cost. The machine learning models are "black boxes"—harder to interpret and explain to a patient. In contrast, Logistic Regression provides precise odds ratios that doctors can easily translate into clinical advice.
+
+- **Future Directions**
+
+Overall, our findings show that even simple models using routine health data can meaningfully distinguish stroke risk. While tree-based models offer a slight performance edge, Logistic Regression remains a robust, interpretable baseline.
+
+Future work should focus on:
+1.  **External Validation:** Testing these models on data from different hospitals or regions.
+2.  **Calibration:** Ensuring the predicted probabilities match real-world risk levels.
+3.  **Data Enrichment:** Incorporating longitudinal data (health changes over time) to move this from a theoretical exercise to a practical clinical tool.
 
 
-# References
+#References
 
 ::: {#refs}
 :::

@@ -98,7 +98,7 @@ Import all the dependencies:
 #| warning: false
 #| output: false
 
-packages <- c("dplyr", "car", "ResourceSelection", "caret", "pROC",  "logistf", "Hmisc", "rcompanion", "ggplot2", "summarytools", "tidyverse", "knitr", "ggpubr", "ggcorrplot", "randomForest", "gbm", "kernlab", "skimr", "corrplot")
+packages <- c("dplyr", "car", "ResourceSelection", "caret", "pROC",  "logistf", "Hmisc", "rcompanion", "ggplot2", "summarytools", "tidyverse", "knitr", "ggpubr", "ggcorrplot", "randomForest", "gbm", "kernlab", "skimr", "corrplot", "scales", "tidyr", "RColorBrewer")
 # Load Libraries
 lapply(packages, library, character.only = TRUE)
 # Set seed for reproducibility
@@ -227,7 +227,6 @@ The initial exploration demonstrated that the **Stroke Prediction Dataset** @kag
 So as part of data preprocessing we will be focused on establishing consistency and ensuring all variables are in a format suitable for predictive modeling. This process starts by systematically addressing non-standard representations of missing data. Specifically, all instances of the string values "N/A", "Unknown", "children", and "other" found across the dataset were unified and replaced with the standard statistical missing value representation, NA.
 
 Then we proceed with converting several character-based (categorical) features into numerical features, which is necessary for predictive modeling.
-
 <!-- TODO -->
 
 The feature **bmi**, initially read as a character variable was first converted to a numeric data type and subsequently rounded to two decimal places.
@@ -295,69 +294,210 @@ Before developing predictive models, an exploratory analysis was conducted to un
 
 ```{r}
 #| code-fold: true
+#| message: false
+#| warning: false
 
-# (a) Histogram of gender
+# 1. Get the total number of rows in your data frame
+TOTAL_ROWS <- nrow(strokeclean)
+
+# 2. Use the modified ggplot code
 p1a <- ggplot(strokeclean, aes(x = gender, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
+  stat_count(
+    # The calculation is (bar_count / TOTAL_ROWS) * 100, rounded to 1 decimal place.
+    position = position_dodge(width = 0.9),
+    aes(
+      label = paste0(
+        round(after_stat(count) / TOTAL_ROWS * 100, 1), "% ", "or ",
+        after_stat(count)
+      )
+    ),
+    geom = "text",
+    vjust = -0.5,
+    size = 3
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
   scale_x_continuous(
     breaks = c(0, 1), 
     labels = c("Female", "Male")
   ) +
-  labs(title = "(a) Gender", x = "gender", y = "Count")
+  labs(title = "(a) Gender", x = "Gender", y = "Count")
 
 # (b) Histogram of Age
 p1b <- ggplot(strokeclean, aes(x = age, fill = stroke)) +
-  geom_histogram(binwidth = 5, position = "identity", alpha = 0.7) +
+  geom_histogram(binwidth = 1, position = "identity", alpha = 0.7) +
   # stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +
   labs(title = "(b) Age", x = "Age", y = "Frequency")
+
+# (b) Bivariate Density Plot of Age
+# p1b <- ggplot(strokeclean, aes(x = age, fill = stroke)) + # Keep fill=stroke
+#   geom_density(alpha = 0.5) + # Overlap the two density curves
+#   labs(title = "(b) Age", x = "Age", y = "Density")
 
 # (c) Histogram of hypertension
 p1c <- ggplot(strokeclean, aes(x = hypertension, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
-  labs(title = "(c) Hypertension", x = "hypertension", y = "Frequency")
+  stat_count(
+    position = position_dodge(width = 0.9),
+    aes(
+      group = stroke,
+      label = paste0(
+        round(after_stat(count) / TOTAL_ROWS * 100, 1), "% ", "or ",
+        after_stat(count)
+      )
+    ),
+    geom = "text",
+    vjust = -0.5,
+    size = 3
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  # Map 0/1 to Yes/No
+  scale_x_continuous(
+    breaks = c(0, 1),
+    labels = c("No", "Yes")
+  ) +
+  labs(title = "(c) Hypertension", x = "Hypertension", y = "Frequency")
 
 # (d) Histogram of heart_disease
 p1d <- ggplot(strokeclean, aes(x = heart_disease, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
-  labs(title = "(d) Heart Disease", x = "HeartDisease", y = "Frequency")
+  stat_count(
+    position = position_dodge(width = 0.9),
+    aes(
+      group = stroke,
+      label = paste0(
+        round(after_stat(count) / TOTAL_ROWS * 100, 1), "% ", "or ",
+        after_stat(count)
+      )
+    ),
+    geom = "text",
+    vjust = -0.5,
+    size = 3
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  # Map 0/1 to Yes/No
+  scale_x_continuous(
+    breaks = c(0, 1),
+    labels = c("No", "Yes")
+  ) +
+  labs(title = "(d) Heart Disease", x = "Heart Disease", y = "Frequency")
 
 # (e) Histogram of ever_married
 p1e <- ggplot(strokeclean, aes(x = ever_married, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
-  labs(title = "(e) Ever Married", x = "EverMarried", y = "Frequency")
+  stat_count(
+    position = position_dodge(width = 0.9),
+    aes(
+      group = stroke,
+      label = paste0(
+        round(after_stat(count) / TOTAL_ROWS * 100, 1), "% ", "or ",
+        after_stat(count)
+      )
+    ),
+    geom = "text",
+    vjust = -0.5,
+    size = 3
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  scale_x_continuous(
+    breaks = c(0, 1),
+    labels = c("No", "Yes")
+  ) +
+  # Assuming 'No'/'Yes' are string/factor values, use scale_x_discrete if needed
+  labs(title = "(e) Ever Married", x = "Ever Married", y = "Frequency")
 
 # (f) Histogram of work_type
 p1f <- ggplot(strokeclean, aes(y = work_type, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
-  labs(title = "(f) Work Type", y = "WorkType", x = "Frequency")
+  stat_count(
+    position = position_dodge(width = 0.9), 
+    aes(
+      group = stroke,
+      label = paste0(
+        round(after_stat(count) / TOTAL_ROWS * 100, 1), "% ", "or ",
+        after_stat(count)
+      )
+    ),
+    geom = "text",
+    hjust = -0.1, # Shift text right for horizontal bar
+    size = 3,
+    color = "black"
+  ) +
+  # Expand X-axis (Frequency) for horizontal bar
+  scale_x_continuous(expand = expansion(mult = c(0, 0.5))) +
+  # Adding Work type labels make it too convoluted
+  # scale_y_continuous(
+  #   breaks = c(1, 2, 3, 4), 
+  #   labels = c("Govt_job", "Private", "Self-employed", "Never_worked")
+  # ) + 
+  labs(title = "(f) Work Type", y = "Work Type", x = "Frequency")
 
 # (g) Histogram of Residence_type
 p1g <- ggplot(strokeclean, aes(x = Residence_type, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
-  labs(title = "(g) Residence Type", x = "Residence_type", y = "Frequency")
+  stat_count(
+    # Crucial for aligning text labels with the dodged bars
+    position = position_dodge(width = 0.9), 
+    aes(
+      # Defines the group for position_dodge to work correctly on text
+      group = stroke, 
+      
+      # Combined label: Percentage (top line) + Count (bottom line)
+      label = paste0(
+        # Percentage calculation: (count / TOTAL_ROWS) * 100
+        round(after_stat(count) / TOTAL_ROWS * 100, 1), "% ", "or ",
+        after_stat(count)
+      )
+    ),
+    geom = "text",
+    vjust = -0.5, # Moves the two-line label slightly above the bar
+    size = 3,
+    color = "black" # Ensures better visibility
+  ) +
+  # Adds 15% extra space to the top of the y-axis to prevent label clipping
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) + 
+  labs(title = "(g) Residence Type", x = "Residence Type", y = "Frequency (Count)")
 
 # (h) Histogram of avg_gloucose_level
 p1h <- ggplot(strokeclean, aes(x = avg_glucose_level, fill = stroke)) +
-  geom_histogram(binwidth = 10, position = "identity", alpha = 0.7) +
+  geom_histogram(binwidth = 5, position = "identity", alpha = 0.7) +
   # stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +
   labs(title = "(h) Avg. Glucose Level", x = "Glucose Level", y = "Frequency")
+
+# (h) Bivariate Density plot of avg_gloucose_level
+# p1h <- ggplot(strokeclean, aes(x = avg_glucose_level, fill = stroke)) +
+#   geom_density(alpha = 0.5) +
+#   labs(title = "Avg. Glucose Level by Stroke Status", x = "Average Glucose Level", y = "Density")
 
 # (i) Histogram of bmi
 p1i <- ggplot(strokeclean, aes(x = bmi, fill = stroke)) +
   geom_histogram(binwidth = 2, position = "identity", alpha = 0.7) +
   labs(title = "(i) BMI", x = "BMI", y = "Frequency")
 
+# (i) Bivariate Density plot of bmi
+# p1i <- ggplot(strokeclean, aes(x = bmi, fill = stroke)) +
+#   geom_density(alpha = 0.5) +
+#   labs(title = "BMI Distribution by Stroke Status", x = "BMI", y = "Density")
+
 # (j) smoking_status
 p1j <- ggplot(strokeclean, aes(y = smoking_status, fill = stroke)) +
   geom_bar(position = "dodge") +
-  stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 3) +
-  labs(title = "(j) Smoking Status", y = "smoking_status", x = "Frequency")
+  stat_count(
+    position = position_dodge(width = 0.9), 
+    aes(
+      group = stroke, 
+      label = paste0(
+        round(after_stat(count) / TOTAL_ROWS * 100, 1), "% ", "or ",
+        after_stat(count)
+      )
+    ),
+    geom = "text",
+    hjust = -0.1, 
+    size = 3,
+    color = "black" 
+  ) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.5))) + 
+  labs(title = "(j) Smoking Status", y = "Smoking Status", x = "Frequency (Count)")
 ```
 
 We can observe from the histograms (a), (b), (c) and (d) the following: 
@@ -372,6 +512,9 @@ Similar to hypertension, the majority of patients do not have **heart disease** 
 
 ```{r}
 #| code-fold: true
+#| message: false
+#| warning: false
+#| fig.cap: "Histogram of (a)gender, (b)age, (c)hypertension, (d)heart_disease."
 
 # p1a, p1b, p1c, p1d
 # (a) Histogram of gender 
@@ -395,6 +538,9 @@ From the distribution of **average glucose** (HbA1c) we can visually spot that t
 
 ```{r}
 #| code-fold: true
+#| message: false
+#| warning: false
+#| fig.cap: "Histogram of (e)ever_married, (f)work_type, (g)Residence_type, (h)avg_gloucose_level."
 
 # p1e p1f p1g p1h
 # (e) Histogram of ever_married
@@ -420,6 +566,9 @@ This information is importante, because the **formerly smoked** group shows the 
 
 ```{r}
 #| code-fold: true
+#| message: false
+#| warning: false
+#| fig.cap: "Histogram of (i)bmi, (j)smoking_status."
 
 # p1i p1j
 # (i) Histogram of bmi
@@ -431,90 +580,74 @@ ggarrange(p1i, p1j,
 
 #### **3.2.3 Correlation Analysis**
 
-To assess the relationships between predictors and check the assumption of no perfect multicollinearity for Logistic Regression, a correlation matrix was computed and visualized for the clean dataset.
-
-The correlation matrix reveals:
-
-- A strong positive correlation between age and ever_married ($\approx 0.65$), which supports the histogram observation that older individuals are more likely to have been married.
-- Moderate positive correlations between hypertension and age, heart_disease and age, and avg_glucose_level and age. This is expected as these chronic conditions and glucose levels often increase with age.
-- A noticeable positive correlation between avg_glucose_level and heart_disease.
-
-Crucially, no two predictor variables have a correlation coefficient close to 1 or -1, indicating that the assumption of no perfect multicollinearity is satisfied, and all variables can be safely included in the Logistic Regression model without significant issues from collinearity.
-
 ```{r}
 #| code-fold: true
 #| warning: false
 #| message: false
 
-numeric_vars = strokeclean[, c("age", "bmi", "avg_glucose_level",
-"hypertension", "heart_disease")]
+# Select numeric predictors
+numeric_vars = strokeclean[, c(
+  "age", "bmi", "avg_glucose_level", "hypertension", "heart_disease"
+)]
 
+# Correlation matrix
 corr_matrix = cor(numeric_vars)
 
-ggcorrplot::ggcorrplot(
+# High-contrast heatmap
+p2 <- ggcorrplot(
   corr_matrix,
+  method = "square",
+  type = "lower",
   lab = TRUE,
-  colors = c("purple", "gold", "grey"),
-  title = "Correlation Heatmap of Key Predictors"
-)
+  lab_size = 4.5,
+  tl.cex = 12,
+  tl.srt = 45,
+  outline.col = NA,
+  colors = c("#B2182B", "white", "#2166AC"),   # high contrast red→white→blue
+  ggtheme = theme_minimal(base_size = 14)
+) +
+  ggtitle("Correlation Heatmap of Key Numeric Predictors") +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    axis.text  = element_text(color = "black", size = 11)
+  )
 ```
 
-```{{r}}
-# 1. Prepare data for correlation: Convert factor target variable to numeric
-num_vars = strokeclean[, c("gender", "age", "hypertension", "heart_disease", "ever_married", "work_type", "Residence_type", "avg_glucose_level", "bmi", "smoking_status", "stroke")]
+**Interpretation**
+Correlation Heatmap of Key Numeric Predictors
 
-# 2. Calculate the correlation matrix
-corr_matrix2 <- cor(num_vars)
+All correlations are weak to moderate (0.00–0.26) → no multicollinearity concerns.
 
-# 3. Generate the correlation plot
-# png("correlation_matrix.png", width = 8, height = 8, units = "in", res = 300)
+Age shows small but meaningful positive correlations with:
 
-ggcorrplot(corr_matrix2,
-           hc.order = TRUE,
-           type = "lower", # Show only the lower triangle for clarity
-           lab = TRUE,
-           lab_size = 2.5,
-           method = "circle",
-           colors = c("#6D95E3", "white", "#E36D95"), # Blue-White-Red/Pink Palette
-           title = "Correlation Matrix of Stroke Predictors",
-           tl.cex = 8)
+glucose (0.24)
 
-dev.off()
-```
+hypertension (0.26)
+
+heart disease (0.26)
+→ consistent with known aging-related cardiovascular risk patterns.
+
+BMI has very weak correlations with all other predictors (0.04–0.16) → behaves independently in this dataset.
+
+Avg glucose moderately correlates with:
+
+hypertension (0.17)
+
+heart disease (0.14)
+→ aligns with metabolic/vascular relationships.
+
+Hypertension and heart disease are weakly correlated (0.11) → related but not redundant.
+
+These correlations confirm that the predictors provide unique, non-overlapping information, and all can be safely included in the logistic regression model without multicollinearity issues.
+
 
 ```{r}
 #| code-fold: true
-#| 
-# --- Prepare data for correlation matrix ---
-# Convert all factors to numeric representations for correlation
-# use model.matrix to perform one-hot encoding on categorical variables
-df_numeric <- model.matrix(~.-1, data = strokeclean) |>
-  as.data.frame()
-
-# Rename columns for clarity (model.matrix adds prefixes)
-colnames(df_numeric) <- gsub("gender|work_type|smoking_status|Residence_type|ever_married", "", colnames(df_numeric))
-
-# 1. Calculate the correlation matrix
-correlation_matrix <- cor(df_numeric)
-
-# 2. Define a green sequential color palette
-# green_palette <- colorRampPalette(c("#E5F5E0", "#31A354"))(200) # Light to dark green
-green_palette <- colorRampPalette(c("#d5ffc8ff", "#245332ff"))(200) 
-
-# corrplot(correlation_matrix, method = 'number') # colorful number
-# 3. Create the heatmap with the correct palette
-corrplot(correlation_matrix, 
-         method = "color",
-         type = "full", # change to full or upper
-         order = "hclust",
-         tl.col = "black",
-         tl.srt = 45,
-         addCoef.col = "black",
-         number.cex = 0.7,
-         col = green_palette, # Use the new palette here
-         diag = FALSE)
+#| message: false
+#| warning: false
+#| fig.cap: "Correlation Analysis."
+p2
 ```
-
 
 <!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
 <!-- ⠀⠀⠀⠀⠀⠀⢀⣠⠤⠖⠈⠉⠉⠀⠀⠀⠀⠉⠢⡀⠀⠀⠀⠀⠀⠀ -->
@@ -534,7 +667,7 @@ corrplot(correlation_matrix,
 
 ### 3.3. Statistical Modelling
 
-We are splitting the dataset intro trainning and testing data.
+Initially, we split the dataset into a training set (70%) and a test set (30%) to evaluate out-of-sample performance, then we used this training data for our statistical modelling. It is important to note that during splitting, stratified sampling was used (via caret::createDataPartition) to maintain the stroke/no-stroke ratio. @chen2020modeling
 
 <!-- TODO ----- Data splitting for logistic regression involves partitioning your dataset into training and testing sets to build and validate the model's probability of success predictions -->
 
@@ -556,25 +689,40 @@ train_data$stroke <- factor(train_data$stroke, levels = c("No","Yes"))
 test_data$stroke  <- factor(test_data$stroke,  levels = c("No","Yes"))
 ```
 
-- Logistic Regression
+```{r}
+# Convert all multi-level categoricals to factors with a clear reference level
+train_data$work_type     <- factor(train_data$work_type)
+train_data$Residence_type<- factor(train_data$Residence_type)
+train_data$smoking_status<- factor(train_data$smoking_status)
+
+# The same should be done for test_data and the binary variables 
+test_data$work_type     <- factor(test_data$work_type)
+test_data$Residence_type<- factor(test_data$Residence_type)
+test_data$smoking_status<- factor(test_data$smoking_status)
+
+# if you want the output to label the levels (e.g., "Male" vs "Female")
+# instead of "gender" and "gender1" (for Male = 1 vs Female = 0).
+# For 0/1, R's glm is usually fine, but for clean output factors are better.
+# For multi-level, it's essential.
+```
+
+
+<!-- - Logistic Regression
 - Decision Tree
 - Random Forest
 - Gradient Boosted Machine
 - k-Nearest Neighbors
-- Support Vector Machine
+- Support Vector Machine -->
 
 
-```{r}
-# skim(stroke1)
-class(stroke1$stroke)
-unique(stroke1$stroke)
-```
-
-#### Repeated K-fold cross-validation.
+#### **3.3.1. Repeated K-fold cross-validation**
 
 The trainControl() function in the R caret package is used to control the computational nuances and resampling methods employed by the train() function. It allows us to implement Repeated K-fold cross-validation ("repeatedcv").
 
 ```{r}
+#| code-fold: true
+#| output: false
+
 ctrl <- trainControl(
 method = "repeatedcv",
 number = 5,
@@ -585,9 +733,12 @@ verboseIter = FALSE
 )
 ```
 
-#### Logistic Regression
+#### **3.3.2. Logistic Regression**
 
 ```{r}
+#| code-fold: true
+#| output: false
+
 model_lr <- glm(
   stroke ~ . , 
   data=train_data , 
@@ -597,8 +748,307 @@ s1 <- summary(model_lr)
 c1 <- coefficients(model_lr)
 anova1 <- car::Anova(model_lr, type = 3)
 confint1 <- confint(model_lr, level=0.95)
+
+model_lr2 <- train(
+stroke ~ .,
+data = train_data,
+method = "glm",
+family = "binomial",
+metric = "ROC",
+trControl = ctrl
+)
 ```
 
+**Interpretation — Logistic Regression Coefficients**
+
+```{r}
+s1
+anova1
+```
+
+<!-- ANOVA conclusion -->
+
+Conclusion: These three predictors ($\text{age}$, $\text{hypertension}$, and $\text{avg\_glucose\_level}$) are the most important and reliable drivers of stroke risk in your final model. They independently contribute meaningful, non-redundant predictive power.
+
+$\text{ever\_married}$ has a Marginal Significance. While its $\text{p-value}$ is close to $0.05$, suggesting a trend, it is not definitively significant in this multivariable model.
+
+$\text{heart\_disease}$ Insignificant. Its unique contribution is not statistically distinguishable from zero after accounting for other factors like $\text{age}$ and $\text{hypertension}$ (which it is correlated with).
+
+Based solely on this ANOVA table, the performance evaluation suggests:
+
+Keep: $\text{age}$, $\text{hypertension}$, $\text{avg\_glucose\_level}$.
+
+Consider Removing: $\text{gender}$, $\text{bmi}$, $\text{Residence\_type}$, $\text{work\_type}$, and $\text{smoking\_status}$.
+
+Two way interactions
+
+You should definitely consider two-way interactions, especially between your most significant predictors: $\text{age}$, $\text{hypertension}$, and $\text{avg\_glucose\_level}$.
+
+Based on your ANOVA results, prioritize interactions among the strongest drivers:
+
+$\mathbf{\text{age} \times \text{hypertension}}$
+
+$\mathbf{\text{age} \times \text{avg\_glucose\_level}}$
+
+$\mathbf{\text{hypertension} \times \text{avg\_glucose\_level}}$
+
+You might also test $\text{age} \times \text{heart\_disease}$, as $\text{heart\_disease}$ is clinically important even if its main effect was marginally insignificant in the multivariate model.
+
+
+
+<!-- TODO -->
+
+- Age is a strong and highly significant predictor (p < 0.001).
+Higher age is associated with a substantial increase in the odds of stroke.
+
+- Hypertension has a significant positive effect on stroke risk (p = 0.0468), indicating hypertensive individuals are more likely to experience stroke.
+
+- Average glucose level is also a important predictor (p = 0.0267).
+Higher glucose values modestly increase stroke risk.
+
+- Heart disease shows a positive association but is only borderline significant (p = 0.0718).
+This suggests a potential effect, but not statistically explainable in this model.
+
+- Smoking has likewise borderline significant (p = 0.0714), indicating a  increased risk among smokers, but the evidence is not too much strong.
+
+- BMI, gender, and marital status show no meaningful statistical association with stroke in this dataset (all p > 0.26). These variables did not contribute substantially to prediction after accounting for other factors.
+
+- Model fit improved substantially from the null model
+(deviance reduced from 953.4 → 776.8; AIC = 794.8), indicating a reasonable fit and useful predictive value.
+
+**Odds ratios and confidence intervals**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+# Odds ratios and 95% confidence intervals
+coef_est <- coef(model_lr)
+OR       <- exp(coef_est)
+
+conf_int <- exp(confint(model_lr))  # confidence intervals on OR scale
+# conf_int <- confint(model_lr, level=0.95)
+
+odds_table <- cbind(OR, conf_int)
+colnames(odds_table) <- c("OR", "2.5 %", "97.5 %")
+round(odds_table, 3)
+```
+
+**Interpretation**
+
+```{r}
+odds_table
+```
+
+The logistic regression findings demonstrate how each predictor impacts the likelihood of having a stroke, while keeping other variables constant:
+
+- Age (OR = 1.075, CI: 1.059–1.093)
+Age is the strongest continuous predictor. Each additional year of age increases the odds of stroke by about 7.5%, and the confidence interval does not include 1, indicating strong statistical significance.
+
+- Hypertension (OR = 1.577, CI: 0.996–2.450)
+Individuals with hypertension have roughly 58% higher odds of stroke compared to those without hypertension, although the lower CI bound is just below 1. This suggests a borderline significant effect, but clinically important.
+
+- Heart disease (OR = 1.628, CI: 0.942–2.733)
+Heart disease increases stroke odds by about 63%, but the CI includes 1, implying the association is positive but not statistically strong in this dataset.
+
+- Average glucose level (OR = 1.004, CI: 1.000–1.007)
+Higher glucose levels are associated with slightly increased stroke risk. Though the effect is small, the CI indicates marginal significance, aligning with known metabolic risk patterns.
+
+- BMI (OR = 1.007, CI: 0.975–1.037)
+BMI shows almost no meaningful effect on stroke risk, and the CI overlaps 1. This predictor does not significantly influence stroke likelihood in this dataset.
+
+- Smoking (Fsmoked OR = 1.263; Smokes OR = 1.598)
+
+- Former smokers have 26% higher odds, but CI crosses 1 → weak evidence.
+
+- Current smokers have ~60% higher odds, but CI still overlaps 1 → suggests increased risk but not statistically conclusive here.
+
+- Gender (Female) (OR = 1.259; CI: 0.842–1.903)
+Females show slightly higher odds, but this effect is not statistically significant.
+
+- Ever married (OR = 1.126; CI: 0.590–2.013)
+Marital status has no clear effect on stroke odds in this sample.
+
+**Model predictions and performance on the test set**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+# 1) Predicted probabilities from logistic regression
+test_data$pred_prob <- predict(
+  model_lr,
+  newdata = test_data,
+  type    = "response"
+)
+
+# 2) Make sure the TRUE outcome is a factor with levels No / Yes
+test_data$stroke <- factor(test_data$stroke,
+                             levels = c("No", "Yes"))
+
+# 3) Class predictions at threshold c = 0.5
+test_data$pred_class <- ifelse(test_data$pred_prob >= 0.5, "Yes", "No")
+test_data$pred_class <- factor(test_data$pred_class,
+                                 levels = c("No", "Yes"))
+
+# 4) Confusion matrix: positive = "Yes"
+cm <- confusionMatrix(
+  data      = test_data$pred_class,
+  reference = test_data$stroke,
+  positive  = "Yes"
+)
+
+# cm
+```
+
+```{r}
+cm
+```
+
+From the confusion matrix, the following performance metrics are defined:
+
+**Accuracy**
+$$
+\text{Accuracy} =
+\frac{TP + TN}{TP + TN + FP + FN}.
+$$
+**Sensitivity (Recall / True Positive Rate)**
+
+$$
+\text{Sensitivity} =
+\frac{TP}{TP + FN}.
+$$
+**Specificity (True Negative Rate)**
+
+$$
+\text{Specificity} =
+\frac{TN}{TN + FP}.
+$$
+
+**Positive Predictive Value (Precision)**
+$$
+\text{PPV} =
+\frac{TP}{TP + FP}.
+$$
+**Negative Predictive Value (NPV)**
+
+$$
+\text{NPV} =
+\frac{TN}{TN + FN}.
+$$
+
+**Interpretation of Logistic Regression Performance (Test Set)**
+
+- Accuracy = 94.25%
+The model correctly classified most cases, mainly because the dataset is highly imbalanced (only ~6% stroke cases). High accuracy here does not mean good stroke detection.
+
+- Sensitivity (True Positive Rate) = 0.017
+The model correctly identified only 1 out of 59 actual stroke cases (≈1.7%).
+→ This shows the model fails to detect stroke cases, which is common in rare-event medical datasets.
+
+- Specificity (True Negative Rate) = 1.00
+The model correctly classified all non-stroke cases.
+→ It is extremely good at predicting “No stroke,” which dominates the dataset.
+
+- Positive Predictive Value (Precision) = 1.00
+When the model predicts “Yes,” it is always correct — but it predicted “Yes” only once.
+High precision is misleading because the model rarely predicts a positive case.
+
+- Negative Predictive Value = 0.942
+Most “No” predictions are correct, matching the overall class imbalance.
+
+- Kappa = 0.031
+Kappa measures agreement beyond chance. A value near zero shows the model performs only slightly better than random when considering class imbalance.
+
+- Balanced Accuracy = 0.508
+When weighting sensitivity and specificity equally, the model performs at chance level (~50%).
+→ Confirms that stroke detection is weak.
+
+- McNemar’s Test p < 0.0001
+Strong evidence that the model’s errors are systematically skewed—it overwhelmingly predicts “No stroke.”
+
+The logistic regression model achieves high accuracy only because the negative class dominates.It detects almost no true stroke cases, giving extremely poor sensitivity.
+It performs well for the majority class (non-stroke), but fails for the minority class (stroke).
+
+These results highlight the challenge of severe class imbalance, which requires additional techniques (e.g., SMOTE, class weights, resampling) to improve medical-event prediction.
+
+**ROC curve and AUC for the logistic model**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+# Compute ROC
+roc_glm <- roc(
+  response  = test_data$stroke,
+  predictor = test_data$pred_prob,
+  levels    = c("No","Yes"),
+  direction = "<"
+)
+
+auc_val <- auc(roc_glm)
+
+# Extract data for ggplot
+roc_df <- data.frame(
+  fpr = rev(1 - roc_glm$specificities),
+  tpr = rev(roc_glm$sensitivities)
+)
+
+# Plot
+roc_plot <- ggplot(roc_df, aes(x = fpr, y = tpr)) +
+  geom_line(color = "#0072B2", size = 1.2) +
+  geom_abline(linetype = "dashed", color = "gray60", linewidth = 0.9) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    x = "1 – Specificity (False Positive Rate)",
+    y = "Sensitivity (True Positive Rate)"
+  ) +
+  annotate("text",
+           x = 0.70, y = 0.20,
+           label = paste0("AUC = ", round(auc_val, 3)),
+           size = 5) +
+  theme_bw(base_size = 13) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
+```{r}
+roc_plot
+```
+
+A higher AUC (closer to 1) indicates better discrimination between stroke and non-stroke cases. Values substantially above 0.5 indicate that the model performs better than random classification.
+
+**Interpretation of ROC Curve and AUC (Test Set)**
+
+The ROC curve evaluates the model’s ability to distinguish between stroke and non-stroke cases across all possible classification thresholds, not just the default 0.5 cutoff.
+
+The AUC = 0.815, which indicates good discriminative performance.
+
+AUC = 0.5 is  no discrimination (random guessing)
+
+AUC = 0.7–0.8 is acceptable
+
+AUC = 0.8–0.9 is good
+
+AUC > 0.9 is excellent
+
+- Even though the confusion matrix showed poor sensitivity at threshold 0.5, the AUC reveals that the model can separate the two classes reasonably well if a better threshold is chosen.
+
+- The strong AUC compared to weak sensitivity highlights the impact of severe class imbalance and the importance of customizing the probability cutoff for medical prediction tasks.
+
+Overall, the ROC analysis suggests that the logistic model contains useful predictive signal, but performance for detecting stroke can be improved with:
+
+- threshold tuning,
+
+- cost-sensitive training,
+
+- resampling techniques (SMOTE / oversampling).
+
+
+<!-- TODO -->
 <!-- Add Assumption testing here -->
 
 * The observations must be independent.
@@ -619,7 +1069,429 @@ vif(model_lr)
 
 **Check Outliers**
 
+<!-- TODO -->
 
+
+#### **3.3.3. Decision Tree**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+model_tree <- train(
+stroke ~ .,
+data = train_data,
+method = "rpart",
+metric = "ROC",
+trControl = ctrl,
+tuneLength = 10
+)
+```
+
+#### **3.3.4. Random Forest**
+
+```{r}
+#| code-fold: true
+#| output: false
+#| 
+model_rf <- train(
+stroke ~ .,
+data = train_data,
+method = "rf",
+metric = "ROC",
+trControl = ctrl,
+tuneLength = 5
+)
+```
+
+#### **3.3.5. Gradient Boosted Machine (GBM)**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+model_gbm <- train(
+stroke ~ .,
+data = train_data,
+method = "gbm",
+metric = "ROC",
+trControl = ctrl,
+verbose = FALSE
+)
+```
+
+#### **3.3.6. k-Nearest Neighbours (k-NN)**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+model_knn <- train(
+stroke ~ .,
+data = train_data,
+method = "knn",
+metric = "ROC",
+trControl = ctrl
+)
+```
+
+#### **3.3.7. Support Vector Machine (Radial)**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+model_svm <- train(
+stroke ~ .,
+data = train_data,
+method = "svmRadial",
+metric = "ROC",
+trControl = ctrl
+)
+```
+
+### 3.4. Model Evaluation
+
+#### **Model evaluation on the test set**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+models_list <- list(
+LR   = model_lr2, # Works with caret
+TREE = model_tree,
+RF   = model_rf,
+GBM  = model_gbm,
+KNN  = model_knn,
+SVM  = model_svm
+)
+
+results <- data.frame(
+Model       = character(),
+AUC         = numeric(),
+Accuracy    = numeric(),
+Sensitivity = numeric(),
+Specificity = numeric()
+)
+
+for (m in names(models_list)) {
+mdl <- models_list[[m]]
+
+# Probabilities for the "Yes" class
+
+preds_prob  <- predict(mdl, test_data, type = "prob")[, "Yes"]
+
+# Class predictions
+
+preds_class <- predict(mdl, test_data)
+
+# ROC & AUC
+
+roc_obj <- roc(test_data$stroke, preds_prob,
+levels = c("No", "Yes"), direction = "<")
+auc_val <- auc(roc_obj)
+
+# Confusion matrix – positive = "Yes"
+
+cm_m <- confusionMatrix(preds_class, test_data$stroke, positive = "Yes")
+
+results <- rbind(
+results,
+data.frame(
+Model       = m,
+AUC         = as.numeric(auc_val),
+Accuracy    = cm_m$overall["Accuracy"],
+Sensitivity = cm_m$byClass["Sensitivity"],
+Specificity = cm_m$byClass["Specificity"]
+)
+)
+}
+
+# results
+```
+
+```{r}
+results
+```
+
+**Interpretation**
+
+Across all six models, overall accuracy and specificity are very high, mainly because the dataset is highly imbalanced (only ~6% stroke cases). However, sensitivity is extremely low across every model, meaning that almost none of the models correctly identify stroke cases.
+
+Logistic Regression (AUC = 0.78) and GBM (AUC = 0.76) show the best overall discrimination, indicated by the highest AUC values. These models are better at ranking high-risk vs. low-risk individuals, even though they still fail at detecting positives under the default 0.5 threshold.
+
+Tree-based models (Decision Tree, Random Forest, GBM) achieve slightly higher sensitivity than LR, but only marginally (still around 1–2%). KNN and SVM detect 0 stroke cases at this threshold, despite high accuracy.
+
+All models appear to perform well based on accuracy and specificity, but this is misleading—they are failing at the most important task: detecting stroke cases. This confirms that class imbalance severely affects performance and requires threshold tuning, resampling, or cost-sensitive learning to achieve meaningful sensitivity.
+
+#### **ROC curve comparison across models**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+# 1. Create ROC objects for each model
+roc_list <- list(
+  LR   = roc(test_data$stroke,
+             predict(model_lr2,   test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  Tree = roc(test_data$stroke,
+             predict(model_tree, test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  RF   = roc(test_data$stroke,
+             predict(model_rf,   test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  GBM  = roc(test_data$stroke,
+             predict(model_gbm,  test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  KNN  = roc(test_data$stroke,
+             predict(model_knn,  test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<"),
+  SVM  = roc(test_data$stroke,
+             predict(model_svm,  test_data, type = "prob")[, "Yes"],
+             levels = c("No","Yes"), direction = "<")
+)
+
+# 2. AUC values
+auc_vals <- sapply(roc_list, auc)
+
+# 3. Long data frame of ROC coordinates
+roc_df <- do.call(rbind, lapply(names(roc_list), function(m) {
+  r <- roc_list[[m]]
+  data.frame(
+    model       = m,
+    specificity = rev(r$specificities),
+    sensitivity = rev(r$sensitivities)
+  )
+}))
+
+# Treat model as factor in a consistent order
+roc_df$model <- factor(roc_df$model, levels = names(roc_list))
+
+# 4. Legend labels with AUC
+label_map <- paste0(names(auc_vals), " (AUC = ", sprintf("%.3f", auc_vals), ")")
+names(label_map) <- names(auc_vals)
+
+# 5. Color palette by short model name
+model_cols <- c(
+  LR   = "#E69F00",
+  Tree = "#0072B2",
+  RF   = "#009E73",
+  GBM  = "#CC79A7",
+  KNN  = "#F0E442",
+  SVM  = "#000000"
+)
+
+# 6. Plot
+p3 <- ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity,
+                   colour = model, group = model)) +
+  geom_abline(intercept = 0, slope = 1,
+              linetype = "dashed", colour = "grey70", linewidth = 0.6) +
+  geom_line(linewidth = 1) +
+  scale_color_manual(
+    values = model_cols,
+    breaks = names(label_map),
+    labels = label_map,
+    name   = "Model"
+  ) +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    x = "1 – Specificity (False Positive Rate)",
+    y = "Sensitivity (True Positive Rate)"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(
+    legend.position   = c(0.65, 0.25),
+    legend.background = element_rect(fill = "white", colour = "grey80"),
+    legend.title      = element_text(face = "bold"),
+    panel.grid.minor  = element_blank()
+  )
+```
+
+
+```{r}
+#| code-fold: true
+#| message: false
+#| warning: false
+#| fig.cap: "ROC curve comparison across models."
+
+p3
+```
+
+**Interpretation**
+
+Interpretation of ROC Comparison Across Models
+
+Logistic Regression (AUC = 0.779) performs the best among all six models, showing the strongest ability to differentiate stroke vs. non-stroke cases.
+
+Random Forest (AUC = 0.725) and GBM (AUC = 0.759) also show good discriminative ability and are close competitors to logistic regression.
+
+KNN (AUC = 0.667) performs moderately, better than random guessing but weaker than the tree-based and regression models.
+
+Decision Tree (AUC = 0.648) and SVM (AUC = 0.639) show the lowest AUC values, indicating weaker predictive performance.
+
+All models perform above 0.5, meaning they all do better than random chance — but with large differences in quality.
+
+The ROC curves demonstrate that tree-based ensemble models (RF, GBM) and logistic regression extract more meaningful patterns from the data compared to simpler (Tree) and distance-based (KNN, SVM) methods.
+
+Overall, logistic regression remains the most stable and best-performing model for this dataset, despite class imbalance challenges.
+
+#### **Odds ratios and risk stratification**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+# Fit logistic regression on the same train_data used in the ML comparison
+# makes not sense
+# glm_lr <- glm(
+# stroke ~ age + gender + hypertension + heart_disease + ever_married + work_type + Residence_type + avg_glucose_level + bmi + smoking_status,
+# data   = train_data,
+# family = binomial
+# )
+
+# Coefficients, CIs, p-values
+
+lr_coef <- summary(model_lr)$coefficients           # estimates + p-values
+ci_raw  <- suppressMessages(confint(model_lr))      # CI on log-odds scale
+
+or_df <- data.frame(
+Predictor = rownames(lr_coef),
+logOR     = lr_coef[, "Estimate"],
+OR        = exp(lr_coef[, "Estimate"]),
+CI_lower  = exp(ci_raw[, 1]),
+CI_upper  = exp(ci_raw[, 2]),
+p_value   = lr_coef[, "Pr(>|z|)"]
+) %>%
+
+# remove intercept
+
+filter(Predictor != "(Intercept)") %>%
+
+# nicer labels for the plot
+
+mutate(
+Label = dplyr::recode(
+Predictor,
+age               = "Age (per year)",
+gender            = "Female vs Male",
+hypertension      = "Hypertension (Yes vs No)",
+heart_disease     = "Heart disease (Yes vs No)",
+ever_married      = "Ever married (Yes vs No)",
+work_type         = "Work type (higher level)",
+Residence_type    = "Residence: Rural vs Urban",
+avg_glucose_level = "Average glucose level",
+bmi               = "BMI",
+smoking_status    = "Smoking status (higher level)"
+),
+# significance flag for colour
+Sig = ifelse(p_value < 0.05, "p < 0.05", "NS")
+) %>%
+
+# order from lower to higher OR so the plot reads nicely
+
+arrange(OR) %>%
+mutate(Label = factor(Label, levels = Label))
+
+# Forest plot
+p4 <- ggplot(or_df, aes(x = Label, y = OR, colour = Sig)) +
+geom_hline(yintercept = 1, linetype = "dashed", colour = "grey40") +
+geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper),
+width = 0.15, linewidth = 0.6) +
+geom_point(size = 3) +
+coord_flip() +
+scale_y_log10(
+breaks = c(0.5, 0.75, 1, 1.5, 2, 3, 4),
+labels = c("0.5", "0.75", "1", "1.5", "2", "3", "4")
+) +
+scale_colour_manual(
+values = c("p < 0.05" = "#D55E00", "NS" = "#999999")
+) +
+labs(
+title  = "Odds Ratios for Stroke Predictors (Logistic Regression)",
+x      = NULL,
+y      = "Odds Ratio (log scale)",
+colour = NULL
+) +
+theme_minimal(base_size = 13) +
+theme(
+panel.grid.minor = element_blank(),
+plot.title       = element_text(face = "bold", hjust = 0.5, size = 15),
+axis.text.y      = element_text(size = 11),
+legend.position  = "bottom"
+)
+```
+
+```{r}
+#| code-fold: true
+#| message: false
+#| warning: false
+#| fig.cap: "Forest Plot."
+
+p4
+```
+
+**Interpretation**
+
+The Hypertension is the strongest predictor. Its OR is clearly > 2, and the whole 95% CI lies above 1 (orange point), meaning hypertensive patients have more than double the odds of stroke, with strong statistical evidence.
+
+The Age predictor has an OR slightly above 1 with a narrow CI fully above 1 (orange). Therefore we can conclude that for each additional year of age increases stroke odds by a small but consistent amount, making age an important continuous risk factor.
+
+The Average glucose level has an OR just above 1 with a tight CI above 1 (orange). Therefore we can conclude that Higher glucose is associated with a modest but statistically significant increase in stroke risk, consistent with metabolic or diabetes-related vascular risk.
+
+For the predictors Ever married, heart disease, smoking status, gender, BMI, residence, work their confidence intervals all cross 1, so in this multivariable model they do not show statistically significant effects after adjusting for age, hypertension and glucose.
+
+Some predictor like heart disease and smoking still have ORs above 1, suggesting that firther study might find them to be related to elevated risk of stroke, but the evidence is weak in this dataset.
+
+**Overall message:**
+
+The forest plot shows that, after adjusting for other variables, hypertension, older age, and higher average glucose level are the clearest independent predictors of stroke, while other factors have smaller or more uncertain effects. This aligns well with established clinical knowledge and supports your logistic regression model as a sensible risk-stratification tool.
+
+**Threshold tuning to 0.2 from 0.5**
+
+```{r}
+#| code-fold: true
+#| output: false
+
+# Threshold tuning: use 0.2 instead of 0.5
+new_threshold <- 0.2
+
+test_data$pred_class_02 <- ifelse(test_data$pred_prob >= new_threshold,
+                                    "Yes", "No")
+
+test_data$pred_class_02 <- factor(test_data$pred_class_02,
+                                    levels = c("No", "Yes"))
+
+# Confusion matrix for threshold = 0.2
+cm_02 <- confusionMatrix(
+  data      = test_data$pred_class_02,
+  reference = test_data$stroke,
+  positive  = "Yes"
+)
+```
+
+
+```{r}
+#| code-fold: true
+#| message: false
+#| warning: false
+#| fig.cap: "Confusion matrix for threshold = 0.2."
+
+# Confusion matrix for threshold = 0.2
+cm_02
+```
+
+**Interpretation (threshold = 0.2)**
+
+- With a lower decision criterion of 0.2, the model successfully identifies 13 out of 59 stroke cases (sensitivity = 22%), compared to only one case with the default 0.5 threshold.
+
+- Specificity remains high at almost 95%, indicating that the majority of non-stroke patients are still properly categorized as "no stroke" (903 out of 949).
+
+- While overall accuracy declines from 94% to 91%, balanced accuracy improves (from ≈0.51 to ≈0.59), indicating a greater balance of sensitivity and specificity.
+
+This change indicates a therapeutically reasonable compromise: the model detects more possible stroke patients (fewer missed cases) at the expense of a moderate rise in false positives.
 
 <!-- 
 ⣿⣿⡇⢩⠘⣴⣿⣥⣤⢦⢁⠄⠉⡄⡇⠛⠛⠛⢛⣭⣾⣿⣿⡏
