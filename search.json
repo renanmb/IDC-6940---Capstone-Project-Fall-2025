@@ -1159,14 +1159,14 @@
     "href": "slides.html#stroke-risk-for-clinical-and-behavioral-predictors",
     "title": "Predicting Stroke Risk from Common Health Indicators",
     "section": "Stroke Risk for Clinical and Behavioral Predictors",
-    "text": "Stroke Risk for Clinical and Behavioral Predictors\n\n\nFigure 2: Stroke percentages (95% CI) by hypertension, heart disease, and smoking status."
+    "text": "Stroke Risk for Clinical and Behavioral Predictors\n\n\nFigure 3: Stroke percentages (95% CI) by hypertension, heart disease, and smoking status."
   },
   {
-    "objectID": "slides.html#interpretation-of-stroke-risk-vs-prediators",
-    "href": "slides.html#interpretation-of-stroke-risk-vs-prediators",
+    "objectID": "slides.html#interpretation-of-stroke-risk-vs-predictors",
+    "href": "slides.html#interpretation-of-stroke-risk-vs-predictors",
     "title": "Predicting Stroke Risk from Common Health Indicators",
-    "section": "Interpretation of stroke risk vs prediators",
-    "text": "Interpretation of stroke risk vs prediators\n\n\nHypertension\n\n\nHigher stroke risk in hypertensive patients.\n\n\nClear CI separation → strong association.\n\n\n\n\nHeart Disease\n\n\nHigher stroke percentages among those with heart disease.\n\n\nConsistent with known cardiovascular risk patterns.\n\n\n\n\nSmoking Status\n\n\nFormer and current smokers show higher stroke risk.\n\n\nReflects long-term vascular impact of tobacco exposure.\n\n\n\n\nOverall\n\n\nVascular risks (hypertension, heart disease) and behavioural risk (smoking)\n\n\nall show elevated stroke likelihood. Clinically consistent."
+    "section": "Interpretation of stroke risk vs predictors",
+    "text": "Interpretation of stroke risk vs predictors\n\n\nHypertension\n\n\nHigher stroke risk in hypertensive patients.\n\n\nClear CI separation → strong association.\n\n\n\n\nHeart Disease\n\n\nHigher stroke percentages among those with heart disease.\n\n\nConsistent with known cardiovascular risk patterns.\n\n\n\n\nSmoking Status\n\n\nFormer and current smokers show higher stroke risk.\n\n\nReflects long-term vascular impact of tobacco exposure.\n\n\n\n\nOverall\n\n\nVascular risks (hypertension, heart disease) and behavioural risk (smoking)\n\n\nall show elevated stroke likelihood. Clinically consistent."
   },
   {
     "objectID": "slides.html#correlation-among-key-numeric-prediators",
@@ -1258,6 +1258,13 @@
     "title": "Predicting Stroke Risk from Common Health Indicators",
     "section": "Interpretation — ROC Comparison Across Models",
     "text": "Interpretation — ROC Comparison Across Models\n\n\nLogistic Regression (AUC = 0.779) shows the best overall discrimination between stroke vs non-stroke.\nGBM (AUC = 0.759) and Random Forest (AUC = 0.725) also perform well, close to LR.\nKNN (AUC = 0.667) performs moderately — better than chance, but weaker than LR and tree ensembles.\nDecision Tree (AUC = 0.648) and SVM (AUC = 0.639) have the lowest AUC values → weakest discrimination.\nAll models score above 0.5, meaning they perform better than random guessing, but with clear differences in quality.\nROC curves show that LR, RF, and GBM extract the strongest predictive patterns, outperforming simpler tree models and distance-based/SVM methods.\n\nOverall: Logistic Regression is the most stable and best-performing model for this dataset, despite class imbalance."
+  },
+  {
+    "objectID": "slides.html#odds-ratios-and-risk-stratification",
+    "href": "slides.html#odds-ratios-and-risk-stratification",
+    "title": "Predicting Stroke Risk from Common Health Indicators",
+    "section": "Odds ratios and risk stratification",
+    "text": "Odds ratios and risk stratification"
   },
   {
     "objectID": "slides.html#interpretation-forest-plot-odds-ratios",
