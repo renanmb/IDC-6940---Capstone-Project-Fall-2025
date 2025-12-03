@@ -132,8 +132,6 @@ fourassume$stroke = factor(
   levels = c("0", "1"),
   labels = c("No", "Yes")
 )
-
-
 ```
 
 
@@ -188,11 +186,11 @@ fourassume$stroke = factor(
 
 ## Data & Key Variables
 
-<span style="font-size:32px; color:#444;">
+<span style="font-size:24px; color:#444;">
 1. Dataset
 </span>
 
-<ul style="font-size:30px; color:#444; line-height:1.4; margin-left:40px;">
+<ul style="font-size:20px; color:#444; line-height:1.4; margin-left:40px;">
   <li>Public stroke dataset (Kaggle).</li>
   <li><b>N = 3,357</b> patients after cleaning and removing missing values.</li>
   <li>Binary outcome: <b>Stroke</b> (Yes / No).</li>
@@ -200,11 +198,11 @@ fourassume$stroke = factor(
 
 <br>
 
-<span style="font-size:32px; color:#444;">
+<span style="font-size:24px; color:#444;">
 2. Main predictors
 </span>
 
-<ul style="font-size:30px; color:#444; line-height:1.4; margin-left:40px;">
+<ul style="font-size:20px; color:#444; line-height:1.4; margin-left:40px;">
   <li><b>Demographic:</b> Age, Gender, Ever_married, Work_type, Residence_type.</li>
   <li><b>Clinical:</b> Hypertension, Heart_disease.</li>
   <li><b>Behavioural / metabolic:</b> Smoking_status, BMI, Average glucose level.</li>
@@ -212,11 +210,11 @@ fourassume$stroke = factor(
 
 <br>
 
-<span style="font-size:32px; color:#444;">
+<span style="font-size:24px; color:#444;">
 3. Coding
 </span>
 
-<ul style="font-size:30px; color:#444; line-height:1.4; margin-left:40px;">
+<ul style="font-size:20px; color:#444; line-height:1.4; margin-left:40px;">
   <li>Categorical variables recoded to numeric levels (1, 2, 3, ...).</li>
   <li>Outcome <code>stroke</code> coded as factor with levels <b>No</b> and <b>Yes</b>.</li>
   <li>Non-predictive ID column removed.</li>
@@ -321,16 +319,8 @@ ggplot(cont_long, aes(Value, fill = Variable, colour = Variable)) +
     legend.position  = "none",
     panel.grid.minor = element_blank()
   )
-
-
-
-
-
-
-
-
-
 ```
+
 ## Interpretation of Key Continuous Predictors
 
 <ul style="font-size:28px; color:#444; line-height:1.3; margin-left:10px;">
@@ -367,10 +357,7 @@ ggplot(cont_long, aes(Value, fill = Variable, colour = Variable)) +
 
 # <span style="font-size:48px;">Stroke Prevalence by Categorical Predictors</span>
 
-
-
 ```{r}
-
 #| label: fig-cat-distribution
 #| message: false
 #| warning: false
@@ -424,10 +411,8 @@ legend.position  = "none",
 strip.text       = element_text(face = "bold"),
 panel.grid.minor = element_blank()
 )
-
-
-
 ```
+
 ## Interpretation of Key Categorical Predictors
 
 <ul style="font-size:28px; color:#444; line-height:1.3; margin-left:10px;">
@@ -460,7 +445,7 @@ panel.grid.minor = element_blank()
 </ul>
 
 
-## Stroke Risk for Clinical and  Behavioral Predictors 
+## Stroke Risk for Clinical and Behavioral Predictors 
 
 ```{r}
 #| label: fig-stroke-binary-risk
@@ -576,12 +561,9 @@ p3 =
 
 # 7. Final combined figure
 ggarrange(p1, p2, p3, ncol = 3, align = "hv")
-
-
-
 ```
 
-## Interpretation of stroke risk vs prediators
+## Interpretation of stroke risk vs predictors
 
 <ul style="font-size:28px; color:#444; line-height:1.3; margin-left:10px;">
 
@@ -652,13 +634,7 @@ ggcorrplot(
     plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
     axis.text  = element_text(color = "black", size = 11)
   )
-
-
-
-
-
 ```
-
 
 
 ## Interpretation — Correlation Heatmap
@@ -703,7 +679,7 @@ ggcorrplot(
 
 
 
-## Odds ratios and confidence intervals##
+## Odds ratios and confidence intervals
 
 ```{r}
 #1st lets fit glm 
@@ -731,9 +707,8 @@ fit_glm <- glm(
 )
 
 summary(fit_glm)
-
-
 ```
+
 ## Odds ratios and confidence intervals
 
 ```{r}
@@ -747,15 +722,12 @@ conf_int <- exp(confint(fit_glm))  # confidence intervals on OR scale
 odds_table <- cbind(OR, conf_int)
 colnames(odds_table) <- c("OR", "2.5 %", "97.5 %")
 round(odds_table, 3)
-
 ```
-
-
 
 
 ## <span style="font-size:34px;">Interpretation — Odds Ratios (Logistic Regression)</span>
 
-<div style="font-size:28px;">
+<div style="font-size:22px;">
 
 - **Age (OR 1.075, CI 1.059–1.093)**  
   Strongest predictor; each year ↑ stroke odds ~7.5%.
@@ -788,8 +760,6 @@ round(odds_table, 3)
 ## Logistic Regression performance (Test Set)
 
 ```{r}
-
-
 library(caret)
 
 # 1) Predicted probabilities from logistic regression
@@ -822,7 +792,7 @@ cm
 
 ## <span style="font-size:34px;">Interpretation — Logistic Regression Performance (Test Set)</span>
 
-<div style="font-size:26px;">
+<div style="font-size:22px;">
 
 - **Accuracy: 94.25%**  
   High due to **class imbalance** (only ~6% stroke cases); not meaningful for detection.
@@ -853,8 +823,6 @@ Model performs well for **non-stroke** patients but **fails severely** for strok
 Class imbalance dominates performance → requires resampling, class weights, or other imbalance-handling methods.
 
 </div>
-
-
 
 ## ROC curve and AUC for the logistic model
 
@@ -898,9 +866,7 @@ ggplot(roc_df, aes(x = fpr, y = tpr)) +
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank()
   )
-
 ```
-
 
 
 ## <span style="font-size:34px;">Interpretation — ROC Curve & AUC</span>
@@ -925,7 +891,6 @@ ggplot(roc_df, aes(x = fpr, y = tpr)) +
 - Resampling (e.g., SMOTE, oversampling)
 
 </div>
-
 
 ```{r}
 model_df <- strokeclean
@@ -954,12 +919,12 @@ ctrl <- trainControl(
   summaryFunction = twoClassSummary,
   verboseIter = FALSE
 )
-
 ```
+
 ## Machine-learning model comparison
 
 ```{r}
-#Logistic Regression (caret
+#Logistic Regression (caret)
 model_lr <- train(
 stroke ~ .,
 data = train_data,
@@ -970,7 +935,6 @@ trControl = ctrl
 )
 
 #Decision Tree
-
 model_tree <- train(
 stroke ~ .,
 data = train_data,
@@ -1001,7 +965,6 @@ verbose = FALSE
 )
 
 #k-Nearest Neighbours (k-NN)
-
 model_knn <- train(
 stroke ~ .,
 data = train_data,
@@ -1011,7 +974,6 @@ trControl = ctrl
 )
 
 #Support Vector Machine (Radial)
-
 model_svm <- train(
 stroke ~ .,
 data = train_data,
@@ -1019,8 +981,6 @@ method = "svmRadial",
 metric = "ROC",
 trControl = ctrl
 )
-
-
 ```
 
 
@@ -1028,7 +988,6 @@ trControl = ctrl
 ```{r}
 library(pROC)   
 library(caret)  
-
 
 models_list <- list(
 LR   = model_lr,
@@ -1051,21 +1010,17 @@ for (m in names(models_list)) {
 mdl <- models_list[[m]]
 
 # Probabilities for the "Yes" class
-
 preds_prob  <- predict(mdl, test_data, type = "prob")[, "Yes"]
 
 # Class predictions
-
 preds_class <- predict(mdl, test_data)
 
 # ROC & AUC
-
 roc_obj <- roc(test_data$stroke, preds_prob,
 levels = c("No", "Yes"), direction = "<")
 auc_val <- auc(roc_obj)
 
 # Confusion matrix – positive = "Yes"
-
 cm_m <- confusionMatrix(preds_class, test_data$stroke, positive = "Yes")
 
 results <- rbind(
@@ -1081,14 +1036,11 @@ Specificity = cm_m$byClass["Specificity"]
 }
 
 results
-
 ```
-
-
 
 ## <span style="font-size:34px;">Interpretation — Model Comparison</span>
 
-<div style="font-size:26px;">
+<div style="font-size:22px;">
 
 - All six models show **very high accuracy & specificity**, driven by the dataset’s **~6% stroke rate** (strong class imbalance).
 
@@ -1195,16 +1147,12 @@ ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity,
     legend.title      = element_text(face = "bold"),
     panel.grid.minor  = element_blank()
   )
-
-
-
 ```
-
 
 
 ## <span style="font-size:34px;">Interpretation — ROC Comparison Across Models</span>
 
-<div style="font-size:26px;">
+<div style="font-size:22px;">
 
 - **Logistic Regression (AUC = 0.779)** shows the best overall discrimination between stroke vs non-stroke.
 
@@ -1222,9 +1170,7 @@ ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity,
 
 </div>
 
-
-
-# Odds ratios and risk stratification
+## Odds ratios and risk stratification
 
 ```{r}
 library(ggplot2)
@@ -1311,13 +1257,12 @@ plot.title       = element_text(face = "bold", hjust = 0.5, size = 15),
 axis.text.y      = element_text(size = 11),
 legend.position  = "bottom"
 )
-
 ```
 
 
 ## <span style="font-size:34px;">Interpretation — Forest Plot (Odds Ratios)</span>
 
-<div style="font-size:26px; line-height:1.25;">
+<div style="font-size:22px; line-height:1.25;">
 
 - **Hypertension**  
   Strongest predictor. OR > 2 with CI fully above 1 → hypertensive patients have **more than double** the odds of stroke.
@@ -1360,13 +1305,12 @@ cm_02 <- confusionMatrix(
 )
 
 cm_02
-
 ```
 
 
 ## <span style="font-size:34px;">Interpretation — Threshold = 0.2</span>
 
-<div style="font-size:26px; line-height:1.25;">
+<div style="font-size:22px; line-height:1.25;">
 
 - Sensitivity improves from **1 stroke detected → 13/59 detected**  
   (**22%**, up from 1.7%) when lowering the cutoff to 0.2.
@@ -1386,7 +1330,7 @@ Lowering the threshold captures **more true stroke cases** with only a moderate 
 
 ## <span style="font-size:34px;">Conclusion</span>
 
-<div style="font-size:26px; line-height:1.25;">
+<div style="font-size:22px; line-height:1.25;">
 
 - Stroke was a **rare outcome (~5%)**, creating strong class imbalance and making detection of positive cases difficult.
 
@@ -1403,7 +1347,6 @@ Lowering the threshold captures **more true stroke cases** with only a moderate 
 - Accuracy and specificity were high for all models, but **misleading**, as they mainly reflected the dominance of the non-stroke class.
 
 - Results show that routine health indicators can meaningfully separate higher- vs lower-risk individuals, but **handling class imbalance is critical**.
-
 
 </div>
 

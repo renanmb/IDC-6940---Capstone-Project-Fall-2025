@@ -8,7 +8,7 @@ author:
   - name: "Shree Krishna M.S Basnet"
   - name: "Supervisor: Dr. Cohen"
 date: "December 2 2025"
-categories: [draft, renan]
+categories: [draft, renan, shree]
 # citation:
 #   url: https://samanthacsik.github.io/posts/2022-10-24-my-blog-post/
 image: images/spongebob-imagination.jpg
@@ -38,9 +38,7 @@ library(knitr)
 library(ggpubr)
 library(pROC)
 
-
 # Set seed
-
 set.seed(123)
 
 # Load data
@@ -62,7 +60,6 @@ stroke1 = read_csv(stroke_path, show_col_types = FALSE)
 # stroke1 <- read.csv("C:/Users/LaptopUser/Downloads/stroke.csv")
 
 # Handle dataset features
-
 stroke1[stroke1 == "N/A" | stroke1 == "Unknown" | stroke1 == "children" | stroke1 == "other"] <- NA
 stroke1$bmi <- round(as.numeric(stroke1$bmi), 2)
 stroke1$gender[stroke1$gender == "Male"] <- 1
@@ -91,7 +88,6 @@ stroke1$smoking_status <- as.numeric(stroke1$smoking_status)
 stroke1 <- stroke1[, !(names(stroke1) %in% "id")]
 
 # Remove NAs and clean dataset
-
 stroke1$stroke <- as.factor(stroke1$stroke)
 stroke1_clean <- na.omit(stroke1)
 strokeclean <- stroke1_clean
@@ -108,13 +104,12 @@ fourassume$stroke <- factor(
   levels = c("0", "1"),
   labels = c("No", "Yes")
 )
-
-
 ```
 
 
 
 # Introduction
+
 Stroke is a global health crisis, causing widespread mortality and disability [@WHO2025]. Because strokes occur suddenly and often lead to long-term neurological damage, early detection in high-risk individuals is critical for prevention and prompt intervention. By using data-driven risk prediction models, clinicians and public health experts can better identify high-risk populations, allowing for targeted clinical management and lifestyle counseling.
 
 Logistic Regression (LR) is one of the most widely used methods for modeling binary outcomes, such as the presence or absence of a disease [@sperandei2014understanding]. It extends linear regression to categorical outcomes, providing interpretable coefficients that explain how specific factors influence the probability of an event. LR has been applied across diverse fields, including child health [@asmare2024determinants], road safety [@rahman2021identification; @chen2024binary; @chen2020modeling], healthcare resource management [@hutchinson2023predictors], and fraud detection [@samara2024using]. These varied applications demonstrate LR’s flexibility and suitability for real-world decision-making.
@@ -188,8 +183,6 @@ where the $p$ predictors such as age, hypertension, heart disease, average gluco
 
 The logistic regression model specifies the conditional probability of stroke as
 
-
-
 $$
 P(Y_i = 1 \mid \mathbf{x}_i)
 = \pi(\mathbf{x}_i)
@@ -212,7 +205,6 @@ $$
 \text{OR}_j = e^{\beta_j},
 $$
 
-
 which represents the multiplicative change in the odds of stroke for a one-unit increase in $x_j$.
 
 **Model Estimation**
@@ -228,7 +220,7 @@ $$
 
 where $\pi(\mathbf{x}_i) = P(Y_i = 1 \mid \mathbf{x}_i)$.
 
-The **log-likelihood**   is
+The **log-likelihood** is
 
 $$
 \ell(\boldsymbol{\beta})
@@ -243,8 +235,6 @@ $$
 The maximum likelihood estimate $\hat{\boldsymbol{\beta}}$ is the value of
 $\boldsymbol{\beta}$ that maximizes $\ell(\boldsymbol{\beta})$. In R, this optimization
 is carried out automatically using `glm(..., family = binomial)`
-
-
 
 **Machine Learning Models and Evaluation**
 
@@ -360,11 +350,6 @@ ggplot(cont_long, aes(Value, fill = Variable, colour = Variable)) +
     legend.position = "none",
     panel.grid.minor = element_blank()
   )
-
-
-
-
-
 ```
 
 **Interpretation of Key Continuous Predictors**
@@ -439,7 +424,6 @@ legend.position  = "none",
 strip.text       = element_text(face = "bold"),
 panel.grid.minor = element_blank()
 )
-
 ```
 
 **Interpreatation**
@@ -572,11 +556,6 @@ p3 =
 
 
 ggarrange(p1, p2, p3, ncol = 3, align = "hv")
-
-
-
-
-
 ```
 
 **Interpretation**
@@ -598,13 +577,7 @@ The figure summarises how stroke *risk* varies across key categorical predictors
 Overall, these categorical predictors show patterns aligned with clinical expectations:  
 vascular risks (hypertension, heart disease) and behavioural risks (smoking) are all associated with elevated stroke likelihood.
 
-
-
 **Correlation among key numeric prediators**
-
-
-
-
 
 ```{r}
 library(ggcorrplot)
@@ -636,14 +609,6 @@ ggcorrplot(
     plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
     axis.text  = element_text(color = "black", size = 11)
   )
-
-
-
-
-
-
-
-
 ```
 
 **Interpretation**
@@ -724,9 +689,8 @@ This suggests a potential effect, but not statistically explainable in this mode
 
 
 **Odds ratios and confidence intervals**
+
 ```{r}
-
-
 coef_est <- coef(fit_glm)
 OR       <- exp(coef_est)
 
@@ -735,11 +699,6 @@ conf_int <- exp(confint(fit_glm))
 odds_table <- cbind(OR, conf_int)
 colnames(odds_table) <- c("OR", "2.5 %", "97.5 %")
 round(odds_table, 3)
-
-
-
-
-
 ```
 
 **Interpretation**
@@ -773,22 +732,18 @@ The logistic regression results give us a clear picture of how each predictor in
 ```{r}
 library(caret)
 
-
 stroke_test$pred_prob <- predict(
   fit_glm,
   newdata = stroke_test,
   type    = "response"
 )
 
-
 stroke_test$stroke <- factor(stroke_test$stroke,
                              levels = c("No", "Yes"))
-
 
 stroke_test$pred_class <- ifelse(stroke_test$pred_prob >= 0.5, "Yes", "No")
 stroke_test$pred_class <- factor(stroke_test$pred_class,
                                  levels = c("No", "Yes"))
-
 
 cm <- confusionMatrix(
   data      = stroke_test$pred_class,
@@ -797,8 +752,6 @@ cm <- confusionMatrix(
 )
 
 cm
-
-
 ```
 
 From the confusion matrix, the following performance metrics are defined:
@@ -871,8 +824,6 @@ These results highlight the challenge of severe class imbalance, which requires 
 **ROC curve and AUC for the logistic model**
 
 ```{r}
-
-
 library(pROC)
 library(ggplot2)
 library(scales)
@@ -912,10 +863,6 @@ ggplot(roc_df, aes(x = fpr, y = tpr)) +
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank()
   )
-
-
-
-
 ```
 
 
@@ -967,13 +914,11 @@ test_data  <- model_df[-index, ]
 
 train_data$stroke <- factor(train_data$stroke, levels = c("No","Yes"))
 test_data$stroke  <- factor(test_data$stroke,  levels = c("No","Yes"))
-
 ```
 
 **Train control settings**
 
 ```{r}
-
 library(caret)   # <- add this line to be safe
 
 ctrl <- trainControl(
@@ -984,8 +929,6 @@ ctrl <- trainControl(
   summaryFunction = twoClassSummary,
   verboseIter = FALSE
 )
-
-
 ```
 
 
@@ -999,7 +942,6 @@ family = "binomial",
 metric = "ROC",
 trControl = ctrl
 )
-
 ```
 
 **Decision Tree**
@@ -1012,7 +954,6 @@ metric = "ROC",
 trControl = ctrl,
 tuneLength = 10
 )
-
 ```
 
 **Random Forest**
@@ -1025,7 +966,6 @@ metric = "ROC",
 trControl = ctrl,
 tuneLength = 5
 )
-
 ```
 
 **Gradient Boosted Machine (GBM)**
@@ -1039,7 +979,6 @@ metric = "ROC",
 trControl = ctrl,
 verbose = FALSE
 )
-
 ```
 
 **k-Nearest Neighbours (k-NN)**
@@ -1052,7 +991,6 @@ method = "knn",
 metric = "ROC",
 trControl = ctrl
 )
-
 ```
 
 **Support Vector Machine (Radial)**
@@ -1065,7 +1003,6 @@ method = "svmRadial",
 metric = "ROC",
 trControl = ctrl
 )
-
 ```
 
 **Model evaluation on the test set**
@@ -1093,21 +1030,13 @@ Specificity = numeric()
 for (m in names(models_list)) {
 mdl <- models_list[[m]]
 
-
-
 preds_prob  <- predict(mdl, test_data, type = "prob")[, "Yes"]
 
-
-
 preds_class <- predict(mdl, test_data)
-
-
 
 roc_obj <- roc(test_data$stroke, preds_prob,
 levels = c("No", "Yes"), direction = "<")
 auc_val <- auc(roc_obj)
-
-
 
 cm_m <- confusionMatrix(preds_class, test_data$stroke, positive = "Yes")
 
@@ -1124,7 +1053,6 @@ Specificity = cm_m$byClass["Specificity"]
 }
 
 results
-
 ```
 
 **Interpretation**
@@ -1142,7 +1070,6 @@ All models appear to perform well based on accuracy and specificity, but this is
 
 ```{r }
 library(scales)
-
 
 roc_list <- list(
   LR   = roc(test_data$stroke,
@@ -1165,9 +1092,7 @@ roc_list <- list(
              levels = c("No","Yes"), direction = "<")
 )
 
-
 auc_vals <- sapply(roc_list, auc)
-
 
 roc_df <- do.call(rbind, lapply(names(roc_list), function(m) {
   r <- roc_list[[m]]
@@ -1178,13 +1103,10 @@ roc_df <- do.call(rbind, lapply(names(roc_list), function(m) {
   )
 }))
 
-
 roc_df$model <- factor(roc_df$model, levels = names(roc_list))
-
 
 label_map <- paste0(names(auc_vals), " (AUC = ", sprintf("%.3f", auc_vals), ")")
 names(label_map) <- names(auc_vals)
-
 
 model_cols <- c(
   LR   = "#E69F00",
@@ -1194,7 +1116,6 @@ model_cols <- c(
   KNN  = "#F0E442",
   SVM  = "#000000"
 )
-
 
 ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity,
                    colour = model, group = model)) +
@@ -1220,10 +1141,6 @@ ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity,
     legend.title      = element_text(face = "bold"),
     panel.grid.minor  = element_blank()
   )
-
-
-
-
 ```
 
 **Interpretation**
@@ -1245,14 +1162,11 @@ The ROC curves demonstrate that tree-based ensemble models (RF, GBM) and logisti
 Overall, logistic regression remains the most stable and best-performing model for this dataset, despite class imbalance challenges.
 
 **Odds ratios and risk stratification**
+
 ```{r}
-
-
 library(ggplot2)
 library(dplyr)
 library(scales)
-
-
 
 glm_lr <- glm(
 stroke ~ age + gender + hypertension + heart_disease + ever_married +
@@ -1260,8 +1174,6 @@ work_type + Residence_type + avg_glucose_level + bmi + smoking_status,
 data   = train_data,
 family = binomial
 )
-
-
 
 lr_coef <- summary(glm_lr)$coefficients           
 ci_raw  <- suppressMessages(confint(glm_lr))      
@@ -1273,14 +1185,8 @@ OR        = exp(lr_coef[, "Estimate"]),
 CI_lower  = exp(ci_raw[, 1]),
 CI_upper  = exp(ci_raw[, 2]),
 p_value   = lr_coef[, "Pr(>|z|)"]
-) %>%
-
-
-
+) %>% 
 filter(Predictor != "(Intercept)") %>%
-
-
-
 mutate(
 Label = dplyr::recode(
 Predictor,
@@ -1298,13 +1204,8 @@ smoking_status    = "Smoking status (higher level)"
 
 Sig = ifelse(p_value < 0.05, "p < 0.05", "NS")
 ) %>%
-
-
-
 arrange(OR) %>%
 mutate(Label = factor(Label, levels = Label))
-
-
 
 ggplot(or_df, aes(x = Label, y = OR, colour = Sig)) +
 geom_hline(yintercept = 1, linetype = "dashed", colour = "grey40") +
@@ -1332,7 +1233,6 @@ plot.title       = element_text(face = "bold", hjust = 0.5, size = 15),
 axis.text.y      = element_text(size = 11),
 legend.position  = "bottom"
 )
-
 ```
 
 **Interpretation**
@@ -1363,7 +1263,6 @@ The forest plot shows that, after adjusting for other variables, hypertension, o
 **Threshold tuning to 0.2 from 0.5**
 
 ```{r}
-
 new_threshold <- 0.2
 
 stroke_test$pred_class_02 <- ifelse(stroke_test$pred_prob >= new_threshold,
@@ -1372,7 +1271,6 @@ stroke_test$pred_class_02 <- ifelse(stroke_test$pred_prob >= new_threshold,
 stroke_test$pred_class_02 <- factor(stroke_test$pred_class_02,
                                     levels = c("No", "Yes"))
 
-
 cm_02 <- confusionMatrix(
   data      = stroke_test$pred_class_02,
   reference = stroke_test$stroke,
@@ -1380,10 +1278,9 @@ cm_02 <- confusionMatrix(
 )
 
 cm_02
-
 ```
 
-**Interpretation (threshold = 0.2**
+**Interpretation (threshold = 0.2)**
 
 - With a lower decision criterion of 0.2, the model successfully identifies 13 out of 59 stroke cases (sensitivity = 22%), compared to only one case with the default 0.5 threshold.
 
@@ -1429,7 +1326,7 @@ Future work should focus on:
 3.  **Data Enrichment:** Incorporating longitudinal data (health changes over time) to move this from a theoretical exercise to a practical clinical tool.
 
 
-#References
+# References
 
 ::: {#refs}
 :::

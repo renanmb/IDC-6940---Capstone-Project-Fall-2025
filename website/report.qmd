@@ -47,14 +47,6 @@ $$ln\left(\frac{\pi}{1-\pi}\right) = \beta_{0} + \beta_{1}x_{1} + \cdots + \beta
 
 Where $\pi = P[Y =1]$ is the probability of the outcome.
 
-
-- Logistic Regression
-- Decision Tree
-- Random Forest
-- Gradient Boosted Machine
-- k-Nearest Neighbors
-- Support Vector Machine
-
 ### Assumptions
 
 Binary logistic regression relies on the following underlying assumptions to be true:
@@ -65,7 +57,20 @@ Binary logistic regression relies on the following underlying assumptions to be 
 * There are no extreme outliers
 * The Sample Size is Sufficiently Large. Field recommends a minimum of 50 cases. @field2024discovering Hosmer, Lemeshow, and Sturdivant @hosmer2013applied suggest a minimum sample of 10 observations per independent variable in the model. Leblanc and Fitzgerald (2000) @leblanc2000logistic suggest a minimum of 30 observations per independent variable.
 
+**Machine Learning Models and Evaluation**
 
+Aditionally, we built six different supervised learning models using the **caret** framework to compare model performance with other popular methods commonly used to classify stroke risk.
+
+The six models were:
+
+* **Logistic Regression (LR)** – Our baseline.
+* **Decision Tree (rpart)** – A simple rule-based model.
+* **Random Forest (RF)** – An ensemble of many decision trees.
+* **Gradient Boosted Machine (GBM)** – A powerful, iterative learning model.
+* **k-Nearest Neighbours (k-NN)** – Classification based on similarity to other patients.
+* **Support Vector Machine (SVM-Radial)** – A model that finds complex boundaries between groups.
+
+To guarantee a fair comparison, every model was treated exactly the same. We used the same 70% training / 30% testing split and applied a consistent cross-validation procedure across the board.Once the model was fitted, we calculated the Odds Ratios and 95% Confidence Intervals to interpret the effect of each predictor.
 
 <!-- 
 ⣿⣿⡇⢩⠘⣴⣿⣥⣤⢦⢁⠄⠉⡄⡇⠛⠛⠛⢛⣭⣾⣿⣿⡏
@@ -437,6 +442,10 @@ p1g <- ggplot(strokeclean, aes(x = Residence_type, fill = stroke)) +
     size = 3,
     color = "black" # Ensures better visibility
   ) +
+  scale_x_continuous(
+    breaks = c(1, 2),
+    labels = c("Urban", "Rural")
+  ) +
   # Adds 15% extra space to the top of the y-axis to prevent label clipping
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) + 
   labs(title = "(g) Residence Type", x = "Residence Type", y = "Frequency (Count)")
@@ -596,30 +605,17 @@ p2 <- ggcorrplot(
   )
 ```
 
-**Interpretation**
-Correlation Heatmap of Key Numeric Predictors
+**Interpretation of the Correlation Heatmap of Key Numeric Predictors**
 
-All correlations are weak to moderate (0.00–0.26) → no multicollinearity concerns.
+All correlations are weak to moderate (0.00–0.26) indicating no multicollinearity concerns. 
 
-Age shows small but meaningful positive correlations with:
+* **Age** shows small but meaningful positive correlations with: Average Glucose (0.24), hypertension (0.26) , and heart disease (0.26). These findings are consistent with known aging-related cardiovascular risk patterns. 
 
-glucose (0.24)
+* **BMI** has very weak correlations with all other predictors (0.04 – 0.16) suggesting it behaves independently in this dataset.
 
-hypertension (0.26)
+* **Average glucose** moderately correlates with hypertension (0.17) and heart disease (0.14). These findings aligns with metabolic/vascular relationships.
 
-heart disease (0.26)
-→ consistent with known aging-related cardiovascular risk patterns.
-
-BMI has very weak correlations with all other predictors (0.04–0.16) → behaves independently in this dataset.
-
-Avg glucose moderately correlates with:
-
-hypertension (0.17)
-
-heart disease (0.14)
-→ aligns with metabolic/vascular relationships.
-
-Hypertension and heart disease are weakly correlated (0.11) → related but not redundant.
+* **Hypertension** and **heart disease** are weakly correlated (0.11) showing they are related but not redundant.
 
 These correlations confirm that the predictors provide unique, non-overlapping information, and all can be safely included in the logistic regression model without multicollinearity issues.
 
@@ -672,22 +668,7 @@ train_data$stroke <- factor(train_data$stroke, levels = c("No","Yes"))
 test_data$stroke  <- factor(test_data$stroke,  levels = c("No","Yes"))
 ```
 
-```{r}
-# Convert all multi-level categoricals to factors with a clear reference level
-train_data$work_type     <- factor(train_data$work_type)
-train_data$Residence_type<- factor(train_data$Residence_type)
-train_data$smoking_status<- factor(train_data$smoking_status)
 
-# The same should be done for test_data and the binary variables 
-test_data$work_type     <- factor(test_data$work_type)
-test_data$Residence_type<- factor(test_data$Residence_type)
-test_data$smoking_status<- factor(test_data$smoking_status)
-
-# if you want the output to label the levels (e.g., "Male" vs "Female")
-# instead of "gender" and "gender1" (for Male = 1 vs Female = 0).
-# For 0/1, R's glm is usually fine, but for clean output factors are better.
-# For multi-level, it's essential.
-```
 
 #### **3.3.1. Repeated K-fold cross-validation**
 
@@ -737,26 +718,23 @@ trControl = ctrl
 
 ```{r}
 s1
-anova1
 ```
 
-- Age is a strong and highly significant predictor (p < 0.001).
+- **Age** is a strong and highly significant predictor (p < 0.001).
 Higher age is associated with a substantial increase in the odds of stroke.
 
-- Hypertension has a significant positive effect on stroke risk (p = 0.0468), indicating hypertensive individuals are more likely to experience stroke.
+- **Hypertension** has a significant positive effect on stroke risk (p < 0.001), indicating hypertensive individuals are more likely to experience stroke.
 
-- Average glucose level is also a important predictor (p = 0.0267).
+- **Average glucose level** is also a important predictor (p = 0.0106).
 Higher glucose values modestly increase stroke risk.
 
-- Heart disease shows a positive association but is only borderline significant (p = 0.0718).
-This suggests a potential effect, but not statistically explainable in this model.
+- **Heart disease** shows a positive association but is not significant (p = 0.18920).
+This suggests a potential effect, but not statistically significant in this model.
 
-- Smoking has likewise borderline significant (p = 0.0714), indicating a  increased risk among smokers, but the evidence is not too much strong.
+- **Smoking** has likewise positive association but is not significant (p = 0.15814), indicating an increased risk among smokers, but the evidence is not too much strong.
 
-- BMI, gender, and marital status show no meaningful statistical association with stroke in this dataset (all p > 0.26). These variables did not contribute substantially to prediction after accounting for other factors.
+- **BMI**, **gender**, and **marital status** show no meaningful statistical association with stroke in this dataset (all p > 0.05). These variables did not contribute substantially to prediction after accounting for other factors.
 
-- Model fit improved substantially from the null model
-(deviance reduced from 953.4 → 776.8; AIC = 794.8), indicating a reasonable fit and useful predictive value.
 
 **Odds ratios and confidence intervals**
 
@@ -779,36 +757,34 @@ round(odds_table, 3)
 **Interpretation**
 
 ```{r}
-odds_table
+# odds_table
+round(odds_table, 3)
 ```
 
 The logistic regression findings demonstrate how each predictor impacts the likelihood of having a stroke, while keeping other variables constant:
 
-- Age (OR = 1.075, CI: 1.059–1.093)
-Age is the strongest continuous predictor. Each additional year of age increases the odds of stroke by about 7.5%, and the confidence interval does not include 1, indicating strong statistical significance.
+- **Age** (OR = 1.081; CI: 1.063 – 1.099).
+Age is the strongest continuous predictor. Each additional year of age increases the odds of stroke by about 8%, and the confidence interval does not include 1, indicating strong statistical significance.
 
-- Hypertension (OR = 1.577, CI: 0.996–2.450)
-Individuals with hypertension have roughly 58% higher odds of stroke compared to those without hypertension, although the lower CI bound is just below 1. This suggests a borderline significant effect, but clinically important.
+- **Hypertension** (OR = 2.513; CI: 1.644 – 3.805).
+Individuals with hypertension have roughly 251% higher odds of stroke compared to those without hypertension, the confidence interval does not include 1, indicating strong statistical significance.
 
-- Heart disease (OR = 1.628, CI: 0.942–2.733)
-Heart disease increases stroke odds by about 63%, but the CI includes 1, implying the association is positive but not statistically strong in this dataset.
+- **Heart disease** (OR = 1.438; CI: 0.821 – 2.436).
+Heart disease increases stroke odds by about 43%, but the CI includes 1, implying the association is positive but not statistically strong in this dataset.
 
-- Average glucose level (OR = 1.004, CI: 1.000–1.007)
-Higher glucose levels are associated with slightly increased stroke risk. Though the effect is small, the CI indicates marginal significance, aligning with known metabolic risk patterns.
+- **Average glucose level** (OR = 1.005; CI: 1.002 – 1.009).
+Higher glucose levels are associated with slightly increased stroke risk. Though the effect is small, the CI indicates significance, aligning with known metabolic risk patterns.
 
-- BMI (OR = 1.007, CI: 0.975–1.037)
+- **BMI** (OR = 1.003; CI: 0.972 – 1.033).
 BMI shows almost no meaningful effect on stroke risk, and the CI overlaps 1. This predictor does not significantly influence stroke likelihood in this dataset.
 
-- Smoking (Fsmoked OR = 1.263; Smokes OR = 1.598)
+- **Smoking Status** (OR = 1.199; CI: 0.930 – 1.542).
+Smoking increases the odds by about 20%, but the confidence interval includes 1 implying the association is positive but not statistically strong in this dataset.
 
-- Former smokers have 26% higher odds, but CI crosses 1 → weak evidence.
+- **Gender** (OR = 0.901; CI: 0.602 – 1.338).
+Gender is not statistically significant.
 
-- Current smokers have ~60% higher odds, but CI still overlaps 1 → suggests increased risk but not statistically conclusive here.
-
-- Gender (Female) (OR = 1.259; CI: 0.842–1.903)
-Females show slightly higher odds, but this effect is not statistically significant.
-
-- Ever married (OR = 1.126; CI: 0.590–2.013)
+- **Ever married** (OR = 0.588; CI: 0.338 – 1.070).
 Marital status has no clear effect on stroke odds in this sample.
 
 **Model predictions and performance on the test set**
@@ -881,35 +857,31 @@ $$
 
 **Interpretation of Logistic Regression Performance (Test Set)**
 
-- Accuracy = 94.25%
+- Accuracy = 94.34%.
 The model correctly classified most cases, mainly because the dataset is highly imbalanced (only ~6% stroke cases). High accuracy here does not mean good stroke detection.
 
-- Sensitivity (True Positive Rate) = 0.017
-The model correctly identified only 1 out of 59 actual stroke cases (≈1.7%).
-→ This shows the model fails to detect stroke cases, which is common in rare-event medical datasets.
+- Sensitivity (True Positive Rate) = 0.
+The model identified 0 out of 54 actual stroke cases. This shows the model fails to detect stroke cases, which is common in rare-event medical datasets.
 
-- Specificity (True Negative Rate) = 1.00
-The model correctly classified all non-stroke cases.
-→ It is extremely good at predicting “No stroke,” which dominates the dataset.
+- Specificity (True Negative Rate) = 0.99.
+The model correctly classified almost all non-stroke cases. It is extremely good at predicting “No stroke,” which dominates the dataset.
 
-- Positive Predictive Value (Precision) = 1.00
-When the model predicts “Yes,” it is always correct — but it predicted “Yes” only once.
-High precision is misleading because the model rarely predicts a positive case.
+- Positive Predictive Value (Precision) = 0.
+The model has not predict a single correct value, further analysis needed.
 
-- Negative Predictive Value = 0.942
+- Negative Predictive Value = 0.946
 Most “No” predictions are correct, matching the overall class imbalance.
 
-- Kappa = 0.031
-Kappa measures agreement beyond chance. A value near zero shows the model performs only slightly better than random when considering class imbalance.
+- Kappa = -0.0057
+Kappa measures agreement beyond chance. A negative Kappa value indicates that the model's performance is worse than random chance.
 
-- Balanced Accuracy = 0.508
-When weighting sensitivity and specificity equally, the model performs at chance level (~50%).
-→ Confirms that stroke detection is weak.
+- Balanced Accuracy = 0.498
+When weighting sensitivity and specificity equally, the model performs at chance level (~50%). Confirms that stroke detection is weak.
 
 - McNemar’s Test p < 0.0001
 Strong evidence that the model’s errors are systematically skewed—it overwhelmingly predicts “No stroke.”
 
-The logistic regression model achieves high accuracy only because the negative class dominates.It detects almost no true stroke cases, giving extremely poor sensitivity.
+The logistic regression model achieves high accuracy only because the negative class dominates. It detects no true stroke cases, giving extremely poor sensitivity.
 It performs well for the majority class (non-stroke), but fails for the minority class (stroke).
 
 These results highlight the challenge of severe class imbalance, which requires additional techniques (e.g., SMOTE, class weights, resampling) to improve medical-event prediction.
@@ -967,7 +939,7 @@ A higher AUC (closer to 1) indicates better discrimination between stroke and no
 
 The ROC curve evaluates the model’s ability to distinguish between stroke and non-stroke cases across all possible classification thresholds, not just the default 0.5 cutoff.
 
-The AUC = 0.815, which indicates good discriminative performance.
+The AUC = 0.779, which indicates good discriminative performance.
 
 AUC = 0.5 is  no discrimination (random guessing)
 
@@ -1136,7 +1108,7 @@ Across all six models, overall accuracy and specificity are very high, mainly be
 
 Logistic Regression (AUC = 0.78) and GBM (AUC = 0.76) show the best overall discrimination, indicated by the highest AUC values. These models are better at ranking high-risk vs. low-risk individuals, even though they still fail at detecting positives under the default 0.5 threshold.
 
-Tree-based models (Decision Tree, Random Forest, GBM) achieve slightly higher sensitivity than LR, but only marginally (still around 1–2%). KNN and SVM detect 0 stroke cases at this threshold, despite high accuracy.
+Tree-based models (Decision Tree, GBM) achieve slightly higher sensitivity than LR, but only marginally (still around 1–2%). KNN and SVM detect 0 stroke cases at this threshold, despite high accuracy.
 
 All models appear to perform well based on accuracy and specificity, but this is misleading—they are failing at the most important task: detecting stroke cases. This confirms that class imbalance severely affects performance and requires threshold tuning, resampling, or cost-sensitive learning to achieve meaningful sensitivity.
 
@@ -1241,11 +1213,11 @@ Interpretation of ROC Comparison Across Models
 
 Logistic Regression (AUC = 0.779) performs the best among all six models, showing the strongest ability to differentiate stroke vs. non-stroke cases.
 
-Random Forest (AUC = 0.725) and GBM (AUC = 0.759) also show good discriminative ability and are close competitors to logistic regression.
+Random Forest (AUC = 0.723) and GBM (AUC = 0.756) also show good discriminative ability and are close competitors to logistic regression.
 
 KNN (AUC = 0.667) performs moderately, better than random guessing but weaker than the tree-based and regression models.
 
-Decision Tree (AUC = 0.648) and SVM (AUC = 0.639) show the lowest AUC values, indicating weaker predictive performance.
+Decision Tree (AUC = 0.648) and SVM (AUC = 0.632) show the lowest AUC values, indicating weaker predictive performance.
 
 All models perform above 0.5, meaning they all do better than random chance — but with large differences in quality.
 
@@ -1400,11 +1372,11 @@ cm_02
 
 **Interpretation (threshold = 0.2)**
 
-- With a lower decision criterion of 0.2, the model successfully identifies 13 out of 59 stroke cases (sensitivity = 22%), compared to only one case with the default 0.5 threshold.
+- With a lower decision criterion of 0.2, the model successfully identifies 12 out of 59 stroke cases (sensitivity = 22%), compared to no case with the default 0.5 threshold.
 
-- Specificity remains high at almost 95%, indicating that the majority of non-stroke patients are still properly categorized as "no stroke" (903 out of 949).
+- Specificity remains high at 93%, indicating that the majority of non-stroke patients are still properly categorized as "no stroke" (889 out of 953).
 
-- While overall accuracy declines from 94% to 91%, balanced accuracy improves (from ≈0.51 to ≈0.59), indicating a greater balance of sensitivity and specificity.
+- While overall accuracy declines from 94% to 89%, balanced accuracy improves (from ≈0.50 to ≈0.58), indicating a greater balance of sensitivity and specificity.
 
 This change indicates a therapeutically reasonable compromise: the model detects more possible stroke patients (fewer missed cases) at the expense of a moderate rise in false positives.
 

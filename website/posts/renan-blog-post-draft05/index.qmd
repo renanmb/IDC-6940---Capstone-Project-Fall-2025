@@ -48,10 +48,11 @@ The binary logistic regression model is part of a family of statistical models c
 
 The binary logistic regression algorithm below:
 
-$$ln\left(\frac{\pi}{1-\pi}\right) = \beta_{0} + \beta_{1}x_{1} + \cdots + \beta_{k}x_{k}$$
+$$ln\left(\frac{\pi}{1-\pi}\right) = \beta_{0} + \beta_{1}x_{1} + \cdots + \beta_{k}x_{k}$$ 
 
 Where $\pi = P[Y =1]$ is the probability of the outcome.
 
+<!-- TODO add equation numbering {#eq-1} -->
 
 - Logistic Regression
 - Decision Tree
@@ -456,6 +457,10 @@ p1g <- ggplot(strokeclean, aes(x = Residence_type, fill = stroke)) +
   ) +
   # Adds 15% extra space to the top of the y-axis to prevent label clipping
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) + 
+  scale_x_continuous(
+    breaks = c(1, 2),
+    labels = c("Urban", "Rural")
+  ) +
   labs(title = "(g) Residence Type", x = "Residence Type", y = "Frequency (Count)")
 
 # (h) Histogram of avg_gloucose_level

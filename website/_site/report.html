@@ -451,18 +451,10 @@ window.Quarto = {
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">2. Methods</h2>
-<p>The binary logistic regression model is part of a family of statistical models called generalised linear models. The main characteristic that differentiates binary logistic regression from other generalised linear models is the type of dependent (or outcome) variable.<span class="citation" data-cites="harris2019statistics"><sup>[<a href="#ref-harris2019statistics" role="doc-biblioref"><strong>harris2019statistics?</strong></a>]</sup></span> A dependent variable in a binary logistic regression has two levels. For example, a variable that records whether or not someone has ever been diagnosed with a health condition like Stroke could be measured in two categories, yes and no. Likewise, someone might have coronary heart disease or not, be physically active or not, be a current smoker or not, or have any one of thousands of diagnoses or personal behaviours and characteristics that are of interest in family medicine.</p>
+<p>The binary logistic regression model is part of a family of statistical models called generalised linear models. The main characteristic that differentiates binary logistic regression from other generalised linear models is the type of dependent (or outcome) variable.<span class="citation" data-cites="harris2019statistics"><sup>[<a href="#ref-harris2019statistics" role="doc-biblioref">9</a>]</sup></span> A dependent variable in a binary logistic regression has two levels. For example, a variable that records whether or not someone has ever been diagnosed with a health condition like Stroke could be measured in two categories, yes and no. Likewise, someone might have coronary heart disease or not, be physically active or not, be a current smoker or not, or have any one of thousands of diagnoses or personal behaviours and characteristics that are of interest in family medicine.</p>
 <p>The binary logistic regression algorithm below:</p>
 <p><span class="math display">\[ln\left(\frac{\pi}{1-\pi}\right) = \beta_{0} + \beta_{1}x_{1} + \cdots + \beta_{k}x_{k}\]</span></p>
 <p>Where <span class="math inline">\(\pi = P[Y =1]\)</span> is the probability of the outcome.</p>
-<ul>
-<li>Logistic Regression</li>
-<li>Decision Tree</li>
-<li>Random Forest</li>
-<li>Gradient Boosted Machine</li>
-<li>k-Nearest Neighbors</li>
-<li>Support Vector Machine</li>
-</ul>
 <section id="assumptions" class="level3">
 <h3 class="anchored" data-anchor-id="assumptions">Assumptions</h3>
 <p>Binary logistic regression relies on the following underlying assumptions to be true:</p>
@@ -471,8 +463,20 @@ window.Quarto = {
 <li>There must be no perfect multicollinearity among independent variables.</li>
 <li>Logistic regression assumes linearity of independent variables and log odds.</li>
 <li>There are no extreme outliers</li>
-<li>The Sample Size is Sufficiently Large. Field recommends a minimum of 50 cases.<span class="citation" data-cites="field2024discovering"><sup>[<a href="#ref-field2024discovering" role="doc-biblioref"><strong>field2024discovering?</strong></a>]</sup></span> Hosmer, Lemeshow, and Sturdivant<span class="citation" data-cites="hosmer2013applied"><sup>[<a href="#ref-hosmer2013applied" role="doc-biblioref"><strong>hosmer2013applied?</strong></a>]</sup></span> suggest a minimum sample of 10 observations per independent variable in the model. Leblanc and Fitzgerald (2000)<span class="citation" data-cites="leblanc2000logistic"><sup>[<a href="#ref-leblanc2000logistic" role="doc-biblioref"><strong>leblanc2000logistic?</strong></a>]</sup></span> suggest a minimum of 30 observations per independent variable.</li>
+<li>The Sample Size is Sufficiently Large. Field recommends a minimum of 50 cases.<span class="citation" data-cites="field2024discovering"><sup>[<a href="#ref-field2024discovering" role="doc-biblioref">10</a>]</sup></span> Hosmer, Lemeshow, and Sturdivant<span class="citation" data-cites="hosmer2013applied"><sup>[<a href="#ref-hosmer2013applied" role="doc-biblioref">11</a>]</sup></span> suggest a minimum sample of 10 observations per independent variable in the model. Leblanc and Fitzgerald (2000)<span class="citation" data-cites="leblanc2000logistic"><sup>[<a href="#ref-leblanc2000logistic" role="doc-biblioref">12</a>]</sup></span> suggest a minimum of 30 observations per independent variable.</li>
 </ul>
+<p><strong>Machine Learning Models and Evaluation</strong></p>
+<p>Aditionally, we built six different supervised learning models using the <strong>caret</strong> framework to compare model performance with other popular methods commonly used to classify stroke risk.</p>
+<p>The six models were:</p>
+<ul>
+<li><strong>Logistic Regression (LR)</strong> – Our baseline.</li>
+<li><strong>Decision Tree (rpart)</strong> – A simple rule-based model.</li>
+<li><strong>Random Forest (RF)</strong> – An ensemble of many decision trees.</li>
+<li><strong>Gradient Boosted Machine (GBM)</strong> – A powerful, iterative learning model.</li>
+<li><strong>k-Nearest Neighbours (k-NN)</strong> – Classification based on similarity to other patients.</li>
+<li><strong>Support Vector Machine (SVM-Radial)</strong> – A model that finds complex boundaries between groups.</li>
+</ul>
+<p>To guarantee a fair comparison, every model was treated exactly the same. We used the same 70% training / 30% testing split and applied a consistent cross-validation procedure across the board.Once the model was fitted, we calculated the Odds Ratios and 95% Confidence Intervals to interpret the effect of each predictor.</p>
 <!-- 
 ⣿⣿⡇⢩⠘⣴⣿⣥⣤⢦⢁⠄⠉⡄⡇⠛⠛⠛⢛⣭⣾⣿⣿⡏
 ⣿⣿⣿⡇⠹⢇⡹⣿⣿⣛⣓⣿⡿⠞⠑⣱⠄⢀⣴⣿⣿⣿⣿⡟
@@ -506,7 +510,7 @@ window.Quarto = {
 <!-- Maybe add a list describing the packages used with the citations attached -->
 <section id="data-ingestion" class="level3">
 <h3 class="anchored" data-anchor-id="data-ingestion">3.1. Data Ingestion</h3>
-<p>Data source: <a href="https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset">Stroke Prediction Dataset</a><span class="citation" data-cites="kaggle01"><sup>[<a href="#ref-kaggle01" role="doc-biblioref"><strong>kaggle01?</strong></a>]</sup></span></p>
+<p>Data source: <a href="https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset">Stroke Prediction Dataset</a><span class="citation" data-cites="kaggle01"><sup>[<a href="#ref-kaggle01" role="doc-biblioref">13</a>]</sup></span></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -531,7 +535,7 @@ window.Quarto = {
 <section id="exploratory-data-analysis-eda" class="level3">
 <h3 class="anchored" data-anchor-id="exploratory-data-analysis-eda">3.2. Exploratory Data Analysis (EDA)</h3>
 <p><strong>Dataset Description</strong></p>
-<p>The <strong>Stroke Prediction Dataset</strong><span class="citation" data-cites="kaggle01"><sup>[<a href="#ref-kaggle01" role="doc-biblioref"><strong>kaggle01?</strong></a>]</sup></span> is a publically available dataset for educational purposes containing 5,110 observations containing predictors commonly associated with cerebrovascular risk. The dataset is composed of 11 clinical and demographic features and 1 feature which is <strong>id</strong> a unique identifier for the patient. The dataset has features including patient’s <strong>age</strong>, <strong>gender</strong>, presence of conditions like <strong>hypertension</strong> and <strong>heart disease</strong>, <strong>work type</strong>, <strong>residence type</strong>, <strong>average glucose level</strong>, and <strong>BMI</strong>. This dataset is primarily intended for educational purposes as it shares a lot of similarities with the Jackson Heart Study (JHS) dataset but it is not as descriptive.</p>
+<p>The <strong>Stroke Prediction Dataset</strong><span class="citation" data-cites="kaggle01"><sup>[<a href="#ref-kaggle01" role="doc-biblioref">13</a>]</sup></span> is a publically available dataset for educational purposes containing 5,110 observations containing predictors commonly associated with cerebrovascular risk. The dataset is composed of 11 clinical and demographic features and 1 feature which is <strong>id</strong> a unique identifier for the patient. The dataset has features including patient’s <strong>age</strong>, <strong>gender</strong>, presence of conditions like <strong>hypertension</strong> and <strong>heart disease</strong>, <strong>work type</strong>, <strong>residence type</strong>, <strong>average glucose level</strong>, and <strong>BMI</strong>. This dataset is primarily intended for educational purposes as it shares a lot of similarities with the Jackson Heart Study (JHS) dataset but it is not as descriptive.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 12%">
@@ -688,7 +692,7 @@ window.Quarto = {
 <span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>The initial exploration demonstrated that the <strong>Stroke Prediction Dataset</strong><span class="citation" data-cites="kaggle01"><sup>[<a href="#ref-kaggle01" role="doc-biblioref"><strong>kaggle01?</strong></a>]</sup></span> has several issues requiring changes for handling missing values, converting character (categorical) features into numerical codes, and removing the identifier column.</p>
+<p>The initial exploration demonstrated that the <strong>Stroke Prediction Dataset</strong><span class="citation" data-cites="kaggle01"><sup>[<a href="#ref-kaggle01" role="doc-biblioref">13</a>]</sup></span> has several issues requiring changes for handling missing values, converting character (categorical) features into numerical codes, and removing the identifier column.</p>
 <p>So as part of data preprocessing we will be focused on establishing consistency and ensuring all variables are in a format suitable for predictive modeling. This process starts by systematically addressing non-standard representations of missing data. Specifically, all instances of the string values “N/A”, “Unknown”, “children”, and “other” found across the dataset were unified and replaced with the standard statistical missing value representation, NA.</p>
 <p>Then we proceed with converting several character-based (categorical) features into numerical features, which is necessary for predictive modeling.</p>
 <p>The feature <strong>bmi</strong>, initially read as a character variable was first converted to a numeric data type and subsequently rounded to two decimal places.</p>
@@ -697,7 +701,7 @@ window.Quarto = {
 <p>Additionally, the continuous numerical variables <strong>avg_glucose_level</strong>, <strong>heart_disease</strong>, and <strong>hypertension</strong> were explicitly confirmed as numeric data types, with the <strong>age</strong> feature also being rounded to two decimal places for consistency.</p>
 <p>The final stage of preprocessing involved removing the <strong>id</strong> column, which served only as a unique identifier and held no predictive value. This action left the dataset with 11 core predictors. The target variable, <strong>stroke</strong>, was then converted into a factor (a categorical data type in R) named <strong>stroke1</strong>, and its levels were explicitly labeled as <span class="math inline">\(\text{"No"} = 0\)</span> and <span class="math inline">\(\text{"Yes"} = 1\)</span>. The entire process concluded with the removal of all remaining observations containing missing or inconsistent entries, resulting in the creation of the final, clean data frames, <strong>strokeclean</strong> and <strong>fourassume</strong>.</p>
 <p><strong>Dataset Preprocessing Conclusion</strong></p>
-<p>The <strong>Stroke Prediction Dataset</strong><span class="citation" data-cites="kaggle01"><sup>[<a href="#ref-kaggle01" role="doc-biblioref"><strong>kaggle01?</strong></a>]</sup></span> that started containing 5,110 observations and 12 features. After cleaning missing and inconsistent entries among other necessarychanges, ended as a dataset containing 3,357 observations and 11 predictors commonly associated with cerebrovascular risk. Those key predictors are listed below.</p>
+<p>The <strong>Stroke Prediction Dataset</strong><span class="citation" data-cites="kaggle01"><sup>[<a href="#ref-kaggle01" role="doc-biblioref">13</a>]</sup></span> that started containing 5,110 observations and 12 features. After cleaning missing and inconsistent entries among other necessarychanges, ended as a dataset containing 3,357 observations and 11 predictors commonly associated with cerebrovascular risk. Those key predictors are listed below.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 12%">
@@ -962,50 +966,54 @@ window.Quarto = {
 <span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
 <span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span> <span class="co"># Ensures better visibility</span></span>
 <span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Adds 15% extra space to the top of the y-axis to prevent label clipping</span></span>
-<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.15</span>))) <span class="sc">+</span> </span>
-<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(g) Residence Type"</span>, <span class="at">x =</span> <span class="st">"Residence Type"</span>, <span class="at">y =</span> <span class="st">"Frequency (Count)"</span>)</span>
-<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a><span class="co"># (h) Histogram of avg_gloucose_level</span></span>
-<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>p1h <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> avg_glucose_level, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
-<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +</span></span>
-<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(h) Avg. Glucose Level"</span>, <span class="at">x =</span> <span class="st">"Glucose Level"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
-<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a><span class="co"># (h) Bivariate Density plot of avg_gloucose_level</span></span>
-<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a><span class="co"># p1h &lt;- ggplot(strokeclean, aes(x = avg_glucose_level, fill = stroke)) +</span></span>
-<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_density(alpha = 0.5) +</span></span>
-<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Avg. Glucose Level by Stroke Status", x = "Average Glucose Level", y = "Density")</span></span>
-<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="co"># (i) Histogram of bmi</span></span>
-<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>p1i <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> bmi, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
-<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">2</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(i) BMI"</span>, <span class="at">x =</span> <span class="st">"BMI"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
-<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a><span class="co"># (i) Bivariate Density plot of bmi</span></span>
-<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a><span class="co"># p1i &lt;- ggplot(strokeclean, aes(x = bmi, fill = stroke)) +</span></span>
-<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_density(alpha = 0.5) +</span></span>
-<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "BMI Distribution by Stroke Status", x = "BMI", y = "Density")</span></span>
-<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a><span class="co"># (j) smoking_status</span></span>
-<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>p1j <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">y =</span> smoking_status, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
-<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(</span>
-<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.9</span>), </span>
-<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
-<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>      <span class="at">group =</span> stroke, </span>
-<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> <span class="fu">paste0</span>(</span>
-<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>        <span class="fu">round</span>(<span class="fu">after_stat</span>(count) <span class="sc">/</span> TOTAL_ROWS <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">"% "</span>, <span class="st">"or "</span>,</span>
-<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>        <span class="fu">after_stat</span>(count)</span>
-<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"text"</span>,</span>
-<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>, </span>
-<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
-<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span> </span>
-<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>))) <span class="sc">+</span> </span>
-<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(j) Smoking Status"</span>, <span class="at">y =</span> <span class="st">"Smoking Status"</span>, <span class="at">x =</span> <span class="st">"Frequency (Count)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Urban"</span>, <span class="st">"Rural"</span>)</span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Adds 15% extra space to the top of the y-axis to prevent label clipping</span></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.15</span>))) <span class="sc">+</span> </span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(g) Residence Type"</span>, <span class="at">x =</span> <span class="st">"Residence Type"</span>, <span class="at">y =</span> <span class="st">"Frequency (Count)"</span>)</span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a><span class="co"># (h) Histogram of avg_gloucose_level</span></span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>p1h <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> avg_glucose_level, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stat_count(aes(label = ..count..), geom = "text", vjust = -0.5, size = 2) +</span></span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(h) Avg. Glucose Level"</span>, <span class="at">x =</span> <span class="st">"Glucose Level"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a><span class="co"># (h) Bivariate Density plot of avg_gloucose_level</span></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="co"># p1h &lt;- ggplot(strokeclean, aes(x = avg_glucose_level, fill = stroke)) +</span></span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_density(alpha = 0.5) +</span></span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Avg. Glucose Level by Stroke Status", x = "Average Glucose Level", y = "Density")</span></span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a><span class="co"># (i) Histogram of bmi</span></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>p1i <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">x =</span> bmi, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">2</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(i) BMI"</span>, <span class="at">x =</span> <span class="st">"BMI"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a><span class="co"># (i) Bivariate Density plot of bmi</span></span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a><span class="co"># p1i &lt;- ggplot(strokeclean, aes(x = bmi, fill = stroke)) +</span></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_density(alpha = 0.5) +</span></span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "BMI Distribution by Stroke Status", x = "BMI", y = "Density")</span></span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a><span class="co"># (j) smoking_status</span></span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>p1j <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(strokeclean, <span class="fu">aes</span>(<span class="at">y =</span> smoking_status, <span class="at">fill =</span> stroke)) <span class="sc">+</span></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(</span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.9</span>), </span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>      <span class="at">group =</span> stroke, </span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> <span class="fu">paste0</span>(</span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>        <span class="fu">round</span>(<span class="fu">after_stat</span>(count) <span class="sc">/</span> TOTAL_ROWS <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">"% "</span>, <span class="st">"or "</span>,</span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>        <span class="fu">after_stat</span>(count)</span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"text"</span>,</span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>, </span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span> </span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>))) <span class="sc">+</span> </span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(j) Smoking Status"</span>, <span class="at">y =</span> <span class="st">"Smoking Status"</span>, <span class="at">x =</span> <span class="st">"Frequency (Count)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>We can observe from the histograms (a), (b), (c) and (d) the following:</p>
@@ -1064,7 +1072,7 @@ window.Quarto = {
 <p>For the BMI distribution we can observe that the majority of the patient population (pink bars) falls within the overweight to obese range (BMI <span class="math inline">\(\approx 25\)</span> to <span class="math inline">\(35\)</span>). So as a consequence we can expect that the frequency of stroke cases (blue bars) will follow the distribution of the overall population, meaning most strokes occur where the largest number of people are located which are the BMI values between <span class="math inline">\(25\)</span> and <span class="math inline">\(35\)</span>.</p>
 <p>However, we can visually spot that the stroke occurence is drops significantly closer to a healthy BMI of 20. So although the risk of stroke does seem to be generally higher than average once BMI exceeds the ideal range and moves into the overweight and obese categories because there is a larger distribution within the overweight to obese range, we can conclude that because the skewed distributin that <strong>BMI is a significant risk factor predictor for stroke</strong>.</p>
 <p>The stroke outcomes are compared across the three smoking status categories encoded: <strong>smokes = 3</strong>, <strong>formerly smoked = 2</strong>, and <strong>never smoked = 1</strong>.</p>
-<p>This plot is highlights a particularly interesting aspect of this dataset. The highest proportional risk of stroke appears to be in the <strong>formerly smoked</strong> group. This finding is common in medical literature<span class="citation" data-cites="oshunbade2020cigarette"><sup>[<a href="#ref-oshunbade2020cigarette" role="doc-biblioref"><strong>oshunbade2020cigarette?</strong></a>]</sup></span>, as individuals who have a history of smoking may have accrued vascular damage that persists, but their stroke risk is still lower than the risk for current smokers if they continue to smoke.</p>
+<p>This plot is highlights a particularly interesting aspect of this dataset. The highest proportional risk of stroke appears to be in the <strong>formerly smoked</strong> group. This finding is common in medical literature<span class="citation" data-cites="oshunbade2020cigarette"><sup>[<a href="#ref-oshunbade2020cigarette" role="doc-biblioref">14</a>]</sup></span>, as individuals who have a history of smoking may have accrued vascular damage that persists, but their stroke risk is still lower than the risk for current smokers if they continue to smoke.</p>
 <p>This information is importante, because the <strong>formerly smoked</strong> group shows the highest rate, suggesting that <strong>a history of smoking is a significant indicator of risk.</strong></p>
 <div class="cell">
 <details class="code-fold">
@@ -1119,17 +1127,14 @@ window.Quarto = {
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p><strong>Interpretation</strong> Correlation Heatmap of Key Numeric Predictors</p>
-<p>All correlations are weak to moderate (0.00–0.26) → no multicollinearity concerns.</p>
-<p>Age shows small but meaningful positive correlations with:</p>
-<p>glucose (0.24)</p>
-<p>hypertension (0.26)</p>
-<p>heart disease (0.26) → consistent with known aging-related cardiovascular risk patterns.</p>
-<p>BMI has very weak correlations with all other predictors (0.04–0.16) → behaves independently in this dataset.</p>
-<p>Avg glucose moderately correlates with:</p>
-<p>hypertension (0.17)</p>
-<p>heart disease (0.14) → aligns with metabolic/vascular relationships.</p>
-<p>Hypertension and heart disease are weakly correlated (0.11) → related but not redundant.</p>
+<p><strong>Interpretation of the Correlation Heatmap of Key Numeric Predictors</strong></p>
+<p>All correlations are weak to moderate (0.00–0.26) indicating no multicollinearity concerns.</p>
+<ul>
+<li><p><strong>Age</strong> shows small but meaningful positive correlations with: Average Glucose (0.24), hypertension (0.26) , and heart disease (0.26). These findings are consistent with known aging-related cardiovascular risk patterns.</p></li>
+<li><p><strong>BMI</strong> has very weak correlations with all other predictors (0.04 – 0.16) suggesting it behaves independently in this dataset.</p></li>
+<li><p><strong>Average glucose</strong> moderately correlates with hypertension (0.17) and heart disease (0.14). These findings aligns with metabolic/vascular relationships.</p></li>
+<li><p><strong>Hypertension</strong> and <strong>heart disease</strong> are weakly correlated (0.11) showing they are related but not redundant.</p></li>
+</ul>
 <p>These correlations confirm that the predictors provide unique, non-overlapping information, and all can be safely included in the logistic regression model without multicollinearity issues.</p>
 <div class="cell">
 <details class="code-fold">
@@ -1259,13 +1264,12 @@ Number of Fisher Scoring iterations: 7</code></pre>
 </div>
 </div>
 <ul>
-<li><p>Age is a strong and highly significant predictor (p &lt; 0.001). Higher age is associated with a substantial increase in the odds of stroke.</p></li>
-<li><p>Hypertension has a significant positive effect on stroke risk (p = 0.0468), indicating hypertensive individuals are more likely to experience stroke.</p></li>
-<li><p>Average glucose level is also a important predictor (p = 0.0267). Higher glucose values modestly increase stroke risk.</p></li>
-<li><p>Heart disease shows a positive association but is only borderline significant (p = 0.0718). This suggests a potential effect, but not statistically explainable in this model.</p></li>
-<li><p>Smoking has likewise borderline significant (p = 0.0714), indicating a increased risk among smokers, but the evidence is not too much strong.</p></li>
-<li><p>BMI, gender, and marital status show no meaningful statistical association with stroke in this dataset (all p &gt; 0.26). These variables did not contribute substantially to prediction after accounting for other factors.</p></li>
-<li><p>Model fit improved substantially from the null model (deviance reduced from 953.4 → 776.8; AIC = 794.8), indicating a reasonable fit and useful predictive value.</p></li>
+<li><p><strong>Age</strong> is a strong and highly significant predictor (p &lt; 0.001). Higher age is associated with a substantial increase in the odds of stroke.</p></li>
+<li><p><strong>Hypertension</strong> has a significant positive effect on stroke risk (p &lt; 0.001), indicating hypertensive individuals are more likely to experience stroke.</p></li>
+<li><p><strong>Average glucose level</strong> is also a important predictor (p = 0.0106). Higher glucose values modestly increase stroke risk.</p></li>
+<li><p><strong>Heart disease</strong> shows a positive association but is not significant (p = 0.18920). This suggests a potential effect, but not statistically significant in this model.</p></li>
+<li><p><strong>Smoking</strong> has likewise positive association but is not significant (p = 0.15814), indicating an increased risk among smokers, but the evidence is not too much strong.</p></li>
+<li><p><strong>BMI</strong>, <strong>gender</strong>, and <strong>marital status</strong> show no meaningful statistical association with stroke in this dataset (all p &gt; 0.05). These variables did not contribute substantially to prediction after accounting for other factors.</p></li>
 </ul>
 <p><strong>Odds ratios and confidence intervals</strong></p>
 <div class="cell">
@@ -1285,34 +1289,33 @@ Number of Fisher Scoring iterations: 7</code></pre>
 </div>
 <p><strong>Interpretation</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>odds_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># odds_table</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(odds_table, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                            OR        2.5 %      97.5 %
-(Intercept)       0.0003876654 6.020365e-05 0.002227319
-gender            0.9009879972 6.017260e-01 1.338147844
-age               1.0806359440 1.063448e+00 1.099421230
-hypertension      2.5131890653 1.644007e+00 3.805209918
-heart_disease     1.4377058172 8.211286e-01 2.436251778
-ever_married      0.5880682043 3.375140e-01 1.069594591
-work_type         0.8378523991 6.216945e-01 1.131026528
-Residence_type    0.9328980474 6.313830e-01 1.374861073
-avg_glucose_level 1.0054666686 1.002169e+00 1.008741791
-bmi               1.0027080610 9.721369e-01 1.032856581
-smoking_status    1.1992886775 9.295752e-01 1.541541044</code></pre>
+<pre><code>                     OR 2.5 % 97.5 %
+(Intercept)       0.000 0.000  0.002
+gender            0.901 0.602  1.338
+age               1.081 1.063  1.099
+hypertension      2.513 1.644  3.805
+heart_disease     1.438 0.821  2.436
+ever_married      0.588 0.338  1.070
+work_type         0.838 0.622  1.131
+Residence_type    0.933 0.631  1.375
+avg_glucose_level 1.005 1.002  1.009
+bmi               1.003 0.972  1.033
+smoking_status    1.199 0.930  1.542</code></pre>
 </div>
 </div>
 <p>The logistic regression findings demonstrate how each predictor impacts the likelihood of having a stroke, while keeping other variables constant:</p>
 <ul>
-<li><p>Age (OR = 1.075, CI: 1.059–1.093) Age is the strongest continuous predictor. Each additional year of age increases the odds of stroke by about 7.5%, and the confidence interval does not include 1, indicating strong statistical significance.</p></li>
-<li><p>Hypertension (OR = 1.577, CI: 0.996–2.450) Individuals with hypertension have roughly 58% higher odds of stroke compared to those without hypertension, although the lower CI bound is just below 1. This suggests a borderline significant effect, but clinically important.</p></li>
-<li><p>Heart disease (OR = 1.628, CI: 0.942–2.733) Heart disease increases stroke odds by about 63%, but the CI includes 1, implying the association is positive but not statistically strong in this dataset.</p></li>
-<li><p>Average glucose level (OR = 1.004, CI: 1.000–1.007) Higher glucose levels are associated with slightly increased stroke risk. Though the effect is small, the CI indicates marginal significance, aligning with known metabolic risk patterns.</p></li>
-<li><p>BMI (OR = 1.007, CI: 0.975–1.037) BMI shows almost no meaningful effect on stroke risk, and the CI overlaps 1. This predictor does not significantly influence stroke likelihood in this dataset.</p></li>
-<li><p>Smoking (Fsmoked OR = 1.263; Smokes OR = 1.598)</p></li>
-<li><p>Former smokers have 26% higher odds, but CI crosses 1 → weak evidence.</p></li>
-<li><p>Current smokers have ~60% higher odds, but CI still overlaps 1 → suggests increased risk but not statistically conclusive here.</p></li>
-<li><p>Gender (Female) (OR = 1.259; CI: 0.842–1.903) Females show slightly higher odds, but this effect is not statistically significant.</p></li>
-<li><p>Ever married (OR = 1.126; CI: 0.590–2.013) Marital status has no clear effect on stroke odds in this sample.</p></li>
+<li><p><strong>Age</strong> (OR = 1.081; CI: 1.063 – 1.099). Age is the strongest continuous predictor. Each additional year of age increases the odds of stroke by about 8%, and the confidence interval does not include 1, indicating strong statistical significance.</p></li>
+<li><p><strong>Hypertension</strong> (OR = 2.513; CI: 1.644 – 3.805). Individuals with hypertension have roughly 251% higher odds of stroke compared to those without hypertension, the confidence interval does not include 1, indicating strong statistical significance.</p></li>
+<li><p><strong>Heart disease</strong> (OR = 1.438; CI: 0.821 – 2.436). Heart disease increases stroke odds by about 43%, but the CI includes 1, implying the association is positive but not statistically strong in this dataset.</p></li>
+<li><p><strong>Average glucose level</strong> (OR = 1.005; CI: 1.002 – 1.009). Higher glucose levels are associated with slightly increased stroke risk. Though the effect is small, the CI indicates significance, aligning with known metabolic risk patterns.</p></li>
+<li><p><strong>BMI</strong> (OR = 1.003; CI: 0.972 – 1.033). BMI shows almost no meaningful effect on stroke risk, and the CI overlaps 1. This predictor does not significantly influence stroke likelihood in this dataset.</p></li>
+<li><p><strong>Smoking Status</strong> (OR = 1.199; CI: 0.930 – 1.542). Smoking increases the odds by about 20%, but the confidence interval includes 1 implying the association is positive but not statistically strong in this dataset.</p></li>
+<li><p><strong>Gender</strong> (OR = 0.901; CI: 0.602 – 1.338). Gender is not statistically significant.</p></li>
+<li><p><strong>Ever married</strong> (OR = 0.588; CI: 0.338 – 1.070). Marital status has no clear effect on stroke odds in this sample.</p></li>
 </ul>
 <p><strong>Model predictions and performance on the test set</strong></p>
 <div class="cell">
@@ -1399,16 +1402,16 @@ Prediction  No Yes
 \]</span></p>
 <p><strong>Interpretation of Logistic Regression Performance (Test Set)</strong></p>
 <ul>
-<li><p>Accuracy = 94.25% The model correctly classified most cases, mainly because the dataset is highly imbalanced (only ~6% stroke cases). High accuracy here does not mean good stroke detection.</p></li>
-<li><p>Sensitivity (True Positive Rate) = 0.017 The model correctly identified only 1 out of 59 actual stroke cases (≈1.7%). → This shows the model fails to detect stroke cases, which is common in rare-event medical datasets.</p></li>
-<li><p>Specificity (True Negative Rate) = 1.00 The model correctly classified all non-stroke cases. → It is extremely good at predicting “No stroke,” which dominates the dataset.</p></li>
-<li><p>Positive Predictive Value (Precision) = 1.00 When the model predicts “Yes,” it is always correct — but it predicted “Yes” only once. High precision is misleading because the model rarely predicts a positive case.</p></li>
-<li><p>Negative Predictive Value = 0.942 Most “No” predictions are correct, matching the overall class imbalance.</p></li>
-<li><p>Kappa = 0.031 Kappa measures agreement beyond chance. A value near zero shows the model performs only slightly better than random when considering class imbalance.</p></li>
-<li><p>Balanced Accuracy = 0.508 When weighting sensitivity and specificity equally, the model performs at chance level (~50%). → Confirms that stroke detection is weak.</p></li>
+<li><p>Accuracy = 94.34%. The model correctly classified most cases, mainly because the dataset is highly imbalanced (only ~6% stroke cases). High accuracy here does not mean good stroke detection.</p></li>
+<li><p>Sensitivity (True Positive Rate) = 0. The model identified 0 out of 54 actual stroke cases. This shows the model fails to detect stroke cases, which is common in rare-event medical datasets.</p></li>
+<li><p>Specificity (True Negative Rate) = 0.99. The model correctly classified almost all non-stroke cases. It is extremely good at predicting “No stroke,” which dominates the dataset.</p></li>
+<li><p>Positive Predictive Value (Precision) = 0. The model has not predict a single correct value, further analysis needed.</p></li>
+<li><p>Negative Predictive Value = 0.946 Most “No” predictions are correct, matching the overall class imbalance.</p></li>
+<li><p>Kappa = -0.0057 Kappa measures agreement beyond chance. A negative Kappa value indicates that the model’s performance is worse than random chance.</p></li>
+<li><p>Balanced Accuracy = 0.498 When weighting sensitivity and specificity equally, the model performs at chance level (~50%). Confirms that stroke detection is weak.</p></li>
 <li><p>McNemar’s Test p &lt; 0.0001 Strong evidence that the model’s errors are systematically skewed—it overwhelmingly predicts “No stroke.”</p></li>
 </ul>
-<p>The logistic regression model achieves high accuracy only because the negative class dominates.It detects almost no true stroke cases, giving extremely poor sensitivity. It performs well for the majority class (non-stroke), but fails for the minority class (stroke).</p>
+<p>The logistic regression model achieves high accuracy only because the negative class dominates. It detects no true stroke cases, giving extremely poor sensitivity. It performs well for the majority class (non-stroke), but fails for the minority class (stroke).</p>
 <p>These results highlight the challenge of severe class imbalance, which requires additional techniques (e.g., SMOTE, class weights, resampling) to improve medical-event prediction.</p>
 <p><strong>ROC curve and AUC for the logistic model</strong></p>
 <div class="cell">
@@ -1464,7 +1467,7 @@ Prediction  No Yes
 <p>A higher AUC (closer to 1) indicates better discrimination between stroke and non-stroke cases. Values substantially above 0.5 indicate that the model performs better than random classification.</p>
 <p><strong>Interpretation of ROC Curve and AUC (Test Set)</strong></p>
 <p>The ROC curve evaluates the model’s ability to distinguish between stroke and non-stroke cases across all possible classification thresholds, not just the default 0.5 cutoff.</p>
-<p>The AUC = 0.815, which indicates good discriminative performance.</p>
+<p>The AUC = 0.779, which indicates good discriminative performance.</p>
 <p>AUC = 0.5 is no discrimination (random guessing)</p>
 <p>AUC = 0.7–0.8 is acceptable</p>
 <p>AUC = 0.8–0.9 is good</p>
@@ -1632,7 +1635,7 @@ Accuracy5   SVM 0.6321363 0.9433962  0.00000000   0.9968520</code></pre>
 <p><strong>Interpretation</strong></p>
 <p>Across all six models, overall accuracy and specificity are very high, mainly because the dataset is highly imbalanced (only ~6% stroke cases). However, sensitivity is extremely low across every model, meaning that almost none of the models correctly identify stroke cases.</p>
 <p>Logistic Regression (AUC = 0.78) and GBM (AUC = 0.76) show the best overall discrimination, indicated by the highest AUC values. These models are better at ranking high-risk vs.&nbsp;low-risk individuals, even though they still fail at detecting positives under the default 0.5 threshold.</p>
-<p>Tree-based models (Decision Tree, Random Forest, GBM) achieve slightly higher sensitivity than LR, but only marginally (still around 1–2%). KNN and SVM detect 0 stroke cases at this threshold, despite high accuracy.</p>
+<p>Tree-based models (Decision Tree, GBM) achieve slightly higher sensitivity than LR, but only marginally (still around 1–2%). KNN and SVM detect 0 stroke cases at this threshold, despite high accuracy.</p>
 <p>All models appear to perform well based on accuracy and specificity, but this is misleading—they are failing at the most important task: detecting stroke cases. This confirms that class imbalance severely affects performance and requires threshold tuning, resampling, or cost-sensitive learning to achieve meaningful sensitivity.</p>
 </section>
 <section id="roc-curve-comparison-across-models" class="level4">
@@ -1736,9 +1739,9 @@ Accuracy5   SVM 0.6321363 0.9433962  0.00000000   0.9968520</code></pre>
 <p><strong>Interpretation</strong></p>
 <p>Interpretation of ROC Comparison Across Models</p>
 <p>Logistic Regression (AUC = 0.779) performs the best among all six models, showing the strongest ability to differentiate stroke vs.&nbsp;non-stroke cases.</p>
-<p>Random Forest (AUC = 0.725) and GBM (AUC = 0.759) also show good discriminative ability and are close competitors to logistic regression.</p>
+<p>Random Forest (AUC = 0.723) and GBM (AUC = 0.756) also show good discriminative ability and are close competitors to logistic regression.</p>
 <p>KNN (AUC = 0.667) performs moderately, better than random guessing but weaker than the tree-based and regression models.</p>
-<p>Decision Tree (AUC = 0.648) and SVM (AUC = 0.639) show the lowest AUC values, indicating weaker predictive performance.</p>
+<p>Decision Tree (AUC = 0.648) and SVM (AUC = 0.632) show the lowest AUC values, indicating weaker predictive performance.</p>
 <p>All models perform above 0.5, meaning they all do better than random chance — but with large differences in quality.</p>
 <p>The ROC curves demonstrate that tree-based ensemble models (RF, GBM) and logistic regression extract more meaningful patterns from the data compared to simpler (Tree) and distance-based (KNN, SVM) methods.</p>
 <p>Overall, logistic regression remains the most stable and best-performing model for this dataset, despite class imbalance challenges.</p>
@@ -1909,9 +1912,9 @@ Prediction  No Yes
 </div>
 <p><strong>Interpretation (threshold = 0.2)</strong></p>
 <ul>
-<li><p>With a lower decision criterion of 0.2, the model successfully identifies 13 out of 59 stroke cases (sensitivity = 22%), compared to only one case with the default 0.5 threshold.</p></li>
-<li><p>Specificity remains high at almost 95%, indicating that the majority of non-stroke patients are still properly categorized as “no stroke” (903 out of 949).</p></li>
-<li><p>While overall accuracy declines from 94% to 91%, balanced accuracy improves (from ≈0.51 to ≈0.59), indicating a greater balance of sensitivity and specificity.</p></li>
+<li><p>With a lower decision criterion of 0.2, the model successfully identifies 12 out of 59 stroke cases (sensitivity = 22%), compared to no case with the default 0.5 threshold.</p></li>
+<li><p>Specificity remains high at 93%, indicating that the majority of non-stroke patients are still properly categorized as “no stroke” (889 out of 953).</p></li>
+<li><p>While overall accuracy declines from 94% to 89%, balanced accuracy improves (from ≈0.50 to ≈0.58), indicating a greater balance of sensitivity and specificity.</p></li>
 </ul>
 <p>This change indicates a therapeutically reasonable compromise: the model detects more possible stroke patients (fewer missed cases) at the expense of a moderate rise in false positives.</p>
 <!-- 
@@ -1982,6 +1985,24 @@ Prediction  No Yes
 </div>
 <div id="ref-samara2024using" class="csl-entry" role="listitem">
 8. Samara, B. (2024). Using binary logistic regression to detect health insurance fraud. <em>Pakistan Journal of Life &amp; Social Sciences</em>, <em>22</em>(2).
+</div>
+<div id="ref-harris2019statistics" class="csl-entry" role="listitem">
+9. Harris, J. K. (2019). <em>Statistics with r: Solving problems using real-world data</em>. SAGE Publications.
+</div>
+<div id="ref-field2024discovering" class="csl-entry" role="listitem">
+10. Field, A. (2024). <em>Discovering statistics using IBM SPSS statistics</em>. Sage publications limited.
+</div>
+<div id="ref-hosmer2013applied" class="csl-entry" role="listitem">
+11. Hosmer Jr, D. W., Lemeshow, S., &amp; Sturdivant, R. X. (2013). <em>Applied logistic regression</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-leblanc2000logistic" class="csl-entry" role="listitem">
+12. LeBlanc, M., &amp; Fitzgerald, S. (2000). Logistic regression for school psychologists. <em>School Psychology Quarterly</em>, <em>15</em>(3), 344.
+</div>
+<div id="ref-kaggle01" class="csl-entry" role="listitem">
+13. Palacios, F. S. (n.d.). <em><span>Stroke Prediction Dataset</span></em>. <a href="https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset">https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset</a>
+</div>
+<div id="ref-oshunbade2020cigarette" class="csl-entry" role="listitem">
+14. Oshunbade, A. A., Yimer, W. K., Valle, K. A., Clark III, D., Kamimura, D., White, W. B., DeFilippis, A. P., Blaha, M. J., Benjamin, E. J., O’Brien, E. C., et al. (2020). Cigarette smoking and incident stroke in blacks of the jackson heart study. <em>Journal of the American Heart Association</em>, <em>9</em>(12), e014990.
 </div>
 </div>
 <!-- ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣒⢋⡤⣹⣯⣴⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ -->
