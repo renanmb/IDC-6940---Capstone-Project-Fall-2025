@@ -1,11 +1,9 @@
 ---
-title: "Literature Review Week 3"
+title: "Literature Review Assignment for Week 3"
 description: "Literature review for the Week 3 of the course IDC-6940 for Fall 2025"
 author:
   - name: Renan monteiro barbosa
     url: https://github.com/renanmb
-    affiliation: Master of Data Science Program @ The University of West Florida (UWF)
-    # affiliation-url: https://ucsb-meds.github.io/
 # date: 10-24-2022
 categories: [literature review, week 3, renan]
 # citation:
