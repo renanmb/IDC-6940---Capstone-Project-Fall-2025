@@ -4,13 +4,10 @@ description: "Draft of report containing changes from Draft 08"
 author:
   - name: Renan Monteiro Barbosa
     url: https://github.com/renanmb
-    affiliation: Master of Data Science Program @ The University of West Florida (UWF)
   - name: "Shree Krishna M.S Basnet"
   - name: "Supervisor: Dr. Cohen"
-date: "December 2 2025"
+# date: "December 2 2025"
 categories: [draft, renan, shree]
-# citation:
-#   url: https://samanthacsik.github.io/posts/2022-10-24-my-blog-post/
 image: images/spongebob-imagination.jpg
 draft: false
 bibliography: references.bib

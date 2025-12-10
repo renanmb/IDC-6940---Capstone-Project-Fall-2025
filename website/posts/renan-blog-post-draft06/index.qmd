@@ -4,18 +4,17 @@ description: "Shree sent back draft with changes"
 author:
   - name: Renan Monteiro Barbosa
     url: https://github.com/renanmb
-    affiliation: Master of Data Science Program @ The University of West Florida (UWF)
   - name: "Shree Krishna M.S Basnet"
   - name: "Supervisor: Dr. Cohen"
 # date: 10-24-2022
 categories: [draft, renan, shree]
-# citation:
-#   url: https://samanthacsik.github.io/posts/2022-10-24-my-blog-post/
 image: images/spongebob-imagination.jpg
 draft: false
 bibliography: references.bib
 link-citations: true
 ---
+
+This draft was a direct implementation of the student Shree Krishna M.S Basnet code in attempt to promote the collaborative effort of the project.
 
 <!-- "Predicting stroke risk from common health indicators: a binary logistic regression analysis"
 - "Shree Krishna M.S Basnet"

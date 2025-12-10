@@ -4,17 +4,14 @@ description: "Change Format to fit with the samples and reviewed equations"
 author:
   - name: Renan Monteiro Barbosa
     url: https://github.com/renanmb
-    affiliation: Master of Data Science Program @ The University of West Florida (UWF)
-    # affiliation-url: https://ucsb-meds.github.io/
-# date: 10-24-2022
 categories: [draft, renan]
-# citation:
-#   url: https://samanthacsik.github.io/posts/2022-10-24-my-blog-post/
 image: images/spongebob-imagination.jpg
 draft: false
 bibliography: references.bib
 link-citations: true
 ---
+
+This draft the introduction and methods and part of the analysis was modified from Week 06 with the intent to match other students code. At this point the projects started to diverge drastically.
 
 ## 1. Introduction
 
