@@ -1,0 +1,31 @@
+/* custom.css */
+.reveal {
+  font-size: 20pt; 
+}
+
+/* Forces all text paragraphs (p), unordered lists (ul), and ordered lists (ol) 
+   within the slides to align to the left. */
+.reveal p, 
+.reveal ul, 
+.reveal ol {
+  text-align: left;
+}
+
+
+.reveal h1, .reveal h2, .reveal h3 {
+  padding-bottom: 20px;
+} 
+
+
+/* Forces the main slide content area itself (excluding the title/headings) 
+   to be left-aligned. This helps position the bullet points correctly. */
+.reveal .slides > section > section {
+  text-align: left;
+  padding-left: 40px;
+  padding-top: 100px;
+}
+
+.small-table {
+  transform: scale(0.8);   /* shrink to 80% size */
+  transform-origin: top left;
+}
