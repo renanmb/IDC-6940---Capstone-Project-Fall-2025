@@ -5,6 +5,7 @@
       "/posts/renan-blog-post-week12/index.html",
       "/posts/renan-blog-post-week6/index.html",
       "/posts/renan-blog-post-draft05/index.html",
+      "/posts/renan-blog-post-draft10/index.html",
       "/posts/renan-blog-post-draft01/index.html",
       "/posts/renan-blog-post-draft02/index.html",
       "/posts/renan-blog-post-draft03/index.html",
@@ -12,17 +13,6 @@
       "/posts/renan-blog-post-draft07/index.html",
       "/posts/renan-blog-post-draft08/index.html",
       "/posts/renan-blog-post-draft09/index.html",
-      "/posts/kristina-blog-post-week2/index.html",
-      "/posts/renan-blog-post-week2/index.html",
-      "/posts/shree-blog-post-week2/index.html",
-      "/posts/kristina-blog-post-week3/index.html",
-      "/posts/renan-blog-post-week3/index.html",
-      "/posts/shree-blog-post-week3/index.html",
-      "/posts/kristina-blog-post-week4/index.html",
-      "/posts/renan-blog-post-week4/index.html",
-      "/posts/shree-blog-post-week4/index.html",
-      "/posts/kristina-blog-post-week5/index.html",
-      "/posts/shree-blog-post-week5/index.html",
       "/posts/renan-blog-post-draft04/index.html",
       "/posts/renan-blog-post-week5/index.html",
       "/posts/renan-blog-post-code01/index.html",
@@ -34,9 +24,15 @@
   {
     "listing": "/people/index.html",
     "items": [
-      "/people/barbosa-renan/index.html",
-      "/people/basnet-shree/index.html",
-      "/people/kusem-kristina/index.html"
+      "/people/barbosa-renan/index.html"
+    ]
+  },
+  {
+    "listing": "/literature.html",
+    "items": [
+      "/literature/renan-blog-post-week2/index.html",
+      "/literature/renan-blog-post-week3/index.html",
+      "/literature/renan-blog-post-week4/index.html"
     ]
   }
 ]
