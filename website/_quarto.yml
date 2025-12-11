@@ -16,8 +16,10 @@ website:
         text: Home
       - href: report.qmd
         text: Report
-      - href: blog.qmd
+      - href: literature.qmd
         text: Literature Review
+      - href: blog.qmd
+        text: Blog
       # - href: about.qmd
       #   text: About Us
       - href: people/index.qmd
