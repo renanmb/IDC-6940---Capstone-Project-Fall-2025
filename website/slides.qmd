@@ -48,23 +48,10 @@ Dr.Cohen
 
 # Load libraries explicitly (simpler than lapply)
 
-library(ggplot2)
-library(dplyr)
-library(car)
-library(ResourceSelection)
-library(caret)
-library(logistf)
-library(Hmisc)
-library(rcompanion)
-library(summarytools)
-library(tidyverse)
-library(knitr)
-library(ggpubr)
-library(pROC)
-
-
-# Set seed
-
+packages <- c("dplyr", "car", "ResourceSelection", "caret", "pROC",  "logistf", "Hmisc", "rcompanion", "ggplot2", "summarytools", "tidyverse", "knitr", "ggpubr", "ggcorrplot", "randomForest", "gbm", "kernlab", "skimr", "corrplot", "scales", "tidyr", "RColorBrewer", "mice", "ROSE", "ranger", "stacks", "tidymodels", "themis", "gghighlight")
+# Load Libraries
+lapply(packages, library, character.only = TRUE)
+# Set seed for reproducibility
 set.seed(123)
 
 # Load data
@@ -83,7 +70,6 @@ datasets_path <- file.path(repo_root, "datasets")
 # Reading the datafile healthcare-dataset-stroke-data
 stroke_path <- file.path(datasets_path, "kaggle-healthcare-dataset-stroke-data/healthcare-dataset-stroke-data.csv")
 stroke1 = read_csv(stroke_path, show_col_types = FALSE)
-# stroke1 <- read.csv("C:/Users/LaptopUser/Downloads/stroke.csv")
 
 # Handle dataset features
 

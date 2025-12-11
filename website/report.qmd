@@ -91,14 +91,6 @@ packages <- c("dplyr", "car", "ResourceSelection", "caret", "pROC",  "logistf", 
 lapply(packages, library, character.only = TRUE)
 # Set seed for reproducibility
 set.seed(123)
-
-# library(mice)
-# library(ROSE) # For SMOTE
-# library(ranger) # A fast implementation of random forests
-# library(stacks)
-# library(tidymodels)
-# library(themis)
-# library(gghighlight)
 ```
 
 <!-- Maybe add a list describing the packages used with the citations attached -->
