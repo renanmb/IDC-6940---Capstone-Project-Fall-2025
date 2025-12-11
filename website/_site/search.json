@@ -942,35 +942,35 @@
     "href": "slides.html#methodology-logistic-regression",
     "title": "Predicting Stroke Risk from Common Health Indicators",
     "section": "2. Methodology: Logistic Regression",
-    "text": "2. Methodology: Logistic Regression\nThe Binary Logistic ModelThe Logistic Regression model uses the logit link function to model the probability of the outcome (\\(\\pi = P[Y =1]\\)):\n\\[ln\\left(\\frac{\\pi}{1-\\pi}\\right) = \\beta_{0} + \\beta_{1}x_{1} + \\cdots + \\beta_{k}x_{k} \\quad \\text{}\\]"
+    "text": "2. Methodology: Logistic Regression\nThe Binary Logistic ModelThe Logistic Regression model uses the logit link function to model the probability of the outcome (\\(\\pi = P[Y =1]\\)):\n\\[ln\\left(\\frac{\\pi}{1-\\pi}\\right) = \\beta_{0} + \\beta_{1}x_{1} + \\cdots + \\beta_{k}x_{k} \\quad \\text{}\\]\nThe main characteristic of the binary logistic regression is the type of dependent (or outcome) variable.[2] A dependent variable in a binary logistic regression has only two levels."
   },
   {
     "objectID": "slides.html#analysis-and-results",
     "href": "slides.html#analysis-and-results",
     "title": "Predicting Stroke Risk from Common Health Indicators",
     "section": "3. Analysis and Results",
-    "text": "3. Analysis and Results\nData source: Stroke Prediction Dataset[2]"
+    "text": "3. Analysis and Results\n3.1. Dataset Preprocessing\n\nThe Stroke Prediction Dataset[3] started containing 5,110 observations and 12 features. After cleaning missing and inconsistent entries among other necessarychanges, ended as a dataset containing 3,357 observations and 11 predictors commonly associated with cerebrovascular risk. Those key predictors are listed below.\n\n\n\n\n\n\n\n\n\nFeature Name\nDescription\nData Type\nValues\n\n\n\n\ngender\nPatient’s gender\nNumeric\n1 (Male), 0 (Female)\n\n\nage\nPatient’s age in years\nNumeric\nRange 0.08 to 82; rounded to 2 decimal places\n\n\nhypertension\nIndicates if the patient has hypertension\nNumeric\n0 (No), 1 (Yes)\n\n\nheart_disease\nIndicates if the patient has any heart diseases\nNumeric\n0 (No), 1 (Yes)\n\n\never_married\nWhether the patient has ever been married\nNumeric\n1 (Yes), 0 (No)\n\n\nwork_type\nType of occupation\nNumeric\n1 (Govt_job), 2 (Private), 3 (Self-employed), 4 (Never_worked)\n\n\nResidence_type\nPatient’s area of residence\nNumeric\n1 (Urban), 2 (Rural)\n\n\navg_glucose_level\nAverage glucose level in blood\nNumeric\nRange ≈55.12 to 271.74\n\n\nbmi\nBody Mass Index\nNumeric\nRange ≈10.3 to 97.6; converted from character, rounded to 2 decimals\n\n\nsmoking_status\nPatient’s smoking status\nNumeric\n1 (never smoked), 2 (formerly smoked), 3 (smokes)\n\n\nstroke\nTarget Variable: Whether the patient had stroke\nNumeric\n0 (No Stroke), 1 (Stroke)"
   },
   {
     "objectID": "slides.html#statistical-modelling",
     "href": "slides.html#statistical-modelling",
     "title": "Predicting Stroke Risk from Common Health Indicators",
     "section": "3. Statistical Modelling",
-    "text": "3. Statistical Modelling"
+    "text": "3. Statistical Modelling\nThere is an massive increase in the \\(\\chi^2\\) values which demonstrates that the oversampling technique has significantly increased the statistical power of the model.\n\n\n\n\n\n\n\n\n\nFactor\nLR χ² (Original, anova2)\nLR χ² (Balanced, anova3)\nChange in χ²\n\n\n\n\nage\n120.407\n1201.85\n≈10.0× Increase\n\n\nhypertension\n18.205\n154.34\n≈8.5× Increase\n\n\navg_glucose_level\n11.337\n69.73\n≈6.1× Increase"
   },
   {
     "objectID": "slides.html#conclusion",
     "href": "slides.html#conclusion",
     "title": "Predicting Stroke Risk from Common Health Indicators",
     "section": "4. Conclusion",
-    "text": "4. Conclusion"
+    "text": "4. Conclusion\nLogistic Regression althought being a very simple and interpretable baseline model for stroke risk prediction. During the project we were able to evaluate its weaknesses when analysing a heavily unbalanced dataset such as the Stroke Prediction Dataset. Furthermore, logistic regression models major weaknesses is not being able to determine causal relationship.[7]\nWe could evaluate that addressing class imbalance via oversampling (ROSE) was critical for achieving a model that can somewhat successfully predict the outcome of stroke. But this is nowhere near the same precision and accuracy of Ensemble Modeling such the Dense Stacking Ensemble (DSE) Model applied at[8] which used a meta-classifier to combine the strengths of simpler models with higher-performing complex models."
   },
   {
     "objectID": "slides.html#references",
     "href": "slides.html#references",
     "title": "Predicting Stroke Risk from Common Health Indicators",
     "section": "References",
-    "text": "References\n\n\n1. World Health Organization. (2025). The top 10 causes of death. https://www.who.int/news-room/fact-sheets/detail/the-top-10-causes-of-death.\n\n\n2. Palacios, F. S. (n.d.). Stroke Prediction Dataset. https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset"
+    "text": "References\n\n\n1. World Health Organization. (2025). The top 10 causes of death. https://www.who.int/news-room/fact-sheets/detail/the-top-10-causes-of-death.\n\n\n2. Harris, J. K. (2019). Statistics with r: Solving problems using real-world data. SAGE Publications.\n\n\n3. Palacios, F. S. (n.d.). Stroke Prediction Dataset. https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset\n\n\n4. Oshunbade, A. A., Yimer, W. K., Valle, K. A., Clark III, D., Kamimura, D., White, W. B., DeFilippis, A. P., Blaha, M. J., Benjamin, E. J., O’Brien, E. C., et al. (2020). Cigarette smoking and incident stroke in blacks of the jackson heart study. Journal of the American Heart Association, 9(12), e014990.\n\n\n5. Gomila, R. (2021). Logistic or linear? Estimating causal effects of experimental treatments on binary outcomes using regression analysis. Journal of Experimental Psychology: General, 150(4), 700.\n\n\n6. Gelman, A., & Hill, J. (2007). Causal inference using regression on the treatment variable. In Data Analysis Using Regression and Multilevel/Hierarchical Models (Vol. 2006, pp. 167–194). Cambridge University Press New York, NY.\n\n\n7. Alison, P. (2014). Prediction vs. Causation in regression analysis, statistical horizons.\n\n\n8. Hassan, A., Gulzar Ahmad, S., Ullah Munir, E., Ali Khan, I., & Ramzan, N. (2024). Predictive modelling and identification of key risk factors for stroke using machine learning. Scientific Reports, 14(1), 11498."
   },
   {
     "objectID": "people/index.html",
@@ -1216,5 +1216,47 @@
     "title": "Literature Review Assignment for Week 3",
     "section": "Article 2",
     "text": "Article 2\nPriority prediction of Asian Hornet sighting report using machine learning methods.[2]\nThe goal of the research is to create an automated system to predict the priority of Asian giant hornet sighting reports. Asian giant hornets are an invasive species that poses a significant threat to native bee populations and local beekeeping, as well as to public safety due to their aggressive nature and potent venom. So it’s very important that reports are properly assessed for priority.\nThe authors did model the priority prediction of sighting reports as a two-classification problem. This approach was pretty clever and simple. The goal was to just classify reports as either a “true positive” or a “false positive”.\nTheir methodology is a straightforward application of logistic regression with feature extraction. They came to realize that they needed Location Feature, Time Feature, Image Feature, Text Feature.\nLocation Feature considers the probability of a hornet being observed at a specific location based on known hornet migration patterns and habits. Time Feature accounts for the hornet’s seasonal behavior. Since hornets are most active from April to December, a report submitted during this period is more likely to be positive. Image Feature is the number of images attached to a report and they came to notice that it is correlated with the increase of its credibility. Text Feature is the textual description’s length and keywords. A longer text is considered more credible because it contains more evidence. The model also uses a specific dictionary of hornet characteristics to identify relevant keywords.\nThey then used a weighted binary cross-entropy function and the logistic regression is just mapping the probability given the feature vector.\nThe model achieved an average prediction accuracy of 83.5% on positive reports with the best weighting parameter settings, but still far from other works which achieved about 93% using Deep Learning. So this is the main limitation, still needs a lot of improvement or maybe it will never outmatch other methods due to hidden limitations.\nMy opinion on this paper is that the Logistic Regression has interesting properties, after all it is a generalized linear model, which conducts mapping from any real number to probability values.\n\nReferences\n\n\n1. Shanbhag, A., Jadhav, S., Thakurdesai, A., Sinare, R., & Joshi, R. (2025). Non-contextual BERT or FastText? A comparative analysis. https://arxiv.org/abs/2411.17661\n\n\n2. Liu, Y., Guo, J., Dong, J., Jiang, L., & Ouyang, H. (2021). Priority prediction of asian hornet sighting report using machine learning methods. 2021 IEEE International Conference on Software Engineering and Artificial Intelligence (SEAI), 7–11. https://doi.org/10.1109/seai52285.2021.9477549"
+  },
+  {
+    "objectID": "slides.html#analysis-and-results-1",
+    "href": "slides.html#analysis-and-results-1",
+    "title": "Predicting Stroke Risk from Common Health Indicators",
+    "section": "3. Analysis and Results",
+    "text": "3. Analysis and Results\n3.2. Dataset Visualization\nWe can observe from the histograms (a), (b), (c) and (d) the following:\n\nThe data appears to be slightly imbalanced towards female gender but the proportion of stroke cases appears similar for both genders.\nThe number of stroke cases increases after the age of \\(\\approx 50\\) and peaks in the 60 to 80 age range.\nThe proportion of stroke cases (blue bar) is visibly much higher in the group with hypertension.\nThe proportion of stroke cases (blue bar) is visibly much higher in the group with heart disease."
+  },
+  {
+    "objectID": "slides.html#analysis-and-results-2",
+    "href": "slides.html#analysis-and-results-2",
+    "title": "Predicting Stroke Risk from Common Health Indicators",
+    "section": "3. Analysis and Results",
+    "text": "3. Analysis and Results\n3.2. Dataset Visualization\n\nHistogram of (a)gender, (b)age, (c)hypertension, (d)heart_disease."
+  },
+  {
+    "objectID": "slides.html#analysis-and-results-3",
+    "href": "slides.html#analysis-and-results-3",
+    "title": "Predicting Stroke Risk from Common Health Indicators",
+    "section": "3. Analysis and Results",
+    "text": "3. Analysis and Results\n3.2. Dataset Visualization\nWe can observe from the histograms (e), (f), (g) and (h) the following:\n\nHaving been married being associated with a higher stroke risk in this dataset is possibly due to the married group skewing toward older ages.\nSelf-employed individuals appear to have the highest risk proportion among the working groups. Most likelly due lack of access to healtcare or benefits.\nresidence type does not appear to be a significant factor for stroke risk.\nhigh average glucose (HbA1c) level is a significant risk factor for stroke."
+  },
+  {
+    "objectID": "slides.html#statistical-modelling-1",
+    "href": "slides.html#statistical-modelling-1",
+    "title": "Predicting Stroke Risk from Common Health Indicators",
+    "section": "3. Statistical Modelling",
+    "text": "3. Statistical Modelling\n\n\nThe imbalanced models achieved high Accuracy (\\(\\approx 94.5\\%\\)) and Specificity (\\(\\approx 0.998\\)), but are practically useless for stroke prediction with a near-zero Sensitivity and missing almost all actual stroke cases.\nModel 3 which utilized oversampling to address the severe class imbalance in stroke outcome, demonstrated a significant improvement in predictive capability: Sensitivity dramatically improved to \\(0.6481\\) being able to identifying 35 True Positives.\n\n\n\n\n\n\n\n\n\n\nMetric\nModel 1 (Full, Imbalanced)\nModel 2 (Reduced, Imbalanced)\nModel 3 (Reduced, Balanced)\n\n\n\n\nAccuracy\n0.94538\n0.9444\n0.7269\n\n\nSensitivity (Recall)\n0.01852\n0.0000\n0.6481\n\n\nSpecificity\n0.99790\n0.9979\n0.7314\n\n\nTrue Positives (TP)\n1\n0\n35\n\n\nFalse Negatives (FN)\n2\n2\n256\n\n\nTrue Negatives (TN)\n951\n951\n697\n\n\nFalse Positives (FP)\n53\n54\n19"
+  },
+  {
+    "objectID": "slides.html#analysis-and-results-4",
+    "href": "slides.html#analysis-and-results-4",
+    "title": "Predicting Stroke Risk from Common Health Indicators",
+    "section": "3. Analysis and Results",
+    "text": "3. Analysis and Results\n3.2. Dataset Visualization\nWe can observe from the histograms (i) and (j) the following:\n\nThe patient population (pink bars) falls within the overweight to obese range (BMI \\(\\approx 25\\) to \\(35\\)). But the proportion of stoke outcome is a lot smaller within the healthy BMI range.\nThe highest proportional risk of stroke appears to be in the formerly smoked group. This finding is common in medical literature[4]"
+  },
+  {
+    "objectID": "slides.html#analysis-and-results-5",
+    "href": "slides.html#analysis-and-results-5",
+    "title": "Predicting Stroke Risk from Common Health Indicators",
+    "section": "3. Analysis and Results",
+    "text": "3. Analysis and Results\n3.2. Dataset Visualization\n\nHistogram of (i)bmi, (j)smoking_status."
   }
 ]

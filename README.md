@@ -1,10 +1,7 @@
 # IDC-6940---Capstone-Project-Fall-2025
  
-Authors:
+Author:
 - Renan Monteiro Barbosa
-- Kristina Kusem
-- Shree Krishna Basnet
-- Steve Wong
 
 Group Project:
 
